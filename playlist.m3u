@@ -1,0 +1,30 @@
+#EXTM3U
+# SUPERTV-SAMPLE
+# ------------------------------------------------------------------
+#  SUPER TV - SAMPLE playlist. Replace these with your own channels.
+#  Free, legal streams only: official free streams published by the
+#  broadcaster, and public test streams. Streams can stop or move at
+#  any time; SUPER TV then shows "This channel isn't available".
+#
+#  Format of each channel (2 lines):
+#  #EXTINF:-1 tvg-logo="https://logo-address" group-title="Group",Channel name
+#  https://stream-address/index.m3u8
+#
+#  When you add your own channels, delete the "# SUPERTV-SAMPLE" line
+#  above so the "Sample" label goes away.
+# ------------------------------------------------------------------
+
+#EXTINF:-1 group-title="News",DW News (English)
+https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8
+
+#EXTINF:-1 group-title="Free films",Big Buck Bunny (Blender, CC BY)
+https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8
+
+#EXTINF:-1 group-title="Free films",Tears of Steel (Blender, CC BY)
+https://test-streams.mux.dev/tos_ismc/main.m3u8
+
+#EXTINF:-1 group-title="Test streams",Live test stream (Akamai)
+https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8
+
+#EXTINF:-1 group-title="Test streams",Apple test pattern
+https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8

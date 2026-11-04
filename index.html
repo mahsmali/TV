@@ -203,6 +203,34 @@ svg{width:1em;height:1em;flex:none}
 .facts strong{display:block;color:var(--text);font-size:1.3rem;margin-bottom:.3rem}
 
 .toast{position:fixed;left:50%;bottom:calc(var(--edge) + 4rem);transform:translateX(-50%);z-index:80;background:var(--text);color:var(--ink);font-weight:700;font-size:1.25rem;padding:.8rem 1.6rem;border-radius:2rem;box-shadow:0 1rem 3rem rgba(0,0,0,.5);max-width:90vw;text-align:center}
+/* ---------- Live TV ---------- */
+.badge.live{background:#E5484D;color:#fff}
+.tile-ico{position:relative;overflow:hidden}
+.tile-ico img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;background:#fff;border-radius:50%;padding:.25rem;box-sizing:border-box}
+.live-group .sec-head h2.live-h{font-size:1.6rem}
+.live-prob{background:rgba(255,143,128,.14);color:var(--bad);border-radius:.8rem;padding:.7rem 1.2rem;margin:.8rem .4rem 0;font-size:1.15rem}
+.layer.player-layer{padding:0;background:#000;display:block}
+.player{position:absolute;top:0;right:0;bottom:0;left:0;background:#000;overflow:hidden}
+.player video{position:absolute;top:0;left:0;width:100%;height:100%;background:#000;object-fit:contain}
+.pl-load{position:absolute;top:0;right:0;bottom:0;left:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text);font-size:1.5rem;background:radial-gradient(circle at 50% 45%,#1b2330,#000 70%)}
+.pl-load[hidden],.pl-err[hidden],.pl-paused[hidden]{display:none}
+.pl-load strong{font-family:var(--display);font-size:2.6rem;margin:1.6rem 0 .4rem;text-align:center;padding:0 2rem}
+.pl-load span{color:var(--muted)}
+.spin{width:4.4rem;height:4.4rem;border-radius:50%;border:.4rem solid rgba(255,255,255,.15);border-top-color:var(--gold);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.calm .spin{animation-duration:2.5s}
+.pl-paused{position:absolute;top:calc(var(--edge) + 1rem);right:calc(var(--edge) + 1rem);display:flex;align-items:center;background:rgba(0,0,0,.7);color:#fff;font-weight:700;font-size:1.3rem;padding:.7rem 1.3rem;border-radius:2rem}
+.pl-paused svg{margin-right:.6rem}
+.pl-bar{position:absolute;left:calc(var(--edge) + 1rem);right:calc(var(--edge) + 1rem);bottom:calc(var(--edge) + 1.5rem);display:flex;align-items:center;background:rgba(10,14,20,.86);border:1px solid var(--line);border-radius:1.2rem;padding:1.1rem 1.6rem;opacity:0;transform:translateY(1rem);transition:opacity .25s,transform .25s;pointer-events:none}
+.pl-bar.on{opacity:1;transform:none}
+.pl-num{font-family:var(--display);font-weight:800;font-size:2.2rem;color:var(--gold);margin-right:1.4rem;white-space:nowrap}
+.pl-txt{display:flex;flex-direction:column;flex:1;min-width:0}
+.pl-txt strong{font-family:var(--display);font-size:1.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl-txt small{color:var(--muted);font-size:1.15rem}
+.pl-keys{color:var(--muted);font-size:1.05rem;margin-left:1.4rem;text-align:right}
+.pl-err{position:absolute;top:0;right:0;bottom:0;left:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,#1b2330,#05080c 75%);padding:var(--edge)}
+.pl-err .pl-why{color:var(--muted);font-size:1.15rem}
+.pl-err .pl-hint{color:var(--muted);font-size:1rem}
 .offline-bar{background:var(--bad);color:#2A0702;font-weight:700;border-radius:.8rem;padding:.6rem 1.2rem;margin:0 .4rem 1rem;font-size:1.15rem}
 
 /* narrow screens (phones, small windows) */
@@ -347,7 +375,8 @@ svg{width:1em;height:1em;flex:none}
     { id: 'isl',   name: 'Islamic Content',   icon: 'moon' },
     { id: 'quran', name: "Qur'an Recitation", icon: 'wave', ar: 'تلاوة' },
     { id: 'doc',   name: 'Documentaries',     icon: 'globe' },
-    { id: 'fam',   name: 'Family',            icon: 'kids' }
+    { id: 'fam',   name: 'Family',            icon: 'kids' },
+    { id: 'live',  name: 'Live TV',           icon: 'tv' }  // channels come from playlist.m3u, not from BASE
   ];
 
   // kind: 'web' opens a real website. 'app' is a guide tile for an app installed on the TV
@@ -414,7 +443,7 @@ svg{width:1em;height:1em;flex:none}
     hidden: [], catHidden: [], catOrder: CATS.map(function (c) { return c.id; }),
     custom: [], featured: 'rotate', featIdx: 0,
     clock24: true, scale: 1, edge: 3, motion: true, linkTarget: 'self',
-    view: 'home', lastFocus: null
+    view: 'home', lastFocus: null, playlistUrl: ''
   };
   var store = (function () {
     var ok = false, mem = null;
@@ -447,6 +476,7 @@ svg{width:1em;height:1em;flex:none}
     if (o.linkTarget === 'self' || o.linkTarget === 'new') out.linkTarget = o.linkTarget;
     if (typeof o.view === 'string') out.view = o.view;
     if (typeof o.lastFocus === 'string') out.lastFocus = o.lastFocus;
+    if (typeof o.playlistUrl === 'string' && (o.playlistUrl === '' || /^https?:\/\//i.test(o.playlistUrl))) out.playlistUrl = o.playlistUrl.slice(0, 500);
     return out;
   }
   function validCustom(c) {
@@ -464,6 +494,7 @@ svg{width:1em;height:1em;flex:none}
   function isFav(id) { return state.favs.indexOf(id) >= 0; }
   function itemsFor(cat) {
     if (cat === 'fav') return state.favs.map(byId).filter(Boolean);
+    if (cat === 'live') return LIVE.channels;
     return allItems().filter(function (i) { return i.cat === cat && state.hidden.indexOf(i.id) < 0; });
   }
   function visibleCats() { return state.catOrder.map(catById).filter(function (c) { return c && state.catHidden.indexOf(c.id) < 0; }); }
@@ -554,17 +585,315 @@ svg{width:1em;height:1em;flex:none}
     if (state.view === 'home') {
       html += heroHTML();
       visibleCats().forEach(function (c) {
+        if (c.id === 'live') return; // Live TV has its own tab only
         var items = itemsFor(c.id);
         if (items.length || c.id === 'fav') html += sectionHTML(c, items, false);
       });
     } else {
       var c = catById(state.view);
       if (!c || state.catHidden.indexOf(c.id) >= 0) { state.view = 'home'; return renderMain(); }
-      html += sectionHTML(c, itemsFor(c.id), true);
+      html += c.id === 'live' ? liveHTML() : sectionHTML(c, itemsFor(c.id), true);
     }
     main.innerHTML = html;
     main._tt = 0;
   }
+
+  /* ================= LIVE TV: playlist ================= */
+  // Channels come from playlist.m3u next to this page (edit it yourself) plus an optional
+  // playlist web address from Settings. Only free, legal streams belong in it.
+  var LIVE = { status: 'idle', channels: [], sample: false, problems: [], seq: 0 };
+
+  // Reads an M3U/M3U8 channel list. Handles \r\n, a BOM, #EXTINF attributes (tvg-logo,
+  // group-title, tvg-name), commas inside quotes, #EXTGRP, and other # lines such as
+  // #EXTVLCOPT between #EXTINF and the stream address.
+  function parseM3U(text, base) {
+    var lines = String(text || '').replace(/^﻿/, '').split(/\r\n|\r|\n/);
+    var out = [], cur = null, grp = '';
+    for (var i = 0; i < lines.length && out.length < 3000; i++) {
+      var l = lines[i].replace(/^\s+|\s+$/g, '');
+      if (!l) continue;
+      if (/^#EXTINF/i.test(l)) { cur = parseExtinf(l); continue; }
+      if (/^#EXTGRP:/i.test(l)) { grp = l.slice(8).replace(/^\s+|\s+$/g, ''); continue; }
+      if (l.charAt(0) === '#') continue;
+      if (/\s/.test(l)) { cur = null; grp = ''; continue; } // stray text, not an address
+      var url = null;
+      try { url = new URL(l, base || location.href).href; } catch (e) { url = null; }
+      if (url && /^https?:/i.test(url)) {
+        var name = (cur && (cur.name || cur.attrs['tvg-name'])) || 'Channel ' + (out.length + 1);
+        var logo = cur && cur.attrs['tvg-logo'];
+        out.push({
+          name: name.slice(0, 60),
+          group: ((cur && cur.attrs['group-title']) || grp || 'Channels').slice(0, 40),
+          logo: logo && /^https?:\/\//i.test(logo) ? logo : '',
+          url: url
+        });
+      }
+      cur = null; grp = '';
+    }
+    return out;
+  }
+  function parseExtinf(l) {
+    var body = l.replace(/^#EXTINF:?/i, ''), inQ = false, cut = -1;
+    for (var i = 0; i < body.length; i++) {
+      var ch = body.charAt(i);
+      if (ch === '"') inQ = !inQ;
+      else if (ch === ',' && !inQ) { cut = i; break; }
+    }
+    var head = cut >= 0 ? body.slice(0, cut) : body, attrs = {}, m;
+    var re = /([A-Za-z0-9_-]+)\s*=\s*"([^"]*)"/g;
+    while ((m = re.exec(head))) attrs[m[1].toLowerCase()] = m[2].replace(/^\s+|\s+$/g, '');
+    return { attrs: attrs, name: cut >= 0 ? body.slice(cut + 1).replace(/^\s+|\s+$/g, '') : '' };
+  }
+  function getText(url, done) {
+    var x = new XMLHttpRequest(), finished = false;
+    var end = function (err, txt) { if (finished) return; finished = true; done(err, txt); };
+    try {
+      x.open('GET', url, true); x.timeout = 15000;
+      x.onload = function () { if (x.status >= 200 && x.status < 300 || (x.status === 0 && x.responseText)) end(null, x.responseText); else end('http ' + x.status); };
+      x.onerror = function () { end('blocked'); };
+      x.ontimeout = function () { end('timeout'); };
+      x.send();
+    } catch (e) { end('blocked'); }
+  }
+  function loadPlaylists(done) {
+    var seq = ++LIVE.seq;
+    var sources = [{ url: 'playlist.m3u', label: 'playlist.m3u' }];
+    if (state.playlistUrl) sources.push({ url: state.playlistUrl, label: state.playlistUrl });
+    LIVE.status = 'loading';
+    var results = [], left = sources.length;
+    sources.forEach(function (s, n) {
+      var abs; try { abs = new URL(s.url, location.href).href; } catch (e) { abs = s.url; }
+      getText(abs, function (err, txt) {
+        results[n] = { src: s, err: err, txt: txt, abs: abs };
+        if (--left) return;
+        if (seq !== LIVE.seq) return; // a newer load started
+        var chans = [], problems = [], sample = false;
+        results.forEach(function (r) {
+          if (r.err) { problems.push({ label: r.src.label, why: r.err, url: r.abs }); return; }
+          if (/#\s*SUPERTV-SAMPLE/.test(r.txt)) sample = true;
+          var list = parseM3U(r.txt, r.abs);
+          if (!list.length) problems.push({ label: r.src.label, why: 'empty', url: r.abs });
+          chans = chans.concat(list);
+        });
+        // Show channels grouped, groups in first-seen order.
+        var order = [], byG = {};
+        chans.forEach(function (c) { if (!byG[c.group]) { byG[c.group] = []; order.push(c.group); } byG[c.group].push(c); });
+        LIVE.channels = []; LIVE.groups = order;
+        order.forEach(function (g) { byG[g].forEach(function (c) { c.idx = LIVE.channels.length; LIVE.channels.push(c); }); });
+        LIVE.sample = sample; LIVE.problems = problems; LIVE.status = 'ready';
+        if (state.view === 'live' && !player.open) { var f = currentFid(); renderMain(); restoreFocus(f); }
+        if (layers.length && layers[layers.length - 1].kind === 'settings') rerenderLayer(settingsHTML());
+        if (done) done();
+      });
+    });
+  }
+  function hueOf(s) { var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360; return h; }
+  function channelTileHTML(c) {
+    var g = 'live-g' + LIVE.groups.indexOf(c.group);
+    // The TV icon sits under the logo, so a logo that fails to load just disappears.
+    var ico = icon('tv') + (c.logo ? '<img src="' + esc(c.logo) + '" alt="" onerror="this.style.display=\'none\'">' : '');
+    return '<a class="tile f" href="#" role="button" data-act="channel" data-arg="' + c.idx + '" data-group="' + g + '" data-fid="live:' + c.idx + '" style="--h:' + hueOf(c.group) + '"' +
+      ' aria-label="' + esc(c.name + ', live channel') + '">' +
+      '<span class="tile-top"><span class="tile-ico">' + ico + '</span><span class="badge live">Live</span></span>' +
+      '<span class="tile-name">' + esc(c.name) + '</span>' +
+      '<span class="tile-sub">' + esc(c.group) + '</span></a>';
+  }
+  function playlistProblemText(p) {
+    if (p.why === 'empty') return esc(p.label) + ' has no channels in it.';
+    var mixed = !TIZEN && location.protocol === 'https:' && /^http:/i.test(p.url);
+    if (mixed) return esc(p.label) + ' could not be read: it uses http://, which browsers block on a secure (https) page. Use an https:// address, or the installed SUPER TV app.';
+    if (p.why === 'blocked') return esc(p.label) + ' could not be read. The server may be down, or it does not let other websites read it (a browser rule called CORS)' + (TIZEN ? '.' : ' — the installed SUPER TV app avoids this.');
+    return esc(p.label) + ' could not be read (' + esc(p.why) + ').';
+  }
+  function liveHTML() {
+    var c = catById('live');
+    var note = LIVE.sample ? 'Sample playlist — free, legal streams. Edit playlist.m3u or add a playlist in Settings' : 'Free, legal streams from your playlist';
+    var probs = LIVE.problems.map(function (p) { return '<div class="live-prob" role="alert">' + playlistProblemText(p) + '</div>'; }).join('');
+    var head = '<div class="sec-head"><h2>' + esc(c.name) + '</h2><span class="sec-note">' + note + '</span></div>';
+    if (LIVE.status !== 'ready') {
+      return '<section class="sec" aria-label="Live TV">' + head + '<div class="empty"><span>Loading channels…</span></div></section>';
+    }
+    if (!LIVE.channels.length) {
+      return '<section class="sec" aria-label="Live TV">' + head + probs + '<div class="empty"><span>No channels yet. Add free, legal channels to playlist.m3u, or add a playlist web address in Settings.</span>' +
+        '<button class="btn f" data-act="settings" data-group="live-empty" data-fid="live:settings">' + icon('gear') + 'Open Settings</button></div></section>';
+    }
+    var html = '<section class="sec" aria-label="Live TV">' + head + probs + '</section>';
+    LIVE.groups.forEach(function (g) {
+      var items = LIVE.channels.filter(function (ch) { return ch.group === g; });
+      html += '<section class="sec live-group" aria-label="' + esc(g) + '"><div class="sec-head"><h2 class="live-h">' + esc(g) + '</h2><span class="sec-note">' + items.length + (items.length === 1 ? ' channel' : ' channels') + '</span></div>' +
+        '<div class="grid">' + items.map(channelTileHTML).join('') + '</div></section>';
+    });
+    return html;
+  }
+
+  /* ================= LIVE TV: player ================= */
+  // The TV's own HLS playback first; hls.js (pinned 1.5.20, stored next to this page) if not.
+  var HLS_FILE = 'hls-1.5.20.min.js';
+  var HLS_NATIVE = (function () {
+    try { var v = document.createElement('video'); return !!(v.canPlayType && /maybe|probably/.test(v.canPlayType('application/vnd.apple.mpegurl'))); } catch (e) { return false; }
+  })();
+  var START_LIMIT = 25000; // ms before a channel that never starts counts as failed
+  var player = { open: false, idx: -1, token: 0, hls: null, timer: null, stall: null, barT: null, recovered: false, failed: false };
+  function pv() { return document.getElementById('pv'); }
+  function playerHTML() {
+    return '<div class="player">' +
+      '<video id="pv" playsinline></video>' +
+      '<div class="pl-load" id="plLoad"><div class="spin" aria-hidden="true"></div><strong id="plLoadName"></strong><span>Loading…</span></div>' +
+      '<div class="pl-paused" id="plPaused" hidden>' + icon('play') + 'Paused — press OK to continue</div>' +
+      '<div class="pl-bar" id="plBar"><span class="pl-num" id="plNum"></span><span class="pl-txt"><strong id="plName"></strong><small id="plGrp"></small></span>' +
+        '<span class="pl-keys">▲ ▼ or CH ± change channel · OK pause · Back channel list</span></div>' +
+      '<div class="pl-err" id="plErr" hidden><div class="dialog" role="alert"><h2 id="plErrTitle"></h2><p id="plErrMsg"></p><p class="pl-why" id="plErrWhy"></p>' +
+        '<div class="actions"><button class="btn primary f" data-act="pl-retry" data-fid="pl:retry">Try again</button>' +
+        '<button class="btn f" data-act="pl-next" data-fid="pl:next">Next channel' + icon('next').replace('<svg', '<svg class="after"') + '</button></div>' +
+        '<p class="pl-hint">Back returns to the channel list.</p></div></div>' +
+    '</div>';
+  }
+  function showEl(id, on) { var e = document.getElementById(id); if (e) e.hidden = !on; }
+  function infoBar() {
+    var c = LIVE.channels[player.idx]; if (!c) return;
+    document.getElementById('plNum').textContent = (player.idx + 1) + '/' + LIVE.channels.length;
+    document.getElementById('plName').textContent = c.name;
+    document.getElementById('plGrp').textContent = c.group;
+    var b = document.getElementById('plBar'); b.classList.add('on');
+    clearTimeout(player.barT); player.barT = setTimeout(function () { b.classList.remove('on'); }, 3000);
+  }
+  function openPlayer(idx, fromFid) {
+    if (!LIVE.channels[idx]) return;
+    openLayer(playerHTML(), 'player-layer');
+    var l = layers[layers.length - 1]; l.kind = 'player'; l.back = fromFid || l.back;
+    l.onClose = stopPlayer;
+    player.open = true;
+    var v = pv();
+    v.addEventListener('playing', function () { if (player.failed) return; clearTimers(); showEl('plLoad', false); showEl('plPaused', false); });
+    v.addEventListener('pause', function () { if (!player.failed && v.readyState > 2) showEl('plPaused', true); });
+    v.addEventListener('waiting', function () { if (player.failed) return; showEl('plLoad', true); armStall(); });
+    v.addEventListener('error', function () { if (!player.hls && v.error) fail('media'); });
+    v.addEventListener('click', togglePause);
+    playChannel(idx);
+  }
+  function clearTimers() { clearTimeout(player.timer); clearTimeout(player.stall); player.timer = player.stall = null; }
+  function armStall() { clearTimeout(player.stall); var t = player.token; player.stall = setTimeout(function () { if (t === player.token) fail('timeout'); }, START_LIMIT); }
+  function teardown() {
+    clearTimers();
+    if (player.hls) { try { player.hls.destroy(); } catch (e) {} player.hls = null; }
+    var v = pv();
+    if (v) { try { v.pause(); v.removeAttribute('src'); v.load(); } catch (e) {} }
+  }
+  function stopPlayer() {
+    player.token++; teardown(); clearTimeout(player.barT);
+    player.open = false;
+    // Return to the tile of the channel that was playing.
+    return player.idx >= 0 && state.view === 'live' ? 'live:' + player.idx : null;
+  }
+  function isMixed(url) { return !TIZEN && location.protocol === 'https:' && /^http:/i.test(url); }
+  function playChannel(idx) {
+    var n = LIVE.channels.length; if (!n) return;
+    idx = ((idx % n) + n) % n;
+    teardown();
+    var t = ++player.token, c = LIVE.channels[idx];
+    player.idx = idx; player.recovered = false; player.failed = false;
+    showEl('plErr', false); showEl('plPaused', false); showEl('plLoad', true);
+    document.getElementById('plLoadName').textContent = c.name;
+    infoBar();
+    var cur = currentF(); if (cur && cur.blur) cur.blur();
+    if (!navigator.onLine) { fail('offline'); return; }
+    player.timer = setTimeout(function () { if (t === player.token) fail('timeout'); }, START_LIMIT);
+    var v = pv();
+    if (HLS_NATIVE && !window.SUPERTV_FORCE_HLSJS) {
+      v.src = c.url;
+      tryPlay(v);
+      return;
+    }
+    if (isMixed(c.url)) { fail('mixed'); return; } // hls.js loads by XHR, which browsers block outright
+    withHls(function (ok) {
+      if (t !== player.token) return;
+      if (!ok) { fail('nohls'); return; }
+      if (!window.Hls.isSupported()) { fail('unsupported'); return; }
+      var H = window.Hls;
+      var hls = new H({ manifestLoadingMaxRetry: 1, levelLoadingMaxRetry: 2, fragLoadingMaxRetry: 2, backBufferLength: 30, maxBufferLength: 20 });
+      player.hls = hls;
+      hls.on(H.Events.ERROR, function (e, d) {
+        if (t !== player.token || !d || !d.fatal) return;
+        if (d.type === H.ErrorTypes.MEDIA_ERROR && !player.recovered) { player.recovered = true; try { hls.recoverMediaError(); return; } catch (x) {} }
+        var code = d.response && d.response.code;
+        var kind = d.type === H.ErrorTypes.NETWORK_ERROR ? (navigator.onLine ? (code ? 'http' : 'blocked') : 'offline') : 'media';
+        // Leave hls.js's own error handling first: destroying it mid-event breaks its internal loop.
+        setTimeout(function () { if (t === player.token) fail(kind, code); }, 0);
+      });
+      hls.on(H.Events.MANIFEST_PARSED, function () { if (t === player.token) tryPlay(v); });
+      hls.loadSource(c.url);
+      hls.attachMedia(v);
+    });
+  }
+  function tryPlay(v) {
+    var p; try { p = v.play(); } catch (e) { p = null; }
+    if (p && p.then) p.then(null, function (err) {
+      // Autoplay refused (rare on TVs): show the paused message instead of a black screen.
+      if (err && err.name === 'NotAllowedError' && !player.failed) { showEl('plLoad', false); showEl('plPaused', true); clearTimers(); }
+    });
+  }
+  function withHls(cb) {
+    if (window.Hls) { cb(true); return; }
+    var s = document.createElement('script'); s.src = HLS_FILE;
+    s.onload = function () { cb(!!window.Hls); };
+    s.onerror = function () { s.parentNode.removeChild(s); cb(false); };
+    document.head.appendChild(s);
+  }
+  function fail(kind, code) {
+    if (!player.open || player.failed) return;
+    player.failed = true; player.token++;
+    teardown();
+    var c = LIVE.channels[player.idx] || { name: '', url: '' };
+    var title = 'This channel isn\'t available right now', why = '';
+    var msg = esc(c.name) + ' could not be played.';
+    if (kind === 'offline') {
+      title = 'You\'re offline';
+      msg = 'Live TV needs the internet, and the TV reports that it is offline.';
+      why = 'Check your router, or on the TV: Settings › General › Network › Network Status. Try again once you are back online.';
+    } else if (kind === 'mixed' || isMixed(c.url)) {
+      why = 'This channel uses an http:// address. Browsers block http video inside a secure (https) page like this one, so it cannot play in the browser version. The installed SUPER TV app on the TV does not have this limit.';
+    } else if (kind === 'blocked') {
+      why = TIZEN ? 'The channel\'s server did not answer. It may be offline, or only available in some countries.'
+        : 'The channel\'s server did not answer, or it does not allow other websites to play its stream (a browser rule called CORS). If the stream is online, the installed SUPER TV app on the TV avoids this.';
+    } else if (kind === 'http') {
+      why = 'The channel\'s server refused the stream (error ' + esc(code) + '). It may have moved, ended, or be limited to some countries.';
+    } else if (kind === 'timeout') {
+      why = 'The stream did not start within ' + (START_LIMIT / 1000) + ' seconds. It may be offline or very slow right now.';
+    } else if (kind === 'nohls') {
+      why = 'The video player file (' + HLS_FILE + ') is missing. Upload it next to index.html.';
+    } else if (kind === 'unsupported') {
+      why = 'This browser cannot play HLS streams.';
+    } else {
+      why = 'The stream started, but this TV could not play its video. The channel may be off air, or use a format the TV does not support.';
+    }
+    document.getElementById('plErrTitle').textContent = title;
+    document.getElementById('plErrMsg').innerHTML = msg;
+    document.getElementById('plErrWhy').innerHTML = why;
+    showEl('plLoad', false); showEl('plPaused', false); showEl('plErr', true);
+    player.lastFail = kind;
+    setFocus(document.querySelector('[data-fid="pl:retry"]'), true);
+  }
+  function togglePause() {
+    var v = pv(); if (!v || player.failed) return;
+    if (v.paused) { tryPlay(v); showEl('plPaused', false); } else { v.pause(); showEl('plPaused', true); }
+  }
+  // Remote keys while the player is open. Returns true when the key was used.
+  function playerKey(k) {
+    var errOn = player.failed;
+    if (k === K.ESC || k === K.BACKSPACE || k === K.TIZEN_BACK || k === K.STOP) {
+      ignorePopUntil = Date.now() + 400; closeLayer(); return true;
+    }
+    if (k === K.UP || k === K.CH_DOWN || k === K.PGDN) { playChannel(player.idx - 1); return true; }
+    if (k === K.DOWN || k === K.CH_UP || k === K.PGUP) { playChannel(player.idx + 1); return true; }
+    if (errOn) return false; // Left/Right/OK work the error buttons through the normal focus system
+    if (k === K.ENTER || k === K.PLAYPAUSE || k === K.MEDIA_PP || k === K.SPACE) { togglePause(); return true; }
+    if (k === K.PLAY) { var v = pv(); if (v && v.paused) togglePause(); return true; }
+    if (k === K.PAUSE) { var w = pv(); if (w && !w.paused) togglePause(); return true; }
+    if (k === K.LEFT || k === K.RIGHT) { infoBar(); return true; }
+    return false;
+  }
+  window.addEventListener('offline', function () { if (player.open && !player.failed) fail('offline'); });
+  window.addEventListener('online', function () { if (player.open && player.failed && player.lastFail === 'offline') playChannel(player.idx); });
 
   function render(keepFid) {
     var fid = keepFid || currentFid();
@@ -727,14 +1056,16 @@ svg{width:1em;height:1em;flex:none}
     wrap.innerHTML = html;
     $('#layers').appendChild(wrap);
     layers.push({ el: wrap, back: currentFid() });
-    var lbl = wrap.querySelector('h2'); if (lbl) { lbl.id = 'dlg' + layers.length; wrap.setAttribute('aria-labelledby', lbl.id); }
+    var lbl = wrap.querySelector('h2'); if (lbl) { if (!lbl.id) lbl.id = 'dlg' + layers.length; wrap.setAttribute('aria-labelledby', lbl.id); }
     setFocus(defaultFocus(), true);
     return wrap;
   }
   function closeLayer() {
     var l = layers.pop(); if (!l) return;
+    var back = l.back;
+    if (l.onClose) { var r = l.onClose(); if (r) back = r; }
     l.el.parentNode.removeChild(l.el);
-    restoreFocus(l.back);
+    restoreFocus(back);
   }
   function rerenderLayer(html) {
     var l = layers[layers.length - 1]; if (!l) return;
@@ -774,6 +1105,7 @@ svg{width:1em;height:1em;flex:none}
         '<dt>Yellow button</dt><dd>This help screen (H)</dd>' +
         '<dt>Blue button</dt><dd>Jump to Home</dd>' +
         '<dt>Play / Pause</dt><dd>Open the highlighted item, where the browser passes the key on</dd>' +
+        '<dt>In Live TV</dt><dd>▲ ▼ or CH + / − change channel · OK or Play/Pause pauses · Back returns to the channel list</dd>' +
       '</dl><p class="help" style="color:var(--muted);font-size:1.05rem">Every action also has an on-screen button, so colour and media keys are optional. If the TV shows a mouse pointer instead of the gold highlight, point and press OK; both work.</p></section>' +
       '<section><h3>What is real</h3><ul>' +
         '<li><span class="tag real">Real</span>Website tiles open that real site' + (TIZEN ? ' in the TV\'s Internet app.' : ' in this browser.') + '</li>' +
@@ -789,7 +1121,7 @@ svg{width:1em;height:1em;flex:none}
         '<li><span class="tag no">No</span>Replace Samsung\'s Smart Hub' + (TIZEN ? ' (it can reopen at power-on if Autorun Last App is on)' : ' or start automatically when the TV turns on') + '</li>' +
         '<li><span class="tag no">No</span>Change volume, inputs, picture settings or firmware</li>' +
         (TIZEN ? '<li><span class="tag no">No</span>Install or remove TV apps</li>' : '<li><span class="tag no">No</span>Open, install or remove TV apps</li>') +
-        '<li><span class="tag no">No</span>Show live TV channels or bypass any subscription</li>' +
+        '<li><span class="tag no">No</span>Show broadcast TV channels from the aerial, or bypass any subscription. Live TV only plays free streams from your playlist.</li>' +
       '</ul></section>' +
       '<section><h3>Quick tips for this TV</h3><ul>' +
         (TIZEN
@@ -844,6 +1176,11 @@ svg{width:1em;height:1em;flex:none}
           '<button class="opt f" data-act="export" data-fid="s:export">Show backup code</button>' +
           '<button class="opt f" data-act="import" data-fid="s:import">Restore from code</button>' +
           '<button class="opt f" data-act="reset" data-fid="s:reset">Reset everything</button></div></div>' +
+        '<div class="set"><h3>Live TV playlist</h3><span class="help">Channels come from playlist.m3u. You can also add a playlist web address (M3U). Free, legal streams only.</span>' +
+          fieldHTML('plurl', 'Playlist web address', state.playlistUrl, 'url', 'e.g. https://example.org/channels.m3u') +
+          '<div class="seg"><button class="opt f" data-act="pl-save" data-fid="s:plsave">Save playlist</button>' +
+          (state.playlistUrl ? '<button class="opt f" data-act="pl-clear" data-fid="s:plclear">Remove</button>' : '') + '</div>' +
+          '<span class="help">' + (LIVE.status === 'ready' ? LIVE.channels.length + ' channels loaded' + (LIVE.problems.length ? ' · ' + LIVE.problems.length + ' playlist could not be read' : '') : 'Loading channels…') + '</span></div>' +
       '</div>' +
       '<div class="set"><h3>Featured area</h3><span class="help">Pick what the big banner on Home shows.</span><div class="seg">' + featOpts + '</div></div>' +
       '<div class="set"><h3>Categories</h3><span class="help">Hide the ones you don\'t use and set their order on Home.</span><div class="list">' + catRows + '</div></div>' +
@@ -970,7 +1307,7 @@ svg{width:1em;height:1em;flex:none}
     openLayer(helpHTML(), 'sheet'); layers[layers.length - 1].kind = 'help';
   }
   function exportCode() {
-    var data = { favs: state.favs, hidden: state.hidden, catHidden: state.catHidden, catOrder: state.catOrder, custom: state.custom, featured: state.featured, clock24: state.clock24, scale: state.scale, edge: state.edge, motion: state.motion, linkTarget: state.linkTarget, favsSample: state.favsSample };
+    var data = { favs: state.favs, hidden: state.hidden, catHidden: state.catHidden, catOrder: state.catOrder, custom: state.custom, featured: state.featured, clock24: state.clock24, scale: state.scale, edge: state.edge, motion: state.motion, linkTarget: state.linkTarget, favsSample: state.favsSample, playlistUrl: state.playlistUrl };
     return JSON.stringify(data);
   }
 
@@ -986,6 +1323,20 @@ svg{width:1em;height:1em;flex:none}
       return 'default'; // let the real link navigate
     },
     view: function (arg) { setView(arg, true); },
+    channel: function (arg, el) { openPlayer(Number(arg), el.getAttribute('data-fid')); },
+    'pl-retry': function () { playChannel(player.idx); },
+    'pl-next': function () { playChannel(player.idx + 1); },
+    'pl-save': function () {
+      var inp = $('#in-plurl'); var u = inp ? inp.value.replace(/^\s+|\s+$/g, '') : '';
+      if (u && !/^https?:\/\//i.test(u)) u = 'https://' + u;
+      var ok = true; if (u) { try { var pu = new URL(u); ok = /^https?:$/.test(pu.protocol) && pu.hostname.indexOf('.') > 0; } catch (e) { ok = false; } }
+      if (!ok) { toast('That address doesn\'t look right'); return; }
+      state.playlistUrl = u; save();
+      toast(u ? 'Playlist saved. Loading channels…' : 'Playlist address removed');
+      loadPlaylists(function () { if (u) toast(LIVE.problems.some(function (p) { return p.label === u; }) ? 'That playlist could not be loaded (see Live TV)' : 'Live TV now has ' + LIVE.channels.length + ' channels'); });
+      refreshAll();
+    },
+    'pl-clear': function () { state.playlistUrl = ''; save(); loadPlaylists(); refreshAll(); toast('Playlist address removed'); },
     fav: function (arg) { toggleFav(arg); refreshAll(); },
     'next-feature': function () { state.featIdx = (state.featIdx + 1) % ROTATION.length; save(); render('hero:next'); },
     settings: openSettings,
@@ -1141,7 +1492,8 @@ svg{width:1em;height:1em;flex:none}
     return false;
   }
 
-  var K = { LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, ENTER: 13, ESC: 27, BACKSPACE: 8, TIZEN_BACK: 10009, RED: 403, GREEN: 404, YELLOW: 405, BLUE: 406, PLAY: 415, PLAYPAUSE: 10252, MEDIA_PP: 179 };
+  var K = { LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, ENTER: 13, ESC: 27, BACKSPACE: 8, TIZEN_BACK: 10009, RED: 403, GREEN: 404, YELLOW: 405, BLUE: 406, PLAY: 415, PLAYPAUSE: 10252, MEDIA_PP: 179,
+    PAUSE: 19, STOP: 413, CH_UP: 427, CH_DOWN: 428, PGUP: 33, PGDN: 34, SPACE: 32 };
   document.addEventListener('keydown', function (e) {
     var k = e.keyCode, t = e.target;
     var inInput = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA');
@@ -1151,6 +1503,7 @@ svg{width:1em;height:1em;flex:none}
       if (k === K.UP || k === K.DOWN) { e.preventDefault(); leaveInput(t); move(k === K.UP ? 'up' : 'down'); return; }
       return; // let typing, left/right caret movement through
     }
+    if (player.open && layers.length && layers[layers.length - 1].kind === 'player' && playerKey(k)) { e.preventDefault(); return; }
     var key = (e.key || '').toLowerCase();
     var handled = true;
     switch (k) {
@@ -1222,6 +1575,10 @@ svg{width:1em;height:1em;flex:none}
       tizen.tvinputdevice.registerKeyBatch(['ColorF0Red', 'ColorF1Green', 'ColorF2Yellow', 'ColorF3Blue', 'MediaPlay', 'MediaPlayPause']);
     }
   } catch (e) {}
+  // Live TV player keys. One at a time, so a key this TV lacks cannot stop the others.
+  ['ChannelUp', 'ChannelDown', 'MediaPause', 'MediaStop'].forEach(function (name) {
+    try { if (window.tizen && tizen.tvinputdevice && tizen.tvinputdevice.registerKey) tizen.tvinputdevice.registerKey(name); } catch (e) {}
+  });
   // Coming back from the Internet app or another app: refresh the clock and network state.
   document.addEventListener('visibilitychange', function () { if (!document.hidden) { tick(true); updateNet(); } });
 
@@ -1253,10 +1610,12 @@ svg{width:1em;height:1em;flex:none}
   setInterval(tick, 1000);
   render(null);
   restoreFocus(state.lastFocus || 'hero:open');
+  loadPlaylists();
   if (!state.firstRunDone) openLayer(welcomeHTML(), 'welcome');
 
   // Expose a tiny hook for automated tests.
-  window.SUPERTV = { state: function () { return state; }, move: move, back: back };
+  window.SUPERTV = { state: function () { return state; }, move: move, back: back, parseM3U: parseM3U, live: function () { return LIVE; },
+    player: function () { return { open: player.open, idx: player.idx, failed: player.failed, kind: player.lastFail, hls: !!player.hls, native: HLS_NATIVE && !window.SUPERTV_FORCE_HLSJS }; }, reloadPlaylists: loadPlaylists };
 })();
 </script>
 
