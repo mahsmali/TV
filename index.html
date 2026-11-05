@@ -205,6 +205,7 @@ svg{width:1em;height:1em;flex:none}
 .toast{position:fixed;left:50%;bottom:calc(var(--edge) + 4rem);transform:translateX(-50%);z-index:80;background:var(--text);color:var(--ink);font-weight:700;font-size:1.25rem;padding:.8rem 1.6rem;border-radius:2rem;box-shadow:0 1rem 3rem rgba(0,0,0,.5);max-width:90vw;text-align:center}
 /* ---------- Live TV ---------- */
 .badge.live{background:#E5484D;color:#fff}
+.badge.radio{background:#3E7BFA;color:#fff}
 .tile-ico{position:relative;overflow:hidden}
 .tile-ico img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;background:#fff;border-radius:50%;padding:.25rem;box-sizing:border-box;opacity:0;transition:opacity .2s}
 .tile-ico img.ok{opacity:1}
@@ -255,6 +256,106 @@ svg{width:1em;height:1em;flex:none}
 .pl-err{position:absolute;top:0;right:0;bottom:0;left:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,#1b2330,#05080c 75%);padding:var(--edge)}
 .pl-err .pl-why{color:var(--muted);font-size:1.15rem}
 .pl-err .pl-hint{color:var(--muted);font-size:1rem}
+.player.is-radio video{opacity:0}
+.pl-radio{position:absolute;top:0;right:0;bottom:0;left:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--text);padding:var(--edge);background:radial-gradient(circle at 50% 38%,hsl(var(--h,210),45%,20%),#05080c 72%)}
+.tile-ico.pl-r-logo{width:13rem;height:13rem;margin-bottom:2rem;background:hsl(var(--h,210),50%,36%);box-shadow:0 1.5rem 4rem rgba(0,0,0,.5)}
+.tile-ico.pl-r-logo b{font-size:5.5rem}
+.tile-ico.pl-r-logo img{padding:.8rem}
+.pl-radio strong{font-family:var(--display);font-size:3rem;line-height:1.15;max-width:80%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pl-r-sub{color:#D6DEE6;font-size:1.45rem;margin-top:.7rem}
+.pl-r-tags{color:var(--muted);font-size:1.15rem;margin-top:.4rem;min-height:1.4rem}
+.eq{display:flex;align-items:flex-end;height:3.2rem;margin:2rem 0 .8rem}
+.eq i{display:block;width:.8rem;height:30%;margin:0 .22rem;border-radius:.2rem;background:var(--gold);animation:eq 1.1s ease-in-out infinite}
+.eq i:nth-child(2){animation-delay:-.35s}.eq i:nth-child(3){animation-delay:-.7s}.eq i:nth-child(4){animation-delay:-.15s}.eq i:nth-child(5){animation-delay:-.55s}
+@keyframes eq{0%,100%{height:25%}50%{height:100%}}
+.calm .eq i,.pl-radio.paused .eq i{animation:none;height:35%}
+.pl-r-keys{color:var(--muted);font-size:1.1rem;margin-top:1.2rem}
+.lv-more{margin-top:.4rem}
+.player.is-radio .pl-keys{display:none}
+.ch-tile .tile-name{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* ---------- list view (Live TV and Radio): filters | channel list | info ---------- */
+#main.ip-on{overflow:hidden;padding-bottom:.4rem}
+.ip{display:grid;grid-template-columns:minmax(0,22fr) minmax(0,45fr) minmax(0,33fr);grid-template-rows:minmax(0,1fr);grid-gap:1.2rem;height:100%;padding:0 .4rem}
+.ip-col{position:relative;min-height:0;min-width:0;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:1.2rem;overflow:hidden}
+.ip-fl{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;padding:.7rem}
+.ip-it{display:flex;align-items:center;width:100%;margin:0 0 .3rem;padding:.6rem .9rem;border:0;border-radius:.7rem;background:transparent;color:var(--text);font:inherit;font-size:1.25rem;font-weight:600;text-align:left;cursor:pointer}
+.ip-it .ip-l{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center}
+.ip-it .ip-l svg{margin-right:.55rem;font-size:1.15rem;flex:none}
+.ip-it .ip-x{margin-left:.6rem;color:var(--muted);font-size:1.05rem;font-weight:500;max-width:45%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ip-it.on{background:var(--panel-2);box-shadow:inset .3rem 0 0 var(--gold)}
+.ip-it.on .ip-x{color:var(--gold)}
+.ip-it.f:focus{background:var(--gold);color:var(--gold-ink);box-shadow:none}
+.ip-it.f:focus .ip-x{color:var(--gold-ink)}
+.ip-it.ip-back{color:var(--gold)}
+.ip-h{margin:.9rem .9rem .35rem;color:var(--muted);font-size:.95rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.ip-note{margin:.6rem .9rem;color:var(--muted);font-size:1.1rem}
+.ip-note.bad{color:var(--bad)}
+.field.ip-search{margin:0 0 .3rem;padding:.45rem .9rem;border-radius:.7rem}
+.field.ip-search label{display:flex;align-items:center;font-size:1.05rem}
+.field.ip-search label svg{margin-right:.45rem}
+.field.ip-search label span{margin-left:.35rem}
+.field.ip-search input{font-size:1.2rem;padding:.45rem .7rem}
+.ip-active{flex:none;padding:.7rem 1.2rem .9rem;border-top:1px solid var(--line);font-weight:700;font-size:1.15rem;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ip-active small{display:block;color:var(--muted);font-weight:500;font-size:.9rem}
+.ip-head{flex:none;display:flex;align-items:baseline;padding:.9rem 1.2rem .7rem;border-bottom:1px solid var(--line)}
+.ip-head strong{font-family:var(--display);font-size:1.55rem;font-weight:600;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-right:1rem}
+.ip-head #ipPos{margin-left:auto;color:var(--muted);font-size:1.1rem;white-space:nowrap}
+.ip-jump{position:absolute;right:1.2rem;top:4rem;z-index:5;background:var(--gold);color:var(--gold-ink);font-weight:800;font-size:1.6rem;padding:.5rem 1.1rem;border-radius:.8rem}
+.ip-jump[hidden]{display:none}
+.ip-list{position:relative;flex:1;min-height:0;overflow:hidden}
+.ip-nav,.ip-fnav{flex:none;display:flex;padding:.5rem .6rem;border-top:1px solid var(--line)}
+.ip-fnav[hidden]{display:none}
+.ip-nb{flex:1;min-width:0;height:3.6rem;margin:0 .25rem;padding:0 .4rem;border:0;border-radius:.8rem;background:var(--panel-2);color:var(--text);font:inherit;font-weight:700;font-size:1.2rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.ip-nb svg{width:1.8rem;height:1.8rem;flex:none}
+.ip-nb span{margin-left:.35rem}
+.ip-nb:hover{background:var(--gold);color:var(--gold-ink)}
+.ip-nb:active{transform:scale(.96)}
+.ip-nb.off{opacity:.35}
+.ip-list.f:focus{box-shadow:none}
+.ip-in{position:relative;transition:transform .14s ease-out;will-change:transform}
+.calm .ip-in{transition:none}
+.ip-row{position:absolute;left:0;right:0;display:flex;align-items:center;padding:0 1rem 0 .6rem;box-sizing:border-box;border-bottom:1px solid rgba(42,55,70,.55);cursor:pointer}
+.ip-row.dead{opacity:.55}
+.ip-row.sel{background:var(--panel-2);box-shadow:inset .3rem 0 0 var(--muted)}
+.ip-list:focus .ip-row.sel{background:var(--gold);color:var(--gold-ink);box-shadow:none;opacity:1}
+.ip-list:focus .ip-row.sel .ip-n,.ip-list:focus .ip-row.sel .ip-tg i{color:var(--gold-ink)}
+.ip-n{flex:none;width:4.2rem;text-align:right;margin-right:.9rem;color:var(--muted);font-variant-numeric:tabular-nums;font-size:1.15rem;font-weight:600}
+.ip-lg{position:relative;flex:none;width:2.9rem;height:2.9rem;margin-right:.9rem;border-radius:.6rem;overflow:hidden;display:flex;align-items:center;justify-content:center;background:hsl(var(--h,210),45%,32%);color:#fff;font-family:var(--display);font-weight:800;font-size:1.3rem}
+.ip-lg img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:.15rem;box-sizing:border-box;opacity:0}
+.ip-lg img.ok{opacity:1}
+.ip-nm{flex:1;min-width:0;font-size:1.4rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ip-tg{flex:none;display:flex;align-items:center;margin-left:.6rem;white-space:nowrap}
+.ip-tg i{font-style:normal;font-size:.82rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:.12rem .45rem;border-radius:.3rem;background:rgba(255,255,255,.1);color:var(--text);margin-left:.35rem}
+.ip-tg i.q{background:transparent;border:1px solid currentColor;color:var(--muted)}
+.ip-tg i.bad{background:var(--bad);color:#2A0702}
+.ip-tg i.app{background:#F3B94D;color:#1C1405}
+.ip-tg i.saved{background:transparent;color:var(--gold)}
+.ip-list:focus .ip-row.sel .ip-tg i.bad,.ip-list:focus .ip-row.sel .ip-tg i.app{background:var(--gold-ink);color:var(--gold)}
+.ip-tg .star{color:var(--gold);margin-left:.5rem;font-size:1.2rem}
+.ip-list:focus .ip-row.sel .star{color:var(--gold-ink)}
+.ip-status{position:absolute;left:0;right:0;top:4.4rem;bottom:4.7rem;padding:2rem 1.6rem;color:var(--muted);font-size:1.2rem;background:var(--panel)}
+.ip-status .lv-status{margin:0}
+.ip-status .btn{margin-top:1rem}
+.ip-info{padding:1rem 1.2rem}
+.ip-pv{position:relative;flex:none;width:100%;padding-top:56.25%;border-radius:.9rem;overflow:hidden;background:#000 radial-gradient(circle at 50% 45%,#1b2330,#000 75%);margin-bottom:1rem}
+.ip-pv video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .3s}
+.ip-pv video.on{opacity:1}
+.ip-pv-msg{position:absolute;left:1rem;right:1rem;top:50%;transform:translateY(-50%);text-align:center;color:var(--muted);font-size:1.05rem}
+.ip-meta{flex:1;min-height:0;overflow:hidden}
+.ip-mh{display:flex;align-items:center;margin-bottom:.8rem}
+.tile-ico.ip-big{flex:none;width:4.4rem;height:4.4rem;margin-right:1rem;background:hsl(var(--h,210),45%,32%)}
+.tile-ico.ip-big b{font-size:2rem}
+.ip-mh strong{font-family:var(--display);font-size:1.9rem;line-height:1.1;font-weight:700;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.ip-meta dl{display:grid;grid-template-columns:auto minmax(0,1fr);grid-gap:.3rem 1rem;margin:0 0 .8rem;font-size:1.15rem}
+.ip-meta dt{color:var(--muted)}
+.ip-meta dd{margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ip-tg.big{flex-wrap:wrap;white-space:normal}
+.ip-tg.big i{margin:0 .4rem .4rem 0;font-size:.95rem}
+.ip-acts{flex:none;display:flex;flex-wrap:wrap;margin-top:.6rem}
+.ip-acts .btn{margin:0 .8rem .6rem 0;font-size:1.2rem;padding:.7rem 1.3rem}
+.ip-help{flex:none;margin:.2rem 0 0;color:var(--muted);font-size:1rem}
+.ip.radio .ip-meta .tile-ico.ip-big{width:7rem;height:7rem}
+.ip.radio .ip-meta .tile-ico.ip-big b{font-size:3.2rem}
 .offline-bar{background:var(--bad);color:#2A0702;font-weight:700;border-radius:.8rem;padding:.6rem 1.2rem;margin:0 .4rem 1rem;font-size:1.15rem}
 
 /* narrow screens (phones, small windows) */
@@ -353,6 +454,13 @@ svg{width:1em;height:1em;flex:none}
     <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.2 3.2 3.2 14.8 0 18M12 3c-3.2 3.2-3.2 14.8 0 18"/></g></symbol>
     <symbol id="i-kids" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="10" r="2.4"/><path d="M3.5 20c0-3.4 2.4-5.4 5.5-5.4s5.5 2 5.5 5.4M15 15.2c3 0 5.5 1.6 5.5 4.8"/></g></symbol>
     <symbol id="i-book" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 6c-2-1.6-5-2-8-1.6V19c3-.4 6 0 8 1.6 2-1.6 5-2 8-1.6V4.4C17 4 14 4.4 12 6z"/><path d="M12 6v14.6"/></g></symbol>
+    <symbol id="i-radio" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M7 8l10-5"/><circle cx="15.5" cy="14" r="2.6"/><path d="M6.5 12.5h4M6.5 15.5h4"/></g></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-up2" viewBox="0 0 24 24"><path d="M6 12l6-6 6 6M6 19l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-down2" viewBox="0 0 24 24"><path d="M6 5l6 6 6-6M6 12l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-top" viewBox="0 0 24 24"><path d="M5 5h14M6 17l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-end" viewBox="0 0 24 24"><path d="M6 7l6 6 6-6M5 19h14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-tv" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8.5 21h7"/></g></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
     <symbol id="i-gear" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M3.8 7.2l2.6 1.5M17.6 15.3l2.6 1.5M3.8 16.8l2.6-1.5M17.6 8.7l2.6-1.5"/></g></symbol>
@@ -400,7 +508,8 @@ svg{width:1em;height:1em;flex:none}
     { id: 'quran', name: "Qur'an Recitation", icon: 'wave', ar: 'تلاوة' },
     { id: 'doc',   name: 'Documentaries',     icon: 'globe' },
     { id: 'fam',   name: 'Family',            icon: 'kids' },
-    { id: 'live',  name: 'Live TV',           icon: 'tv' }  // channels come from playlist.m3u, not from BASE
+    { id: 'live',  name: 'Live TV',           icon: 'tv' },  // channels come from playlist.m3u, not from BASE
+    { id: 'radio', name: 'Radio',             icon: 'radio' } // stations come from the Radio Browser directory
   ];
 
   // kind: 'web' opens a real website. 'app' is a guide tile for an app installed on the TV
@@ -468,7 +577,9 @@ svg{width:1em;height:1em;flex:none}
     custom: [], featured: 'rotate', featIdx: 0,
     clock24: true, scale: 1, edge: 3, motion: true, linkTarget: 'self',
     view: 'home', lastFocus: null,
-    myCh: [], playlists: [], dead: {}, hideDead: false // Live TV: saved channels, playlist addresses, "Not working" marks
+    myCh: [], playlists: [], dead: {}, hideDead: false, // Live TV: saved channels, playlist addresses, "Not working" marks
+    myRadio: [], // Radio: saved stations
+    lvView: 'list', preview: true, previewAuto: false, hideApp: false, ipTv: null, ipRadio: null // list view: layout, preview, filters
   };
   var store = (function () {
     var ok = false, mem = null;
@@ -506,12 +617,37 @@ svg{width:1em;height:1em;flex:none}
       var r = { n: c.n.slice(0, 60), u: c.u, l: okUrl(c.l) ? c.l : '', g: typeof c.g === 'string' ? c.g.slice(0, 40) : '' };
       if (typeof c.q === 'string') r.q = c.q.slice(0, 8); if (c.geo) r.geo = 1; if (c.n247) r.n247 = 1;
       if (typeof c.ua === 'string') r.ua = c.ua.slice(0, 300); if (typeof c.rf === 'string') r.rf = c.rf.slice(0, 300);
+      if (typeof c.cc === 'string' && /^[a-z]{2}$/.test(c.cc)) r.cc = c.cc;
       return r;
     });
     if (Array.isArray(o.playlists)) out.playlists = o.playlists.filter(function (p) { return p && okUrl(p.url); }).slice(0, 20).map(function (p) { return { name: String(p.name || host(p.url) || 'Playlist').slice(0, 40), url: p.url }; });
     if (okUrl(o.playlistUrl)) { out.playlists = out.playlists || []; if (!out.playlists.some(function (p) { return p.url === o.playlistUrl; })) out.playlists.push({ name: 'My playlist', url: o.playlistUrl }); } // from the earlier single-address setting
     if (o.dead && typeof o.dead === 'object' && !Array.isArray(o.dead)) { out.dead = {}; Object.keys(o.dead).slice(0, 400).forEach(function (k) { if (typeof o.dead[k] === 'number') out.dead[k] = o.dead[k]; }); }
     if (typeof o.hideDead === 'boolean') out.hideDead = o.hideDead;
+    if (o.lvView === 'list' || o.lvView === 'tiles') out.lvView = o.lvView;
+    ['preview', 'previewAuto', 'hideApp'].forEach(function (k) { if (typeof o[k] === 'boolean') out[k] = o[k]; });
+    ['ipTv', 'ipRadio'].forEach(function (k) { var v = cleanIp(o[k], k === 'ipRadio'); if (v) out[k] = v; });
+    if (Array.isArray(o.myRadio)) out.myRadio = o.myRadio.filter(function (c) { return c && okUrl(c.u) && typeof c.n === 'string'; }).slice(0, 300).map(function (c) {
+      var r = { n: c.n.slice(0, 60), u: c.u, l: okUrl(c.l) ? c.l : '', g: typeof c.g === 'string' ? c.g.slice(0, 40) : '', r: 1 };
+      if (typeof c.c === 'string') r.c = c.c.slice(0, 12); if (typeof c.b === 'number' && c.b > 0) r.b = Math.round(c.b);
+      if (c.h) r.h = 1; if (typeof c.id === 'string' && /^[0-9a-f-]{36}$/i.test(c.id)) r.id = c.id; if (typeof c.t === 'string') r.t = c.t.slice(0, 60);
+      return r;
+    });
+    return out;
+  }
+  // Saved list-view filters: { f: { country, language, category }, mode, pl }
+  function cleanIp(o, radio) {
+    if (!o || typeof o !== 'object' || !o.f || typeof o.f !== 'object') return null;
+    var okRq = function (q) { return typeof q === 'string' && q.length < 300 && /^[A-Za-z0-9=&%._+-]*$/.test(q); };
+    var out = { f: { country: null, language: null, category: null }, mode: ['filter', 'mine', 'pl'].indexOf(o.mode) >= 0 ? o.mode : 'filter', pl: o.pl >= 0 && o.pl < 21 ? Math.floor(o.pl) : 0 };
+    ['country', 'language', 'category'].forEach(function (d) {
+      var v = o.f[d]; if (!v || typeof v.name !== 'string') return;
+      var r = { name: v.name.slice(0, 60) };
+      if (typeof v.count === 'number') r.count = v.count;
+      if (radio) { if (okRq(v.rq)) r.rq = v.rq; else if (Array.isArray(v.rq) && v.rq.length < 5 && v.rq.every(okRq)) r.rq = v.rq.slice(); else return; }
+      else { if (typeof v.url === 'string' && /^[a-z_]+\/[a-z_-]+\.m3u$/.test(v.url)) r.url = v.url; else return; }
+      out.f[d] = r;
+    });
     return out;
   }
   function validCustom(c) {
@@ -530,6 +666,7 @@ svg{width:1em;height:1em;flex:none}
   function itemsFor(cat) {
     if (cat === 'fav') return state.favs.map(byId).filter(Boolean);
     if (cat === 'live') return state.myCh;
+    if (cat === 'radio') return state.myRadio;
     return allItems().filter(function (i) { return i.cat === cat && state.hidden.indexOf(i.id) < 0; });
   }
   function visibleCats() { return state.catOrder.map(catById).filter(function (c) { return c && state.catHidden.indexOf(c.id) < 0; }); }
@@ -616,22 +753,26 @@ svg{width:1em;height:1em;flex:none}
 
   function renderMain() {
     var main = $('#main'); var html = '';
+    pvStop();
     if (!navigator.onLine) html += '<div class="offline-bar" role="alert">You are offline. Websites will not open until the TV reconnects to Wi-Fi.</div>';
     if (state.view === 'home') {
       html += heroHTML();
       visibleCats().forEach(function (c) {
-        if (c.id === 'live') return; // Live TV has its own tab only
+        if (c.id === 'live' || c.id === 'radio') return; // Live TV and Radio have their own tabs only
         var items = itemsFor(c.id);
         if (items.length || c.id === 'fav') html += sectionHTML(c, items, false);
       });
     } else {
       var c = catById(state.view);
       if (!c || state.catHidden.indexOf(c.id) >= 0) { state.view = 'home'; return renderMain(); }
-      html += c.id === 'live' ? liveHTML() : sectionHTML(c, itemsFor(c.id), true);
+      lvPick();
+      html += isLv() ? liveHTML() : sectionHTML(c, itemsFor(c.id), true);
     }
     main.innerHTML = html;
     main._tt = 0;
-    if (state.view === 'live') afterLiveRender();
+    main.classList.toggle('ip-on', ipOn());
+    if (ipOn()) ipAfter();
+    else if (isLv()) afterLiveRender();
   }
 
   /* ================= LIVE TV: sources & rules ================= */
@@ -696,6 +837,7 @@ svg{width:1em;height:1em;flex:none}
       tags.forEach(function (t) { t = t.toLowerCase(); if (t.indexOf('geo') >= 0) ch.geo = 1; if (t.indexOf('24/7') >= 0) ch.n247 = 1; });
       var ua = opt.ua || a['http-user-agent'], rf = opt.rf || a['http-referrer'];
       if (ua) ch.ua = ua.slice(0, 300); if (rf) ch.rf = rf.slice(0, 300);
+      m = /\.([a-z]{2})(?:@|$)/i.exec(a['tvg-id'] || ''); if (m) ch.cc = m[1].toLowerCase();
       ch.k = fold(ch.n + ' ' + ch.g); // search key, made here so it is spread over the reading slices
       p.out.push(ch);
     };
@@ -773,11 +915,11 @@ svg{width:1em;height:1em;flex:none}
     };
   })();
   function absUrl(u) { try { return new URL(u, location.href).href; } catch (e) { return u; } }
-  function getText(url, onProg, done) {
+  function getText(url, onProg, done, timeoutMs) {
     var x = new XMLHttpRequest(), finished = false;
     var end = function (err, txt) { if (finished) return; finished = true; done(err, txt); };
     try {
-      x.open('GET', url, true); x.timeout = 60000;
+      x.open('GET', url, true); x.timeout = timeoutMs || 60000;
       x.onprogress = function (e) { if (onProg && e.lengthComputable) onProg(e.loaded / e.total); };
       x.onload = function () { if (x.status >= 200 && x.status < 300 || (x.status === 0 && x.responseText)) end(null, x.responseText); else end('http ' + x.status); };
       x.onerror = function () { end(navigator.onLine === false ? 'offline' : 'blocked'); };
@@ -818,14 +960,19 @@ svg{width:1em;height:1em;flex:none}
   }
 
   /* ================= LIVE TV: channel state (saved, not working) ================= */
-  function isMine(u) { for (var i = 0; i < state.myCh.length; i++) if (state.myCh[i].u === u) return true; return false; }
+  function isMine(u) {
+    for (var i = 0; i < state.myCh.length; i++) if (state.myCh[i].u === u) return true;
+    for (var j = 0; j < state.myRadio.length; j++) if (state.myRadio[j].u === u) return true;
+    return false;
+  }
   function toggleMine(ch) {
     if (!ch) return;
-    for (var i = 0; i < state.myCh.length; i++) if (state.myCh[i].u === ch.u) { state.myCh.splice(i, 1); save(); toast('Removed ' + ch.n + ' from My channels'); return false; }
-    if (state.myCh.length >= 300) { toast('My channels is full (300). Remove some first.'); return false; }
+    var list = ch.r ? state.myRadio : state.myCh, where = ch.r ? 'My stations' : 'My channels';
+    for (var i = 0; i < list.length; i++) if (list[i].u === ch.u) { list.splice(i, 1); save(); toast('Removed ' + ch.n + ' from ' + where); return false; }
+    if (list.length >= 300) { toast(where + ' is full (300). Remove some first.'); return false; }
     var c = { n: ch.n, u: ch.u, l: ch.l || '', g: ch.g || '' };
-    ['q', 'geo', 'n247', 'ua', 'rf'].forEach(function (k) { if (ch[k]) c[k] = ch[k]; });
-    state.myCh.push(c); save(); toast('Saved ' + ch.n + ' to My channels');
+    ['q', 'geo', 'n247', 'ua', 'rf', 'cc', 'r', 'c', 'b', 'h', 'id', 't'].forEach(function (k) { if (ch[k]) c[k] = ch[k]; });
+    list.push(c); save(); toast('Saved ' + ch.n + ' to ' + where);
     return true;
   }
   function isDead(u) { var t = state.dead[u]; return !!t && Date.now() - t < DEAD_TTL; }
@@ -841,14 +988,23 @@ svg{width:1em;height:1em;flex:none}
   // Working channels first, "Not working" ones last (or hidden, if that setting is on).
   function arrange(items) {
     var ok = [], bad = [];
-    for (var i = 0; i < items.length; i++) (isDead(items[i].u) ? bad : ok).push(items[i]);
+    for (var i = 0; i < items.length; i++) { if (state.hideApp && appOnly(items[i])) continue; (isDead(items[i].u) ? bad : ok).push(items[i]); }
     return state.hideDead ? ok : ok.concat(bad);
   }
-  function appOnly(ch) { return isMixed(ch.u); }
+  // Radio streams are still tried on the https page (plain audio as it is, HLS at its https:// address),
+  // so they are only called "App only" once they actually fail there.
+  var mixedFailed = {};
+  function appOnly(ch) { return isMixed(ch.u) && (!ch.r || !!mixedFailed[ch.u]); }
 
   /* ================= LIVE TV: screens ================= */
   // LIVE.screen: 'home' | 'list' | 'browse' | 'search' | 'mine'. LIVE.stack remembers where Back goes.
-  var LIVE = { screen: 'home', stack: [], list: null, browse: null, search: null, meta: null, metaErr: null, counts: null, full: null, playlistSkipped: 0 };
+  // Live TV and Radio share these screens. Each tab has its own state; LIVE points at the one on screen.
+  var LIVE_TV = { screen: 'home', stack: [], list: null, browse: null, search: null, meta: null, metaErr: null, counts: null, full: null, playlistSkipped: 0 };
+  var LIVE_RADIO = { radio: true, screen: 'home', stack: [], list: null, browse: null, search: null, meta: null };
+  var LIVE = LIVE_TV;
+  function isLv() { return state.view === 'live' || state.view === 'radio'; }
+  function lvPick() { LIVE = state.view === 'radio' ? LIVE_RADIO : LIVE_TV; return LIVE; }
+  function lvWord(many) { return LIVE.radio ? (many ? 'stations' : 'station') : (many ? 'channels' : 'channel'); }
   function liveSnapshot() { return { screen: LIVE.screen, list: LIVE.list, browse: LIVE.browse, fid: currentFid() }; }
   function liveGo(screen, data) {
     LIVE.stack.push(liveSnapshot());
@@ -897,16 +1053,19 @@ svg{width:1em;height:1em;flex:none}
     var dead = isDead(ch.u), app = appOnly(ch), mine = isMine(ch.u);
     var tags = (dead ? '<i class="t bad">Not working</i>' : '') + (app ? '<i class="t app">App only</i>' : '') +
       (ch.geo ? '<i class="t">Geo-blocked</i>' : '') + (ch.n247 ? '<i class="t">Not 24/7</i>' : '');
+    var sub = ch.r ? [ch.g, radioFormat(ch)].filter(Boolean).join(' · ') : (ch.g || '') + (ch.q ? ' · ' + ch.q : '');
     return '<a class="tile f pg-t ch-tile' + (dead ? ' dead' : '') + '" href="#" role="button" data-act="ch" data-arg="' + i + '" data-group="lv-grid" data-fid="ch:' + i + '" style="--h:' + hueOf(ch.g || ch.n) + '"' +
-      ' aria-label="' + esc(ch.n + ', live channel' + (dead ? ', not working' : '') + (app ? ', app only' : '') + (mine ? ', saved' : '')) + '">' +
-      '<span class="tile-top"><span class="tile-ico lt"><b>' + esc(letterOf(ch.n)) + '</b>' + (ch.l ? '<img alt="" referrerpolicy="no-referrer" data-src="' + esc(ch.l) + '">' : '') + '</span><span class="badge live">Live</span></span>' +
+      ' aria-label="' + esc(ch.n + (ch.r ? ', radio station' : ', live channel') + (dead ? ', not working' : '') + (app ? ', app only' : '') + (mine ? ', saved' : '')) + '">' +
+      '<span class="tile-top"><span class="tile-ico lt"><b>' + esc(letterOf(ch.n)) + '</b>' + (ch.l ? '<img alt="" referrerpolicy="no-referrer" data-src="' + esc(ch.l) + '">' : '') + '</span>' +
+      (ch.r ? '<span class="badge radio">Radio</span>' : '<span class="badge live">Live</span>') + '</span>' +
       '<span class="tile-name">' + esc(ch.n) + '</span>' +
-      (tags ? '<span class="tile-tags">' + tags + '</span>' : '<span class="tile-sub">' + esc((ch.g || '') + (ch.q ? ' · ' + ch.q : '')) + '</span>') +
+      (tags ? '<span class="tile-tags">' + tags + '</span>' : '<span class="tile-sub">' + esc(sub) + '</span>') +
       (mine ? '<span class="tile-fav">' + icon('star') + '</span>' : '') + '</a>';
   }
   function browseTileHTML(b, i) {
-    return '<a class="tile f pg-t br-tile" href="#" role="button" data-act="br" data-arg="' + i + '" data-group="lv-grid" data-fid="ch:' + i + '" style="--h:' + hueOf(b.name) + '" aria-label="' + esc(b.name + (b.count != null ? ', ' + b.count + ' channels' : '')) + '">' +
-      '<span class="tile-name">' + esc(b.name) + '</span><span class="tile-sub">' + (b.count != null ? b.count + (b.count === 1 ? ' channel' : ' channels') : 'Channels') + '</span></a>';
+    var one = lvWord(false), many = lvWord(true);
+    return '<a class="tile f pg-t br-tile" href="#" role="button" data-act="br" data-arg="' + i + '" data-group="lv-grid" data-fid="ch:' + i + '" style="--h:' + hueOf(b.name) + '" aria-label="' + esc(b.name + (b.count != null ? ', ' + b.count + ' ' + many : '')) + '">' +
+      '<span class="tile-name">' + esc(b.name) + '</span><span class="tile-sub">' + (b.count != null ? b.count + ' ' + (b.count === 1 ? one : many) : many.charAt(0).toUpperCase() + many.slice(1)) + '</span></a>';
   }
   function pagerHTML(pg, total) {
     var pages = Math.max(1, Math.ceil(total / PAGE));
@@ -919,7 +1078,15 @@ svg{width:1em;height:1em;flex:none}
   function pagedHTML(pg) {
     var items = pg.view || [], start = pg.page * PAGE, slice = items.slice(start, start + PAGE);
     var tile = pg.kind === 'browse' ? browseTileHTML : channelTileHTML;
-    return '<div class="grid lv-grid">' + slice.map(function (x, j) { return tile(x, start + j); }).join('') + '</div>' + pagerHTML(pg, items.length);
+    return '<div class="grid lv-grid">' + slice.map(function (x, j) { return tile(x, start + j); }).join('') + '</div>' + pagerHTML(pg, items.length) + moreHTML(pg);
+  }
+  // Radio lists arrive 500 stations at a time (most listened first); this fetches the next 500.
+  function moreHTML(pg) {
+    if (!pg.more) return '';
+    var left = pg.total ? Math.max(0, pg.total - pg.offset) : 0;
+    return '<div class="pager lv-more"><button class="btn f" data-act="lv-more" data-group="lv-more" data-fid="lv:more">' + icon('plus') +
+      (pg.loadingMore ? 'Loading more stations…' : 'Load ' + RB_BATCH + ' more stations') + '</button>' +
+      '<span class="pg-hint">' + (left ? 'About ' + left + ' more in this list · ' : '') + 'CH + on the last page also loads more</span></div>';
   }
   function renderPaged(focusIdx) {
     var pg = paged(), box = $('#lvPaged'); if (!pg || !box) return;
@@ -928,44 +1095,49 @@ svg{width:1em;height:1em;flex:none}
   }
   function headHTML(title, note) {
     return '<div class="sec-head lv-head"><h2>' + esc(title) + '</h2>' + (note ? '<span class="sec-note">' + note + '</span>' : '') +
-      (LIVE.screen !== 'home' ? '<span class="sec-note lv-back">Back: ' + esc(LIVE.stack.length > 1 ? 'previous screen' : 'Live TV') + '</span>' : '') + '</div>';
+      (LIVE.screen !== 'home' ? '<span class="sec-note lv-back">Back: ' + esc(LIVE.stack.length > 1 ? 'previous screen' : LIVE.radio ? 'Radio' : 'Live TV') + '</span>' : '') + '</div>';
   }
   function liveHTML() {
-    var s = LIVE.screen, html = '<section class="sec live" aria-label="Live TV">';
+    if (state.lvView === 'list') return ipHTML();
+    var s = LIVE.screen, R = !!LIVE.radio, one = lvWord(false), many = lvWord(true), tab = R ? 'Radio' : 'Live TV';
+    var html = '<section class="sec live' + (R ? ' radio' : '') + '" aria-label="' + tab + '">';
     if (s === 'home') {
-      html += headHTML('Live TV', 'Free public channels from iptv-org and your own playlists · free, legal streams only');
-      html += '<div class="grid lv-home">' + QUICK.map(function (q) {
+      html += headHTML(tab, R ? 'About 60,000 free internet radio stations from the Radio Browser directory · free, legal streams only'
+        : 'Free public channels from iptv-org and your own playlists · free, legal streams only');
+      html += '<div class="grid lv-home">' + (R ? RQUICK : QUICK).map(function (q) {
+        var sub = q.sub || (q.browse ? 'Every ' + (q.label || q.browse) + ' with ' + many + ' counts' : R ? 'Most listened first' : 'Free channels · iptv-org');
         return '<a class="tile f lv-big" href="#" role="button" data-act="lv" data-arg="' + q.id + '" data-group="lv-home" data-fid="lv:' + q.id + '" style="--h:' + q.hue + '">' +
           '<span class="tile-top"><span class="tile-ico">' + icon(q.icon) + '</span></span>' +
           (q.ar ? '<span class="tile-ar" lang="ar" dir="rtl">' + q.ar + '</span>' : '') +
-          '<span class="tile-name">' + esc(q.name) + '</span><span class="tile-sub">' + esc(q.sub || (q.browse ? 'Every ' + q.browse + ' with channel counts' : 'Free channels · iptv-org')) + '</span></a>';
+          '<span class="tile-name">' + esc(q.name) + '</span><span class="tile-sub">' + esc(sub) + '</span></a>';
       }).join('') + '</div>';
     } else if (s === 'list') {
       var L = LIVE.list;
-      var note = L.status === 'ready' ? L.view.length + ' channels' + (L.skipped ? ' · ' + L.skipped + ' paid/premium names skipped' : '') + (state.hideDead && L.hiddenDead ? ' · ' + L.hiddenDead + ' not working hidden' : '') : '';
+      var count = L.more ? L.view.length + ' ' + many + ' loaded' + (L.total ? ' of about ' + L.total : '') + ' · more below' : L.view.length + ' ' + many;
+      var note = L.status === 'ready' ? count + (L.skipped ? ' · ' + L.skipped + (R ? ' adult names skipped' : ' paid/premium names skipped') : '') + (state.hideDead && L.hiddenDead ? ' · ' + L.hiddenDead + ' not working hidden' : '') : '';
       html += headHTML(L.title, note);
       if (L.status === 'loading') html += progressHTML(L);
       else if (L.status === 'error') html += '<div class="live-prob" role="alert">' + L.err + '</div><div class="empty"><button class="btn f" data-act="lv-retry" data-group="lv-x" data-fid="lv:retry">Try again</button></div>';
-      else if (!L.view.length) html += '<div class="empty"><span>' + (L.items.length ? 'All channels here are marked “Not working”. Turn off “Hide channels that don\'t work” in Settings to see them.' : 'No channels in this list.') + '</span></div>';
+      else if (!L.view.length) html += '<div class="empty"><span>' + (L.items.length ? 'All ' + many + ' here are marked “Not working”. Turn off “Hide ones that don\'t work” in Settings to see them.' : 'No ' + many + ' in this list.') + '</span></div>';
       html += '<div id="lvPaged">' + (L.status === 'ready' ? pagedHTML(L) : '') + '</div>';
     } else if (s === 'browse') {
       var B = LIVE.browse;
-      html += headHTML(B.title, B.status === 'ready' ? B.view.length + ' to choose from' + (B.kind === 'country' && !LIVE.counts ? ' · counting channels…' : '') : '');
+      html += headHTML(B.title, B.status === 'ready' ? B.view.length + ' to choose from' + (B.what === 'country' && !R && !LIVE.counts ? ' · counting channels…' : '') : '');
       if (B.status === 'loading') html += progressHTML(B);
       if (B.status === 'error') html += '<div class="live-prob" role="alert">' + B.err + '</div><div class="empty"><button class="btn f" data-act="lv-retry" data-group="lv-x" data-fid="lv:retry">Try again</button></div>';
       html += '<div id="lvPaged">' + (B.status === 'ready' ? pagedHTML(B) : '') + '</div>';
     } else if (s === 'search') {
       var S = LIVE.search;
-      html += headHTML('Search', 'Searches every channel name in the iptv-org list (about 11,000)');
-      html += '<div class="lv-search">' + fieldHTML('q', 'Channel name', S.q, 'search', 'e.g. Al Jazeera, Quran, BBC', false) + '</div>';
+      html += headHTML('Search', R ? 'Searches every station name in the Radio Browser directory (about 60,000)' : 'Searches every channel name in the iptv-org list (about 11,000)');
+      html += '<div class="lv-search">' + fieldHTML('q', R ? 'Station name' : 'Channel name', S.q, 'search', R ? 'e.g. BBC Radio 4, Quran, Jazz FM' : 'e.g. Al Jazeera, Quran, BBC', false) + '</div>';
       html += S.status === 'loading' ? progressHTML(S) : '<div class="lv-status" id="lvStatus"><span id="lvStatusText">' + esc(S.msg || '') + '</span></div>';
       html += '<div id="lvPaged">' + (S.view && S.view.length ? pagedHTML(S) : '') + '</div>';
     } else if (s === 'mine') {
-      var M = LIVE.mine;
-      html += headHTML('My channels', M.view.length ? M.view.length + ' saved · press the red button on any channel to save or remove it' : '');
-      if (!M.view.length) html += '<div class="empty"><span>No saved channels yet. Highlight a channel anywhere in Live TV and press the red button (or Save in the player).</span></div>';
+      var M = LIVE.mine, mineName = R ? 'My stations' : 'My channels';
+      html += headHTML(mineName, M.view.length ? M.view.length + ' saved · press the red button on any ' + one + ' to save or remove it' : '');
+      if (!M.view.length) html += '<div class="empty"><span>No saved ' + many + ' yet. Highlight a ' + one + ' anywhere in ' + tab + ' and press the red button (or Save in the player).</span></div>';
       html += '<div id="lvPaged">' + pagedHTML(M) + '</div>';
-      html += '<div class="sec-head"><h2 class="live-h">Your playlists</h2><span class="sec-note">playlist.m3u and the addresses in Settings › Live TV</span></div>' +
+      if (!R) html += '<div class="sec-head"><h2 class="live-h">Your playlists</h2><span class="sec-note">playlist.m3u and the addresses in Settings › Live TV</span></div>' +
         '<div class="row sx">' + mySources().map(function (src, i) {
           return '<a class="tile f" href="#" role="button" data-act="lv-src" data-arg="' + i + '" data-group="lv-src" data-fid="src:' + i + '" style="--h:' + hueOf(src.name) + '">' +
             '<span class="tile-top"><span class="tile-ico">' + icon('link') + '</span><span class="badge">Playlist</span></span><span class="tile-name">' + esc(src.name) + '</span><span class="tile-sub">' + esc(src.sub) + '</span></a>';
@@ -985,7 +1157,7 @@ svg{width:1em;height:1em;flex:none}
       var src = img.getAttribute('data-src'); if (!src) return; img.removeAttribute('data-src');
       img.onload = function () {
         // imgur answers removed images with a 161×81 placeholder picture: treat that as "no logo".
-        if (/imgur\.com/i.test(src) && img.naturalWidth === 161 && img.naturalHeight === 81) { if (img.parentNode) img.parentNode.removeChild(img); return; }
+        if (imgurGone(src, img)) { if (img.parentNode) img.parentNode.removeChild(img); return; }
         img.className = 'ok';
       };
       img.onerror = function () { if (img.parentNode) img.parentNode.removeChild(img); };
@@ -996,6 +1168,7 @@ svg{width:1em;height:1em;flex:none}
       Array.prototype.forEach.call(imgs, function (i) { logoObs.observe(i); });
     } else Array.prototype.forEach.call(imgs, load);
   }
+  function imgurGone(src, img) { return /imgur\.com/i.test(src) && ((img.naturalWidth === 161 && img.naturalHeight === 81) || (img.naturalWidth === 336 && img.naturalHeight === 478)); }
   function hueOf(s) { var h = 0; s = String(s || ''); for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360; return h; }
 
   // ---- opening screens ----
@@ -1006,10 +1179,11 @@ svg{width:1em;height:1em;flex:none}
   }
   function loadInto(L) {
     L.status = 'loading'; L.pct = 0;
+    if (L.rq != null) { radioLoad(L, false); return; }
     loadList(L.url, function (f, label) { setProgress(L, f, label); }, function (err, items, skipped) {
       L.items = items || []; L.skipped = skipped || 0;
       if (err) { L.status = 'error'; L.err = listError(err, absUrl(L.url)); } else { L.status = 'ready'; refreshView(L); }
-      if (LIVE.list === L && LIVE.screen === 'list' && state.view === 'live') { var f = currentFid(); renderMain(); afterLiveRender(); if (!player.open) restoreFocus(f && /^(ch|lv|pg):/.test(f) && f !== 'lv:retry' ? f : firstLiveFocus()); }
+      if (LIVE.list === L && LIVE.screen === 'list' && isLv()) { var f = currentFid(); renderMain(); afterLiveRender(); if (!player.open) restoreFocus(f && /^(ch|lv|pg):/.test(f) && f !== 'lv:retry' ? f : firstLiveFocus()); }
     });
   }
   function refreshView(pg) {
@@ -1020,25 +1194,28 @@ svg{width:1em;height:1em;flex:none}
     if (pg.page >= pages) pg.page = pages - 1;
   }
   function openMine() {
-    LIVE.mine = { kind: 'mine', items: state.myCh, view: [], page: 0 };
+    LIVE.mine = { kind: 'mine', items: LIVE.radio ? state.myRadio : state.myCh, view: [], page: 0 };
     refreshView(LIVE.mine);
     liveGo('mine');
   }
   function openSearch() {
-    if (!LIVE.search) LIVE.search = { kind: 'search', q: '', status: 'idle', msg: 'Press OK on the box above to type. The full list (about 2.6 MB) downloads the first time you search.', view: [], page: 0 };
+    if (!LIVE.search) LIVE.search = { kind: 'search', q: '', status: 'idle', view: [], page: 0,
+      msg: LIVE.radio ? 'Press OK on the box above to type a station name. Results appear as you type.' : 'Press OK on the box above to type. The full list (about 2.6 MB) downloads the first time you search.' };
     liveGo('search');
   }
   // Browse lists come from iptv-org's PLAYLISTS.md (names, links and counts for categories and languages).
   // Country counts come from index.country.m3u, counted once and kept for 24 hours (only the counts are kept).
   function openBrowse(kind) {
+    if (LIVE.radio) { radioBrowse(kind); return; }
     var B = { kind: 'browse', what: kind, title: 'Browse by ' + kind, status: 'loading', pct: 0, label: 'Downloading the list of ' + kind + (kind === 'country' ? 'ies' : kind === 'category' ? '' : 's'), view: [], page: 0 };
     if (kind === 'category') B.label = 'Downloading the list of categories';
     liveGo('browse', B);
     loadBrowse(B);
   }
   function loadBrowse(B) {
+    if (B.radio) { radioBrowseLoad(B); return; }
     B.status = 'loading';
-    var redraw = function () { if (LIVE.browse === B && LIVE.screen === 'browse' && state.view === 'live' && !player.open) { var f = currentFid(); renderMain(); afterLiveRender(); restoreFocus(f && /^(ch|pg):/.test(f) ? f : firstLiveFocus()); } };
+    var redraw = function () { if (LIVE.browse === B && LIVE.screen === 'browse' && isLv() && !player.open) { var f = currentFid(); renderMain(); afterLiveRender(); restoreFocus(f && /^(ch|pg):/.test(f) ? f : firstLiveFocus()); } };
     loadMeta(function (f) { setProgress(B, f); }, function (err) {
       if (err) { B.status = 'error'; B.err = listError(err, IPTV_META); redraw(); return; }
       B.items = LIVE.meta[B.what] || []; B.view = B.items; B.status = 'ready';
@@ -1047,7 +1224,7 @@ svg{width:1em;height:1em;flex:none}
     });
   }
   function loadMeta(onProg, done) {
-    if (LIVE.meta) { done(null); return; }
+    if (LIVE_TV.meta) { done(null); return; }
     fetchText(IPTV_META, onProg, function (err, txt) {
       if (err) { done(err); return; }
       var meta = { category: [], language: [], country: [] }, m;
@@ -1060,13 +1237,13 @@ svg{width:1em;height:1em;flex:none}
       while ((m = crow.exec(txt))) meta.country.push({ name: m[1], url: 'countries/' + m[2] + '.m3u' });
       if (!meta.category.length && !meta.country.length) { done('format'); return; }
       ['category', 'language', 'country'].forEach(function (k) { meta[k].sort(function (a, b) { return a.name < b.name ? -1 : a.name > b.name ? 1 : 0; }); });
-      LIVE.meta = meta; done(null);
+      LIVE_TV.meta = meta; done(null);
     });
   }
   function loadCountryCounts(done) {
     var key = absUrl(IPTV + 'index.country.m3u') + '#counts';
     CACHE.get(key, function (txt) {
-      if (txt) { try { LIVE.counts = JSON.parse(txt); done(); return; } catch (e) {} }
+      if (txt) { try { LIVE_TV.counts = JSON.parse(txt); done(); return; } catch (e) {} }
       getText(absUrl(IPTV + 'index.country.m3u'), null, function (err, big) {
         if (err) { done(); return; }
         var counts = {}, re = /group-title="([^"]*)"/g, m;
@@ -1074,11 +1251,754 @@ svg{width:1em;height:1em;flex:none}
           var t0 = Date.now();
           while (Date.now() - t0 < 30 && (m = re.exec(big))) counts[m[1]] = (counts[m[1]] || 0) + 1;
           if (m) { setTimeout(step, 0); return; }
-          big = null; LIVE.counts = counts; CACHE.put(key, JSON.stringify(counts)); done();
+          big = null; LIVE_TV.counts = counts; CACHE.put(key, JSON.stringify(counts)); done();
         })();
       });
     });
   }
+  /* ================= RADIO: the Radio Browser directory ================= */
+  // radio-browser.info is a free, community-run list of about 60,000 internet radio stations, with the stream
+  // addresses the stations publish themselves. Its servers let other websites read it (CORS), so it works in
+  // the browser and in the installed app. Lists come most-listened first, 500 at a time.
+  var RB = window.SUPERTV_RADIO_API ? [].concat(window.SUPERTV_RADIO_API) :
+    (Math.random() < 0.5 ? ['https://de1.api.radio-browser.info', 'https://de2.api.radio-browser.info'] : ['https://de2.api.radio-browser.info', 'https://de1.api.radio-browser.info']).concat(['https://all.api.radio-browser.info']);
+  var RB_BATCH = 500, RB_TIMEOUT = 15000, RB_SEARCH = 300;
+  var RQUICK = [
+    { id: 'mine', name: 'My stations', sub: 'Stations you saved', icon: 'star', hue: 45 },
+    { id: 'all', name: 'All stations', sub: 'Every station, most listened first', rq: '', icon: 'radio', hue: 12 },
+    { id: 'uk', name: 'United Kingdom', rq: 'countrycode=GB', icon: 'globe', hue: 220 },
+    { id: 'quran', name: 'Qur\'an & Islamic', rq: ['tag=quran&tagExact=true', 'tag=islamic&tagExact=true', 'tag=islam&tagExact=true'], icon: 'moon', hue: 160, ar: 'القرآن الكريم' },
+    { id: 'ara', name: 'Arabic', rq: 'language=arabic&languageExact=true', icon: 'book', hue: 30, ar: 'عربي' },
+    { id: 'news', name: 'News', rq: 'tag=news&tagExact=true', icon: 'tv', hue: 355 },
+    { id: 'talk', name: 'Talk', rq: 'tag=talk&tagExact=true', icon: 'wave', hue: 200 },
+    { id: 'classical', name: 'Classical', rq: 'tag=classical&tagExact=true', icon: 'wave', hue: 280 },
+    { id: 'jazz', name: 'Jazz', rq: 'tag=jazz&tagExact=true', icon: 'wave', hue: 25 },
+    { id: 'kids', name: 'Children', rq: ['tag=kids&tagExact=true', 'tag=children&tagExact=true'], icon: 'kids', hue: 50 },
+    { id: 'b-country', name: 'Browse by country', browse: 'country', icon: 'globe', hue: 200 },
+    { id: 'b-tag', name: 'Browse by genre', browse: 'tag', label: 'genre', icon: 'wave', hue: 250 },
+    { id: 'b-language', name: 'Browse by language', browse: 'language', icon: 'book', hue: 15 },
+    { id: 'search', name: 'Search', sub: 'All station names', icon: 'search', hue: 190 }
+  ];
+  var RADIO_ADULT = /\b(sex|sexy|nsfw|hentai|erotica)\b/i; // on top of the NSFW names used for Live TV
+  var RB_JUNK_TAGS = /^(radio|fm|am|music|musica|música|online|internet|web ?radio|station|estación|estacion|live|moi merino|entretenimiento|norteamérica|latinoamérica|américa)$/i;
+  var CC_NAMES = { GB: 'United Kingdom', US: 'United States', RU: 'Russia', IR: 'Iran', KR: 'South Korea', KP: 'North Korea', SY: 'Syria', TZ: 'Tanzania', VE: 'Venezuela', LA: 'Laos', MD: 'Moldova', MK: 'North Macedonia', TW: 'Taiwan', CD: 'DR Congo', CG: 'Congo', VA: 'Vatican City', FK: 'Falkland Islands', CC: 'Cocos Islands', UM: 'US Minor Outlying Islands', SH: 'Saint Helena', MF: 'Saint Martin', SX: 'Sint Maarten', PS: 'Palestine' };
+  function countryName(cc, name) {
+    cc = String(cc || '').toUpperCase();
+    if (CC_NAMES[cc]) return CC_NAMES[cc];
+    return String(name || cc).replace(/^The\s+/i, '').replace(/\s(And|Of|The)(?=\s)/g, function (m) { return m.toLowerCase(); });
+  }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  function trim(s) { return String(s).replace(/^\s+|\s+$/g, ''); }
+  function radioFormat(ch) {
+    var f = ch.h ? 'HLS' : ch.c ? ch.c.split(',')[0] : '';
+    return trim(f + (ch.b ? ' ' + ch.b + ' kbps' : ''));
+  }
+  // One Radio Browser station -> the compact form used everywhere. false = skipped (adult), null = unusable.
+  function radioCh(s) {
+    if (!s || typeof s.name !== 'string') return null;
+    var u = s.url_resolved || s.url;
+    if (typeof u !== 'string' || !/^https?:\/\//i.test(u) || u.length > 1000) return null;
+    var name = trim(s.name.replace(/\s+/g, ' ')), tags = String(s.tags || '');
+    if (!name) return null;
+    if (NSFW.test(name) || NSFW.test(tags) || RADIO_ADULT.test(name) || RADIO_ADULT.test(tags)) return false;
+    var ch = { n: name.slice(0, 60), u: u, l: typeof s.favicon === 'string' && /^https?:\/\//i.test(s.favicon) && s.favicon.length < 1000 ? s.favicon : '', g: countryName(s.countrycode, s.country).slice(0, 40), r: 1, v: +s.clickcount || 0 };
+    var codec = String(s.codec || '').toUpperCase(); if (codec && codec !== 'UNKNOWN') ch.c = codec.slice(0, 12);
+    if (+s.bitrate > 0) ch.b = Math.round(+s.bitrate);
+    if (s.hls) ch.h = 1;
+    if (typeof s.stationuuid === 'string' && /^[0-9a-f-]{36}$/i.test(s.stationuuid)) ch.id = s.stationuuid;
+    var t = tags.split(',').map(trim).filter(Boolean).slice(0, 3).join(', '); if (t) ch.t = t.slice(0, 60);
+    return ch;
+  }
+  // Ask the directory, trying the next server if one is down. Small lists (countries, genres, languages)
+  // are kept for 24 hours; station lists only for this session.
+  function radioGet(path, useCache, onProg, done) {
+    var key = 'radio-browser:' + path, lastErr = null;
+    var tryServer = function (i) {
+      if (i >= RB.length) { done(lastErr || 'blocked'); return; }
+      getText(RB[i] + path, onProg, function (err, txt) {
+        var data = null;
+        if (!err) { try { data = JSON.parse(txt); } catch (e) { err = 'format'; } }
+        if (!err && !Array.isArray(data)) err = 'format';
+        if (err) { lastErr = err; if (err === 'offline') { done(err); return; } tryServer(i + 1); return; }
+        if (i > 0) RB.unshift(RB.splice(i, 1)[0]); // keep using the server that answered
+        done(null, data);
+        if (useCache) setTimeout(function () { CACHE.put(key, txt); }, 1500);
+      }, RB_TIMEOUT);
+    };
+    if (!useCache) { tryServer(0); return; }
+    CACHE.get(key, function (txt) {
+      if (txt != null) { try { var d = JSON.parse(txt); if (Array.isArray(d)) { if (onProg) onProg(1); done(null, d); return; } } catch (e) {} }
+      tryServer(0);
+    });
+  }
+  function radioError(err) {
+    if (err === 'offline') return 'The TV is offline. Check the network, then try again.';
+    if (err === 'timeout') return 'The Radio Browser directory took too long to answer. Try again.';
+    return 'The Radio Browser directory could not be reached (' + esc(err || 'error') + '). Its servers may be busy: try again in a minute.';
+  }
+  var RLISTS = {}; // station batches already downloaded this session: path -> stations
+  function stationsPath(q, off) { return '/json/stations/search?' + (q ? q + '&' : '') + 'hidebroken=true&order=clickcount&reverse=true&limit=' + RB_BATCH + '&offset=' + off; }
+  function openRadioList(title, rq, total) {
+    var L = { kind: 'list', title: title, rq: rq, total: total || 0, status: 'loading', pct: 0, label: 'Downloading stations', items: [], view: [], page: 0 };
+    liveGo('list', L);
+    radioLoad(L, false);
+  }
+  function redrawList(L, fid) {
+    if (LIVE.list !== L || LIVE.screen !== 'list' || !isLv()) return;
+    var f = fid || currentFid(); renderMain(); afterLiveRender();
+    if (!player.open) restoreFocus(f && /^(ch|lv|pg):/.test(f) && f !== 'lv:retry' ? f : firstLiveFocus());
+  }
+  // more = false: the first 500 (or the merged tag lists); more = true: the next 500 of a single list.
+  function radioLoad(L, more) {
+    var qs = typeof L.rq === 'string' ? [L.rq] : L.rq, off = more ? L.offset : 0, left = qs.length, got = [], firstErr = null;
+    if (more) { if (L.loadingMore) return; L.loadingMore = true; }
+    else { L.status = 'loading'; L.pct = 0; L.label = 'Downloading stations'; L.items = []; L.seen = {}; L.skipped = 0; L.offset = 0; L.more = false; }
+    var tok = L.tok = (L.tok || 0) + 1;
+    qs.forEach(function (q) {
+      var path = stationsPath(q, off);
+      var finish = function (err, arr) {
+        if (tok !== L.tok) return;
+        if (err) firstErr = firstErr || err; else { RLISTS[path] = arr; got.push(arr); }
+        if (--left) return;
+        L.loadingMore = false;
+        if (!got.length) {
+          if (more) { toast('More stations could not be downloaded. Try again.'); if (L.onDone) L.onDone(); else redrawList(L); return; }
+          L.status = 'error'; L.err = radioError(firstErr); if (L.onDone) L.onDone(); else redrawList(L); return;
+        }
+        var fresh = [], full = false;
+        got.forEach(function (a) {
+          if (a.length >= RB_BATCH) full = true;
+          for (var i = 0; i < a.length; i++) {
+            var ch = radioCh(a[i]);
+            if (ch === false) { L.skipped++; continue; }
+            if (!ch || L.seen[ch.u]) continue;
+            L.seen[ch.u] = 1; fresh.push(ch);
+          }
+        });
+        if (qs.length > 1) fresh.sort(function (a, b) { return b.v - a.v; });
+        L.items = L.items.concat(fresh); L.offset = off + RB_BATCH; L.more = qs.length === 1 && full;
+        L.status = 'ready'; refreshView(L);
+        var fid = null;
+        if (more && L.advance) { var pages = Math.ceil(L.view.length / PAGE); if (L.page < pages - 1) { L.page++; fid = 'ch:' + (L.page * PAGE); } }
+        L.advance = false;
+        if (L.onDone) { L.onDone(); return; }
+        redrawList(L, fid);
+      };
+      if (RLISTS[path]) { var cached = RLISTS[path]; setTimeout(function () { finish(null, cached); }, 0); }
+      else radioGet(path, false, qs.length === 1 && !more ? function (f) { setProgress(L, f, 'Downloading stations'); } : null, finish);
+    });
+  }
+  function loadMore(pg, advance) {
+    if (!pg || !pg.more || pg.rq == null || pg.loadingMore) return false;
+    pg.advance = !!advance;
+    var b = $('[data-fid="lv:more"]'); if (b) b.innerHTML = icon('plus') + 'Loading more stations…';
+    toast('Loading ' + RB_BATCH + ' more stations…');
+    radioLoad(pg, true);
+    return true;
+  }
+  function radioBrowse(kind) {
+    var B = { kind: 'browse', radio: true, what: kind, title: 'Browse by ' + (kind === 'tag' ? 'genre' : kind), status: 'loading', pct: 0,
+      label: 'Downloading the list of ' + (kind === 'country' ? 'countries' : kind === 'tag' ? 'genres' : 'languages'), view: [], page: 0 };
+    liveGo('browse', B);
+    radioBrowseLoad(B);
+  }
+  function radioBrowseLoad(B) {
+    B.status = 'loading';
+    var redraw = function () { if (LIVE.browse === B && LIVE.screen === 'browse' && isLv() && !player.open) { var f = currentFid(); renderMain(); afterLiveRender(); restoreFocus(f && /^(ch|pg):/.test(f) ? f : firstLiveFocus()); } };
+    radioOptions(B.what, function (err, out) {
+      if (err) { B.status = 'error'; B.err = radioError(err); redraw(); return; }
+      B.items = out; B.view = out; B.status = 'ready'; redraw();
+    }, function (f) { setProgress(B, f); });
+  }
+  // Countries, genres (tags) or languages with station counts.
+  function radioOptions(what, cb, onProg) {
+    var B = { what: what };
+    var path = B.what === 'country' ? '/json/countries?hidebroken=true'
+      : B.what === 'language' ? '/json/languages?hidebroken=true&order=stationcount&reverse=true'
+      : '/json/tags?hidebroken=true&order=stationcount&reverse=true&limit=600';
+    radioGet(path, true, onProg || null, function (err, arr) {
+      if (err) { cb(err); return; }
+      var out = [];
+      arr.forEach(function (x) {
+        var n = x && typeof x.name === 'string' ? trim(x.name) : '', c = x ? +x.stationcount || 0 : 0;
+        if (!n || !c) return;
+        if (B.what === 'country') {
+          if (typeof x.iso_3166_1 === 'string' && /^[A-Z]{2}$/i.test(x.iso_3166_1)) out.push({ name: countryName(x.iso_3166_1, n), count: c, rq: 'countrycode=' + x.iso_3166_1.toUpperCase() });
+          return;
+        }
+        if (NSFW.test(n) || RADIO_ADULT.test(n)) return;
+        if (B.what === 'language') { if (c >= 10) out.push({ name: cap(n), count: c, rq: 'language=' + encodeURIComponent(n) + '&languageExact=true' }); return; }
+        if (c >= 25 && n.length <= 30 && !RB_JUNK_TAGS.test(n)) out.push({ name: cap(n), count: c, rq: 'tag=' + encodeURIComponent(n) + '&tagExact=true' });
+      });
+      if (B.what !== 'tag') out.sort(function (a, b) { return a.name.localeCompare(b.name); }); // genres stay most-popular first
+      cb(null, out);
+    });
+  }
+  // Search asks the directory itself, so it covers every station without downloading the whole list.
+  function radioSearch(q) {
+    var S = LIVE_RADIO.search; if (!S) return;
+    var t = trim(q), tok = S.tok = (S.tok || 0) + 1;
+    S.q = q;
+    var show = function () { if (LIVE === LIVE_RADIO && LIVE.screen === 'search') { renderSearchStatus(); renderPaged(); } };
+    if (t.length < 2) { S.items = []; S.view = []; S.page = 0; S.msg = t ? 'Type at least 2 letters.' : 'Type a station name.'; show(); return; }
+    S.msg = 'Searching for “' + t + '”…'; if (LIVE === LIVE_RADIO) renderSearchStatus();
+    radioGet('/json/stations/search?name=' + encodeURIComponent(t) + '&hidebroken=true&order=clickcount&reverse=true&limit=' + RB_SEARCH, false, null, function (err, arr) {
+      if (tok !== S.tok) return;
+      if (err) { S.msg = radioError(err).replace(/<[^>]*>/g, ''); show(); return; }
+      var seen = {}, res = [];
+      arr.forEach(function (s) { var ch = radioCh(s); if (ch && !seen[ch.u]) { seen[ch.u] = 1; res.push(ch); } });
+      S.items = res; S.page = 0; refreshView(S);
+      S.msg = res.length ? res.length + ' station' + (res.length === 1 ? '' : 's') + ' match “' + t + '”' + (arr.length >= RB_SEARCH ? ' (the ' + RB_SEARCH + ' most listened are shown: add more words to narrow it down)' : '') + (S.hiddenDead ? ' · ' + S.hiddenDead + ' not working hidden' : '')
+        : 'No station names match “' + t + '”.';
+      show();
+    });
+  }
+  // Tell the directory a station was played (its "most listened" order depends on this; nothing about you is sent).
+  var rbClicked = {};
+  function radioClick(ch) {
+    if (!ch || !ch.r || !ch.id || rbClicked[ch.id]) return;
+    rbClicked[ch.id] = 1;
+    getText(RB[0] + '/json/url/' + ch.id, null, function () {}, RB_TIMEOUT);
+  }
+
+  /* ================= LIST VIEW (Live TV and Radio, IPTV style) ================= */
+  // Three columns: filters | channel list | info & preview. Only the rows on screen are drawn, so 300 or
+  // 11,000 channels move equally fast. Settings › "Live TV and Radio view" switches back to tiles.
+  var IP_ROW = 4.2; // row height in rem (about 11 rows at 1080p)
+  var IPT = { tv: null, radio: null };
+  var IPQ_TV = [
+    { id: 'all', name: 'All channels' },
+    { id: 'uk', name: 'United Kingdom', dim: 'country', url: 'countries/uk.m3u' },
+    { id: 'rel', name: 'Islamic & Religious', dim: 'category', url: 'categories/religious.m3u' },
+    { id: 'ara', name: 'Arabic', dim: 'language', url: 'languages/ara.m3u' },
+    { id: 'news', name: 'News', dim: 'category', url: 'categories/news.m3u' },
+    { id: 'doc', name: 'Documentary', dim: 'category', url: 'categories/documentary.m3u' },
+    { id: 'kids', name: 'Kids', dim: 'category', url: 'categories/kids.m3u' },
+    { id: 'movies', name: 'Movies', dim: 'category', url: 'categories/movies.m3u' }
+  ];
+  var IPQ_RADIO = [{ id: 'all', name: 'All stations' }].concat(RQUICK.filter(function (q) { return q.rq != null && q.id !== 'all'; }).map(function (q) {
+    return { id: q.id, name: q.name, dim: q.id === 'uk' ? 'country' : q.id === 'ara' ? 'language' : 'category', rq: q.rq };
+  }));
+  var IP_DIMS = ['country', 'language', 'category'];
+  function ipOn() { return isLv() && state.lvView === 'list'; }
+  function fkey(v) { return v ? (v.url || JSON.stringify(v.rq)) : ''; }
+  function dimLabel(S, d) { return d === 'country' ? 'Country' : d === 'language' ? 'Language' : S.radio ? 'Genre' : 'Category'; }
+  function IP() {
+    var k = LIVE.radio ? 'radio' : 'tv';
+    if (!IPT[k]) {
+      var saved = k === 'radio' ? state.ipRadio : state.ipTv;
+      var S = { radio: k === 'radio', f: { country: null, language: null, category: null }, mode: 'filter', pl: 0, q: '', sub: null, opts: {}, L: null, sel: 0, top: 0 };
+      if (saved) { S.f = clone(saved.f); S.mode = saved.mode; S.pl = saved.pl || 0; }
+      else S.f.country = k === 'radio' ? { name: 'United Kingdom', rq: 'countrycode=GB' } : { name: 'United Kingdom', url: 'countries/uk.m3u' };
+      IPT[k] = S;
+    }
+    return IPT[k];
+  }
+  function ipRemember(S) { state[S.radio ? 'ipRadio' : 'ipTv'] = { f: clone(S.f), mode: S.mode, pl: S.pl }; save(); }
+  function ipCur() { var S = IP(), L = S.L; return L && L.status === 'ready' ? L.view[S.sel] || null : null; }
+  function ipActive(S) {
+    var parts = [];
+    if (S.mode === 'mine') parts.push(S.radio ? 'My stations' : 'My channels');
+    else if (S.mode === 'pl') parts.push((mySources()[S.pl] || { name: 'Playlist' }).name);
+    else { IP_DIMS.forEach(function (d) { if (S.f[d]) parts.push(S.f[d].name); }); if (!parts.length) parts.push(S.radio ? 'All stations' : 'All channels'); }
+    if (S.q) parts.push('“' + S.q + '”');
+    return parts.join(' · ');
+  }
+  function ipRowH() { return parseFloat(getComputedStyle(document.documentElement).fontSize) * IP_ROW; }
+
+  // ---- loading the list for the current filters ----
+  function ipRadioQuery(S) {
+    var base = [];
+    if (S.f.country) base.push(S.f.country.rq);
+    if (S.f.language) base.push(S.f.language.rq);
+    if (S.q) base.push('name=' + encodeURIComponent(S.q));
+    var cat = S.f.category ? S.f.category.rq : null;
+    if (cat && typeof cat !== 'string') return cat.map(function (c) { return base.concat([c]).join('&'); });
+    if (cat) base.push(cat);
+    return base.join('&');
+  }
+  function ipLoad(keepSel) {
+    var S = IP(), L = { kind: 'list', status: 'loading', pct: 0, label: 'Downloading', items: [], view: [], page: 0 };
+    S.L = L; if (!keepSel) { S.sel = 0; S.top = 0; }
+    ipRemember(S);
+    if (S.mode === 'mine') { L.items = S.radio ? state.myRadio : state.myCh; L.status = 'ready'; ipFinish(L); return; }
+    if (S.radio) {
+      L.rq = ipRadioQuery(S); L.label = 'Downloading stations';
+      var dims = IP_DIMS.filter(function (d) { return S.f[d]; });
+      if (dims.length === 1 && !S.q && S.f[dims[0]].count) L.total = S.f[dims[0]].count;
+      L.onDone = function () { ipFinish(L); };
+      ipRenderMid();
+      radioLoad(L, false);
+      return;
+    }
+    var urls = [];
+    if (S.mode === 'pl') urls = [(mySources()[S.pl] || mySources()[0]).url];
+    else IP_DIMS.forEach(function (d) { if (S.f[d]) urls.push(IPTV + S.f[d].url); });
+    if (!urls.length) urls = [IPTV + 'index.m3u'];
+    var lists = [], i = 0;
+    ipRenderMid();
+    (function next() {
+      if (S.L !== L) return;
+      if (i >= urls.length) { L.items = intersect(lists); L.status = 'ready'; ipFinish(L); return; }
+      var u = urls[i];
+      loadList(u, function (f, label) { setProgress(L, (i + f) / urls.length, label + (urls.length > 1 ? ' (' + (i + 1) + ' of ' + urls.length + ')' : '')); }, function (err, items, skipped) {
+        if (S.L !== L) return;
+        if (err) { L.status = 'error'; L.err = listError(err, absUrl(u)); ipFinish(L); return; }
+        lists.push(items); L.skipped = (L.skipped || 0) + (skipped || 0); i++; next();
+      });
+    })();
+  }
+  // Channels in every chosen list (e.g. United Kingdom AND Arabic), in the order of the first.
+  function intersect(lists) {
+    if (lists.length < 2) return lists[0] || [];
+    var sets = lists.slice(1).map(function (l) { var s = {}; for (var i = 0; i < l.length; i++) s[l[i].u] = 1; return s; });
+    return lists[0].filter(function (c) { for (var j = 0; j < sets.length; j++) if (!sets[j][c.u]) return false; return true; });
+  }
+  function ipFinish(L) {
+    var S = IP(); if (S.L !== L) return;
+    if (L.status === 'ready') {
+      var items = L.items;
+      if (S.q && !(S.radio && S.mode === 'filter')) { // a search the server did not already do
+        var words = fold(S.q).split(/\s+/).filter(Boolean);
+        items = items.filter(function (c) { var k = c.k || fold(c.n + ' ' + (c.g || '')); for (var w = 0; w < words.length; w++) if (k.indexOf(words[w]) < 0) return false; return true; });
+      }
+      L.view = arrange(items); L.hidden = items.length - L.view.length;
+      if (S.sel >= L.view.length) S.sel = Math.max(0, L.view.length - 1);
+    }
+    ipRenderMid();
+  }
+  function ipRefilter() { var S = IP(); if (S.L && S.L.status === 'ready') ipFinish(S.L); }
+
+  // ---- HTML ----
+  function ipHTML() {
+    var S = IP();
+    return '<section class="ip' + (S.radio ? ' radio' : '') + '" id="ip" aria-label="' + (S.radio ? 'Radio' : 'Live TV') + '">' +
+      '<div class="ip-col ip-f" id="ipF">' + ipFiltersHTML(S) + '</div>' +
+      '<div class="ip-col ip-mid" id="ipMid">' + ipMidHTML(S) + '</div>' +
+      '<div class="ip-col ip-info" id="ipInfo">' + ipInfoHTML(S) + '</div></section>';
+  }
+  function ipIt(fid, label, extra, on, cls) {
+    return '<button class="ip-it f' + (on ? ' on' : '') + (cls ? ' ' + cls : '') + '" data-act="ipf" data-arg="' + fid + '" data-group="ip-f" data-fid="ipf:' + fid + '"' + (on ? ' aria-pressed="true"' : '') + '>' +
+      '<span class="ip-l">' + label + '</span>' + (extra ? '<span class="ip-x">' + extra + '</span>' : '') + '</button>';
+  }
+  function ipFiltersHTML(S) {
+    var h = '<div class="ip-fl sy" id="ipFl">';
+    if (S.sub) {
+      var title = S.sub === 'pl' ? 'My playlists' : dimLabel(S, S.sub), opts = ipOptions(S, S.sub);
+      h += ipIt('back', '‹ ' + esc(title), 'Back', false, 'ip-back');
+      if (opts === 'loading') h += '<p class="ip-note">Loading the list…</p>';
+      else if (typeof opts === 'string') h += '<p class="ip-note bad">' + opts + '</p>';
+      else {
+        if (S.sub !== 'pl') h += ipIt('o:-1', 'Any ' + title.toLowerCase(), '', !S.f[S.sub]);
+        h += opts.map(function (o, i) {
+          var on = S.sub === 'pl' ? S.mode === 'pl' && S.pl === i : fkey(S.f[S.sub]) === fkey(o);
+          return ipIt('o:' + i, esc(o.name), o.count != null ? String(o.count) : o.sub ? esc(o.sub) : '', on);
+        }).join('');
+      }
+    } else {
+      var mine = S.radio ? state.myRadio : state.myCh;
+      h += ipIt('mine', icon('star') + (S.radio ? 'My stations' : 'My channels'), String(mine.length), S.mode === 'mine');
+      h += fieldHTML('ipq', icon('search') + 'Search', S.q, 'search', S.radio ? 'Station name' : 'Channel name', false).replace('class="field f"', 'class="field f ip-search" data-group="ip-f"');
+      IP_DIMS.forEach(function (d) { h += ipIt('d:' + d, dimLabel(S, d) + ' ▸', S.f[d] ? esc(S.f[d].name) : 'Any', !!S.f[d] && S.mode === 'filter'); });
+      if (!S.radio) h += ipIt('d:pl', 'My playlists ▸', String(mySources().length), S.mode === 'pl');
+      h += '<p class="ip-h">Quick filters</p>';
+      (S.radio ? IPQ_RADIO : IPQ_TV).forEach(function (q) {
+        var on = S.mode === 'filter' && (q.dim ? fkey(S.f[q.dim]) === fkey(q) : !S.f.country && !S.f.language && !S.f.category);
+        h += ipIt('q:' + q.id, esc(q.name), '', on);
+      });
+      h += '<p class="ip-h">Show</p>';
+      h += ipIt('t:app', 'Hide “App only”', state.hideApp ? 'On' : 'Off', state.hideApp, 'ip-tog');
+      h += ipIt('t:dead', 'Hide “Not working”', state.hideDead ? 'On' : 'Off', state.hideDead, 'ip-tog');
+      if (S.f.country || S.f.language || S.f.category || S.q || S.mode !== 'filter') h += ipIt('clear', 'Clear filters', '', false);
+    }
+    return h + '</div><div class="ip-fnav" id="ipFnav" hidden>' + navBtn('fup', 'up', '', 'Scroll filters up') + navBtn('fdown', 'down', '', 'Scroll filters down') + '</div>' +
+      '<div class="ip-active" id="ipAct"><small>Showing</small>' + esc(ipActive(S)) + '</div>';
+  }
+  function ipMidHTML(S) {
+    var L = S.L, st = '';
+    if (!L || L.status === 'loading') st = '<div class="ip-status">' + progressHTML(L || { pct: 0, label: 'Loading' }) + '</div>';
+    else if (L.status === 'error') st = '<div class="ip-status"><div class="live-prob" role="alert">' + L.err + '</div><button class="btn f" data-act="ip-retry" data-group="ip-x" data-fid="ip:retry">Try again</button></div>';
+    else if (!L.view.length) st = '<div class="ip-status"><p>' + (L.items.length ? 'Nothing here with these filters' + (L.hidden ? ' (' + L.hidden + ' hidden by “Hide” options)' : '') + '.' : S.mode === 'mine' ? 'Nothing saved yet. Highlight a ' + (S.radio ? 'station' : 'channel') + ' and press the red button.' : 'Nothing in this list.') + '</p></div>';
+    return '<div class="ip-head"><strong id="ipTitle">' + esc(ipActive(S)) + '</strong><span id="ipPos"></span><span class="ip-jump" id="ipJump" hidden></span></div>' +
+      '<div class="ip-list f" id="ipList" tabindex="-1" data-fid="ip:list" data-group="ip-list" role="listbox" aria-label="' + (S.radio ? 'Stations' : 'Channels') + '"><div class="ip-in" id="ipIn"></div></div>' +
+      '<div class="ip-nav" role="toolbar" aria-label="Move through the list">' +
+        navBtn('up', 'up', '', 'One up') + navBtn('down', 'down', '', 'One down') + navBtn('pgup', 'up2', '', 'Up 10') + navBtn('pgdn', 'down2', '', 'Down 10') +
+        navBtn('top', 'top', 'Top', 'First ' + (S.radio ? 'station' : 'channel')) + navBtn('end', 'end', 'End', 'Last ' + (S.radio ? 'station' : 'channel')) + '</div>' + st;
+  }
+  // Pointer-only buttons (not part of the remote's highlight; the arrow keys already do these).
+  function navBtn(act, ico, label, title) {
+    return '<button type="button" class="ip-nb" tabindex="-1" data-ipnav="' + act + '" title="' + title + '" aria-label="' + title + '">' + icon(ico) + (label ? '<span>' + label + '</span>' : '') + '</button>';
+  }
+  function ipInfoHTML(S) {
+    return (S.radio ? '' : '<div class="ip-pv" id="ipPv"><video id="ipv" muted playsinline></video><span class="ip-pv-msg" id="ipPvMsg"></span></div>') +
+      '<div class="ip-meta" id="ipMeta"></div>' +
+      '<div class="ip-acts"><button class="btn primary f" data-act="ip-play" data-group="ip-acts" data-fid="ip:play">' + icon('play') + 'Full screen</button>' +
+      '<button class="btn f" data-act="ip-save" data-group="ip-acts" data-fid="ip:save" id="ipSave">☆ Save</button></div>' +
+      '<p class="ip-help">OK = full screen · Red = save to ' + (S.radio ? 'My stations' : 'My channels') + '</p>';
+  }
+  // Options for Country / Language / Category (or Genre) / My playlists. Returns a list, 'loading', or an error text.
+  function ipOptions(S, what) {
+    if (what === 'pl') return mySources().map(function (s) { return { name: s.name, sub: s.sub, url: s.url }; });
+    if (S.opts[what]) return S.opts[what];
+    if (S.opts[what + '!']) return S.opts[what + '!'];
+    if (S.opts[what + '…']) return 'loading';
+    S.opts[what + '…'] = 1;
+    var sync = true;
+    var done = function (err, list) {
+      delete S.opts[what + '…'];
+      if (err) S.opts[what + '!'] = err; else S.opts[what] = list;
+      if (!sync && IP() === S && S.sub === what && ipOn()) { var f = currentFid(); ipRenderLeft(f === 'ipf:back' ? 'ipf:o:0' : f); }
+    };
+    if (S.radio) radioOptions(what === 'category' ? 'tag' : what, function (err, list) { done(err ? radioError(err) : null, list); });
+    else loadMeta(null, function (err) {
+      if (err) { done(listError(err, IPTV_META)); return; }
+      var list = (LIVE_TV.meta[what] || []).map(function (o) { return { name: o.name, url: o.url, count: o.count }; });
+      if (what === 'country') {
+        var put = function () { list.forEach(function (o) { if (LIVE_TV.counts && LIVE_TV.counts[o.name] != null) o.count = LIVE_TV.counts[o.name]; }); };
+        if (LIVE_TV.counts) put(); else loadCountryCounts(function () { put(); if (IP() === S && S.sub === 'country' && ipOn()) ipRenderLeft(); });
+      }
+      done(null, list);
+    });
+    sync = false;
+    return S.opts[what] || S.opts[what + '!'] || 'loading';
+  }
+
+  // ---- drawing ----
+  var IPR = { rows: {}, view: null, inn: null };
+  function ipAfter() {
+    var S = IP();
+    if (!S.radio && !LIVE_TV.meta) loadMeta(null, function () { if (ipOn() && !IP().radio) ipMeta(); }); // country names for the info panel
+    ipFiltersNav();
+    if (!S.L) { ipLoad(true); return; }
+    ipDraw(false); ipMeta(); pvSchedule();
+  }
+  function ipRenderLeft(focusFid) {
+    var box = $('#ipF'); if (!box) return;
+    var had = currentF(), inLeft = had && box.contains(had), fid = focusFid || (inLeft ? currentFid() : null);
+    box.innerHTML = ipFiltersHTML(IP());
+    if (fid) restoreFocus(fid);
+    ipFiltersNav();
+  }
+  // Show the filter ▲ / ▼ only when the filters do not fit; dim the one that cannot move further.
+  function ipFiltersNav() {
+    var fl = $('#ipFl'), nav = $('#ipFnav'); if (!fl || !nav) return;
+    nav.hidden = true;
+    var over = fl.scrollHeight > fl.clientHeight + 2;
+    nav.hidden = !over;
+    if (!over) return;
+    var y = targetY(fl), b = nav.children;
+    b[0].classList.toggle('off', y <= 1);
+    b[1].classList.toggle('off', y >= fl.scrollHeight - fl.clientHeight - 1);
+  }
+  document.addEventListener('scroll', function (e) { if (e.target && e.target.id === 'ipFl') ipFiltersNav(); }, true);
+  // Buttons are for the pointer: they must not take the highlight away from where it is.
+  document.addEventListener('mousedown', function (e) { if (e.target.closest && e.target.closest('[data-ipnav]')) e.preventDefault(); });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-ipnav]'); if (!b || layers.length) return;
+    e.preventDefault();
+    var a = b.getAttribute('data-ipnav');
+    if (a === 'fup' || a === 'fdown') {
+      var fl = $('#ipFl'); if (!fl) return;
+      scrollC(fl, { top: targetY(fl) + (a === 'fdown' ? 1 : -1) * Math.round(fl.clientHeight * 0.8), behavior: behaviour() });
+      ipFiltersNav(); return;
+    }
+    var S = IP(), L = S.L; if (!L || L.status !== 'ready' || !L.view.length) return;
+    var n = L.view.length;
+    var d = a === 'up' ? -1 : a === 'down' ? 1 : a === 'pgup' ? -10 : a === 'pgdn' ? 10 : a === 'top' ? -S.sel : n - 1 - S.sel;
+    if (document.activeElement !== $('#ipList')) ipFocusList();
+    if (d) ipMoveSel(d, Math.abs(d) === 1);
+    else if (a === 'end' && L.more) loadMore(L, false); // Radio: already on the last loaded station → fetch more
+    else if (a === 'top' || a === 'end') toast(a === 'top' ? 'This is the first ' + (S.radio ? 'station' : 'channel') : 'This is the last ' + (S.radio ? 'station' : 'channel'));
+  });
+  function ipRenderMid() {
+    var box = $('#ipMid'); if (!box) return;
+    var had = currentF(), inMid = had && box.contains(had);
+    box.innerHTML = ipMidHTML(IP());
+    var t = $('#ipTitle'), a = $('#ipAct');
+    if (a) a.innerHTML = '<small>Showing</small>' + esc(ipActive(IP()));
+    if (t) t.textContent = ipActive(IP());
+    IPR.view = null;
+    ipDraw(false); ipMeta(); pvSchedule();
+    if (inMid) setFocus($('#ipList'), true);
+  }
+  function ipTags(c) {
+    var t = '';
+    if (c.r) { var f = radioFormat(c); if (f) t += '<i class="q">' + esc(f) + '</i>'; }
+    else if (c.q) t += '<i class="q">' + esc(c.q) + '</i>';
+    if (isDead(c.u)) t += '<i class="bad">Not working</i>';
+    if (appOnly(c)) t += '<i class="app">App only</i>';
+    if (c.geo) t += '<i>Geo-blocked</i>';
+    if (c.n247) t += '<i>Not 24/7</i>';
+    if (isMine(c.u)) t += '<b class="star">★</b>';
+    return t;
+  }
+  function ipRow(c, i, rh) {
+    var d = document.createElement('div');
+    d.className = 'ip-row' + (isDead(c.u) ? ' dead' : '');
+    d.setAttribute('data-i', i); d.setAttribute('role', 'option'); d.id = 'ipr' + i;
+    d.style.top = (i * rh) + 'px'; d.style.height = rh + 'px'; d.style.setProperty('--h', hueOf(c.g || c.n));
+    d.innerHTML = '<span class="ip-n">' + (i + 1) + '</span><span class="ip-lg"><b>' + esc(letterOf(c.n)) + '</b></span><span class="ip-nm">' + esc(c.n) + '</span><span class="ip-tg">' + ipTags(c) + '</span>';
+    if (c.l) {
+      var img = document.createElement('img'); img.alt = ''; img.setAttribute('referrerpolicy', 'no-referrer');
+      img.onload = function () { if (imgurGone(c.l, img)) { if (img.parentNode) img.parentNode.removeChild(img); return; } img.className = 'ok'; };
+      img.onerror = function () { if (img.parentNode) img.parentNode.removeChild(img); };
+      img.src = c.l; d.children[1].appendChild(img);
+    }
+    return d;
+  }
+  // Draws only the rows on screen (plus a few either side). smooth = one-row step (animated).
+  function ipDraw(smooth) {
+    var S = IP(), list = $('#ipList'), inn = $('#ipIn'); if (!list || !inn) return;
+    var L = S.L, v = L && L.status === 'ready' ? L.view : [], n = v.length;
+    if (IPR.inn !== inn) IPR.rh = 0;
+    if (IPR.view !== v || IPR.inn !== inn) { inn.innerHTML = ''; IPR.rows = {}; IPR.view = v; }
+    if (IPR.inn !== inn || !IPR.rh) { IPR.rh = ipRowH(); IPR.vis = Math.max(1, Math.floor(list.clientHeight / IPR.rh)); }
+    var rh = IPR.rh, vis = IPR.vis; IPR.inn = inn;
+    if (S.sel >= n) S.sel = Math.max(0, n - 1); if (S.sel < 0) S.sel = 0;
+    var top = S.top;
+    if (S.sel < top + 1) top = S.sel - 1;
+    if (S.sel > top + vis - 2) top = S.sel - vis + 2;
+    top = Math.max(0, Math.min(top, n - vis)); S.top = top;
+    inn.style.height = (n * rh) + 'px';
+    inn.style.transition = smooth && state.motion ? '' : 'none';
+    inn.style.transform = 'translateY(' + (-top * rh) + 'px)';
+    var from = Math.max(0, top - 4), to = Math.min(n, top + vis + 5), k;
+    for (k in IPR.rows) if (+k < from || +k >= to) { inn.removeChild(IPR.rows[k]); delete IPR.rows[k]; }
+    for (var i = from; i < to; i++) {
+      var r = IPR.rows[i];
+      if (!r) { r = IPR.rows[i] = ipRow(v[i], i, rh); inn.appendChild(r); }
+      r.classList.toggle('sel', i === S.sel);
+    }
+    if (n) list.setAttribute('aria-activedescendant', 'ipr' + S.sel); else list.removeAttribute('aria-activedescendant');
+    var pos = $('#ipPos');
+    if (pos) pos.textContent = n ? (S.radio ? 'Station ' : 'Channel ') + (S.sel + 1) + ' of ' + n + (L.more ? (L.total ? ' (about ' + L.total + ' in all)' : ' · more load as you scroll') : '') : '';
+  }
+  function ipRedrawRows() { IPR.view = null; ipDraw(false); }
+  function ipMeta() {
+    var box = $('#ipMeta'), c = ipCur(), S = IP(); if (!box) return;
+    var sv = $('#ipSave'); if (sv) sv.textContent = c && isMine(c.u) ? '★ Saved' : '☆ Save';
+    if (!c) { box.innerHTML = ''; return; }
+    var rows = [];
+    if (c.r) {
+      rows.push(['Country', c.g]); rows.push(['Format', radioFormat(c)]); rows.push(['Genre', c.t]);
+    } else {
+      var cn = c.cc ? ccName(c.cc) : '';
+      if (!cn && S.f.country && S.mode === 'filter') cn = S.f.country.name;
+      rows.push(['Country', cn]);
+      rows.push(['Language', S.f.language && S.mode === 'filter' ? S.f.language.name : '']);
+      rows.push(['Category', c.g]); rows.push(['Quality', c.q]);
+    }
+    var tags = ipTags(c).replace(/<i class="q">[^<]*<\/i>/, '').replace(/<b class="star">★<\/b>/, '<i class="saved">★ Saved</i>');
+    box.innerHTML = '<div class="ip-mh" style="--h:' + hueOf(c.g || c.n) + '"><span class="tile-ico lt ip-big"><b>' + esc(letterOf(c.n)) + '</b>' +
+      '</span>' +
+      '<strong>' + esc(c.n) + '</strong></div><dl>' + rows.filter(function (r) { return r[1]; }).map(function (r) { return '<dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd>'; }).join('') + '</dl>' +
+      (tags ? '<div class="ip-tg big">' + tags + '</div>' : '');
+    if (c.l) {
+      var img = document.createElement('img'); img.alt = ''; img.setAttribute('referrerpolicy', 'no-referrer');
+      img.onload = function () { if (imgurGone(c.l, img)) { if (img.parentNode) img.parentNode.removeChild(img); return; } img.className = 'ok'; };
+      img.onerror = function () { if (img.parentNode) img.parentNode.removeChild(img); };
+      img.src = c.l; box.querySelector('.ip-big').appendChild(img);
+    }
+  }
+  function ccName(cc) {
+    var m = LIVE_TV.meta && LIVE_TV.meta.country; if (!m) return cc.toUpperCase();
+    for (var i = 0; i < m.length; i++) if (m[i].url === 'countries/' + cc + '.m3u') return m[i].name;
+    return cc.toUpperCase();
+  }
+
+  // ---- moving ----
+  function ipFocusList() { var l = $('#ipList'); if (l) setFocus(l, true); }
+  function ipFocusFilters() {
+    var m = memory['ip-f'];
+    var el = (m && $('[data-fid="' + cssEsc(m) + '"]')) || $('#ipF .ip-it.on') || $('#ipF .f');
+    if (el) setFocus(el);
+  }
+  function ipMoveSel(d, smooth) {
+    var S = IP(), L = S.L; if (!L || L.status !== 'ready' || !L.view.length) return;
+    var n = L.view.length, s = Math.max(0, Math.min(n - 1, S.sel + d));
+    if (s === S.sel) { if (d > 0 && L.more) loadMore(L, false); else if (Math.abs(d) > 1) toast(d > 0 ? 'This is the last ' + (S.radio ? 'station' : 'channel') : 'This is the first ' + (S.radio ? 'station' : 'channel')); return; }
+    S.sel = s; ipSelChanged(smooth && Math.abs(d) === 1);
+  }
+  function ipSelChanged(smooth) {
+    var S = IP(), L = S.L;
+    ipDraw(smooth); pvSchedule();
+    clearTimeout(IPR.mt); IPR.mt = setTimeout(ipMeta, smooth ? 80 : 0);
+    if (S.radio && L && L.more && !L.loadingMore && S.sel > L.view.length - 30) loadMore(L, false); // fetch the next 500 before the end
+  }
+  var JMP = { s: '', t: null };
+  function ipDigit(dg) {
+    var S = IP(), L = S.L; if (!L || L.status !== 'ready' || !L.view.length) return;
+    JMP.s = (JMP.s + dg).replace(/^0+/, '').slice(0, 5);
+    var j = $('#ipJump'); if (j) { j.hidden = false; j.textContent = 'Go to ' + (JMP.s || '0') + '…'; }
+    clearTimeout(JMP.t);
+    JMP.t = setTimeout(function () {
+      var num = parseInt(JMP.s, 10); JMP.s = '';
+      var jj = $('#ipJump'); if (jj) jj.hidden = true;
+      var LL = IP().L; if (!num || !LL || LL.status !== 'ready') return;
+      if (num > LL.view.length) toast('There are ' + LL.view.length + (IP().radio ? ' stations' : ' channels') + ' in this list');
+      IP().sel = Math.min(num, LL.view.length) - 1; ipFocusList(); ipSelChanged(false);
+    }, 1200);
+  }
+  function ipPlay() {
+    var S = IP(), L = S.L; if (!L || L.status !== 'ready' || !L.view[S.sel]) return;
+    pvStop(); openPlayer(L.view, S.sel, 'ip:list');
+  }
+  function ipSaveCur() {
+    var S = IP(), c = ipCur(); if (!c) return;
+    toggleMine(c);
+    if (S.mode === 'mine') { S.L.items = S.radio ? state.myRadio : state.myCh; ipFinish(S.L); } else { ipRedrawRows(); ipMeta(); }
+    var mc = $('[data-fid="ipf:mine"] .ip-x'); if (mc) mc.textContent = String((S.radio ? state.myRadio : state.myCh).length);
+  }
+  // Remote keys for the list view. Returns true when used.
+  function ipKey(k) {
+    var cur = currentF(), onList = !!cur && cur.id === 'ipList';
+    var inLeft = !!cur && !!cur.closest('#ipF'), inInfo = !!cur && !!cur.closest('#ipInfo');
+    if ((k >= 48 && k <= 57) || (k >= 96 && k <= 105)) { ipDigit(k >= 96 ? k - 96 : k - 48); return true; }
+    if (k === K.CH_UP || k === K.PGDN || k === K.CH_DOWN || k === K.PGUP) {
+      ipMoveSel(k === K.CH_UP || k === K.PGDN ? 10 : -10, false);
+      if (!onList) ipFocusList();
+      return true;
+    }
+    if (onList) {
+      if (k === K.UP) { if (IP().sel > 0) { ipMoveSel(-1, true); return true; } return false; }
+      if (k === K.DOWN) { ipMoveSel(1, true); return true; }
+      if (k === K.LEFT) { ipFocusFilters(); return true; }
+      if (k === K.RIGHT) { setFocus($('[data-fid="ip:play"]')); return true; }
+      if (k === K.ENTER || k === K.PLAY || k === K.PLAYPAUSE || k === K.MEDIA_PP) { ipPlay(); return true; }
+      if (k === K.RED) { ipSaveCur(); return true; }
+    }
+    if (inLeft && k === K.RIGHT) { ipFocusList(); return true; }
+    if (inInfo && k === K.LEFT && cur.getAttribute('data-fid') === 'ip:play') { ipFocusList(); return true; }
+    if (inInfo && k === K.RED) { ipSaveCur(); return true; }
+    return false;
+  }
+  function ipBack() {
+    var cur = currentF(), S = IP();
+    if (cur && (cur.id === 'ipList' || cur.closest('#ipInfo') || cur.closest('#ipMid'))) { ipFocusFilters(); return true; }
+    if (S.sub) { var w = S.sub; S.sub = null; ipRenderLeft('ipf:d:' + w); return true; }
+    return false;
+  }
+  function ipAction(arg) {
+    var S = IP(), m;
+    if (arg === 'mine') { S.mode = 'mine'; ipLoad(); ipRenderLeft(); ipFocusList(); return; }
+    if ((m = /^d:(\w+)$/.exec(arg))) { S.sub = m[1]; ipRenderLeft('ipf:o:0'); if (!$('[data-fid="ipf:o:0"]')) restoreFocus('ipf:back'); return; }
+    if (arg === 'back') { var w = S.sub; S.sub = null; ipRenderLeft('ipf:d:' + w); return; }
+    if ((m = /^o:(-?\d+)$/.exec(arg))) {
+      var i = +m[1];
+      if (S.sub === 'pl') { S.mode = 'pl'; S.pl = i; }
+      else { var opts = ipOptions(S, S.sub); if (i >= 0 && (typeof opts === 'string' || !opts[i])) return; S.f[S.sub] = i < 0 ? null : clone(opts[i]); S.mode = 'filter'; }
+      var wh = S.sub; S.sub = null;
+      ipLoad(); ipRenderLeft('ipf:d:' + wh); memory['ip-f'] = 'ipf:d:' + wh; ipFocusList(); return;
+    }
+    if ((m = /^q:(\w+)$/.exec(arg))) {
+      var q = null; (S.radio ? IPQ_RADIO : IPQ_TV).forEach(function (x) { if (x.id === m[1]) q = x; }); if (!q) return;
+      if (!q.dim) S.f = { country: null, language: null, category: null };
+      else if (S.mode === 'filter' && fkey(S.f[q.dim]) === fkey(q)) S.f[q.dim] = null; // pressing an active filter turns it off
+      else S.f[q.dim] = { name: q.name, url: q.url, rq: q.rq };
+      S.mode = 'filter'; ipLoad(); ipRenderLeft(); memory['ip-f'] = 'ipf:' + arg; ipFocusList(); return;
+    }
+    if (arg === 't:app' || arg === 't:dead') {
+      var key = arg === 't:app' ? 'hideApp' : 'hideDead'; state[key] = !state[key]; save();
+      ipRefilter(); ipRenderLeft('ipf:' + arg); return;
+    }
+    if (arg === 'clear') { S.f = { country: null, language: null, category: null }; S.q = ''; S.mode = 'filter'; ipLoad(); ipRenderLeft('ipf:q:all'); return; }
+  }
+  var ipqT = null;
+  function ipSearch(v, now) {
+    clearTimeout(ipqT);
+    var run = function () {
+      var S = IP(); v = trim(v); if (v === S.q) return; S.q = v;
+      if (S.radio && S.mode === 'filter') ipLoad(); else ipRefilter();
+      var a = $('#ipAct'); if (a) a.innerHTML = '<small>Showing</small>' + esc(ipActive(S));
+    };
+    if (now) run(); else ipqT = setTimeout(run, 400);
+  }
+  document.addEventListener('input', function (e) { if (e.target && e.target.id === 'in-ipq') ipSearch(e.target.value, false); });
+  // Mouse / the laptop remote's Mouse pad: click a row to choose it, click it again (or double-click) to play.
+  var ipLastClick = { i: -1, t: 0 };
+  document.addEventListener('click', function (e) {
+    var r = e.target.closest && e.target.closest('.ip-row'); if (!r || layers.length) return;
+    var i = +r.getAttribute('data-i'), S = IP(), now = Date.now();
+    if (i === S.sel && ipLastClick.i === i && now - ipLastClick.t < 700) { ipLastClick.i = -1; ipPlay(); return; }
+    ipLastClick = { i: i, t: now };
+    S.sel = i; ipFocusList(); ipSelChanged(false);
+  });
+  document.addEventListener('dblclick', function (e) {
+    var r = e.target.closest && e.target.closest('.ip-row'); if (!r || layers.length || player.open) return;
+    IP().sel = +r.getAttribute('data-i'); ipPlay();
+  });
+  var wheelAcc = 0, wheelT = 0;
+  document.addEventListener('wheel', function (e) {
+    var l = e.target.closest && e.target.closest('#ipList'); if (!l || layers.length) return;
+    e.preventDefault();
+    wheelAcc += e.deltaMode === 1 ? e.deltaY * 33 : e.deltaY;
+    var step = Math.trunc ? Math.trunc(wheelAcc / 100) : (wheelAcc / 100) | 0;
+    if (!step) return;
+    wheelAcc -= step * 100;
+    if (document.activeElement !== l) setFocus(l, true);
+    ipMoveSel(step, Date.now() - wheelT > 120); wheelT = Date.now();
+  }, { passive: false });
+
+  // ---- preview (Live TV): starts after the highlight rests 1.5 s, stops on any move ----
+  var PV = { t: null, to: null, qt: null, hls: null, tok: 0, slow: 0, on: false };
+  function pvStop() {
+    clearTimeout(PV.t); clearTimeout(PV.to); clearTimeout(PV.qt); PV.tok++; PV.on = false;
+    if (PV.hls) { try { PV.hls.destroy(); } catch (e) {} PV.hls = null; }
+    var v = document.getElementById('ipv');
+    if (v && (v.className || v.getAttribute('src') || v.onplaying)) { v.onplaying = v.onerror = null; v.className = ''; try { v.pause(); v.removeAttribute('src'); v.load(); } catch (e) {} }
+  }
+  function pvMsg(t) { var m = document.getElementById('ipPvMsg'); if (m) m.textContent = t; }
+  function pvSchedule() {
+    pvStop();
+    if (!document.getElementById('ipv')) return;
+    var c = ipCur();
+    if (!c) { pvMsg(''); return; }
+    if (!state.preview) { pvMsg(state.previewAuto ? 'Preview was turned off because playback was slow. Settings › Preview turns it back on.' : 'Preview is off (Settings › Preview)'); return; }
+    if (appOnly(c)) { pvMsg('“App only” channel: no preview on this page'); return; }
+    pvMsg('');
+    var tok = PV.tok;
+    PV.t = setTimeout(function () { if (tok === PV.tok) pvStart(c, tok); }, 1500);
+  }
+  function pvStart(c, tok) {
+    var v = document.getElementById('ipv'); if (!v || player.open || layers.length || !ipOn()) return;
+    var t0 = Date.now(), started = false;
+    PV.on = true;
+    pvMsg('Loading preview…');
+    var bad = function (why) { if (tok !== PV.tok) return; pvStop(); pvMsg(why || 'No preview for this channel'); };
+    v.muted = true;
+    v.onplaying = function () {
+      if (tok !== PV.tok || started) return; started = true;
+      clearTimeout(PV.to); v.className = 'on'; pvMsg('');
+      PV.slow = Date.now() - t0 > (window.SUPERTV_SLOW_MS || 6000) ? PV.slow + 1 : 0;
+      pvCheckSlow();
+      PV.qt = setTimeout(function () { // many dropped frames also count as slow
+        if (tok !== PV.tok) return;
+        var q = v.getVideoPlaybackQuality ? v.getVideoPlaybackQuality() : null;
+        var dropped = q ? q.droppedVideoFrames : v.webkitDroppedFrameCount || 0, total = q ? q.totalVideoFrames : (v.webkitDecodedFrameCount || 0) + dropped;
+        if (total > 30 && dropped / total > 0.25) { PV.slow++; pvCheckSlow(); }
+      }, 5000);
+    };
+    v.onerror = function () { if (!PV.hls) bad(); };
+    PV.to = setTimeout(function () { bad('No preview: the channel did not start'); }, 12000);
+    var go = function () { var p; try { p = v.play(); } catch (e) { p = null; } if (p && p.then) p.then(null, function () {}); };
+    if (HLS_NATIVE && !window.SUPERTV_FORCE_HLSJS) { v.src = c.u; go(); return; }
+    withHls(function (ok) {
+      if (tok !== PV.tok) return;
+      if (!ok || !window.Hls.isSupported()) { bad('No preview in this browser'); return; }
+      var H = window.Hls, h = new H({ maxBufferLength: 8, backBufferLength: 0, manifestLoadingMaxRetry: 0, levelLoadingMaxRetry: 1, fragLoadingMaxRetry: 1, startLevel: 0, capLevelToPlayerSize: true });
+      PV.hls = h;
+      h.on(H.Events.ERROR, function (e, d) { if (d && d.fatal) setTimeout(function () { bad(); }, 0); });
+      h.on(H.Events.MANIFEST_PARSED, function () { if (tok === PV.tok) go(); });
+      h.loadSource(c.u); h.attachMedia(v);
+    });
+  }
+  function pvCheckSlow() {
+    if (PV.slow < 3) return;
+    PV.slow = 0; state.preview = false; state.previewAuto = true; save();
+    pvStop(); pvMsg('Preview turned off: playback is slow on this TV. Settings › Preview turns it back on.');
+    toast('Preview turned off because playback is slow');
+  }
+
   // ---- search ----
   var searchT = null;
   function ensureFullIndex(done) {
@@ -1108,6 +2028,7 @@ svg{width:1em;height:1em;flex:none}
   }
   function runSearch(q) {
     var S = LIVE.search; if (!S) return;
+    if (LIVE.radio) { radioSearch(q); return; }
     S.q = q; var words = fold(q).split(/\s+/).filter(Boolean);
     if (!words.length) { S.items = []; S.view = []; S.page = 0; S.msg = LIVE.full ? LIVE.full.length + ' channels ready to search.' : S.msg; renderSearchStatus(); renderPaged(); return; }
     ensureFullIndex(function () {
@@ -1128,7 +2049,7 @@ svg{width:1em;height:1em;flex:none}
   });
   // ---- paging with the remote: Down on the last row / Up on the first row turns the page ----
   function livePageMove(dir, cur) {
-    if (!cur || layers.length || state.view !== 'live' || !cur.classList.contains('pg-t')) return false;
+    if (!cur || layers.length || !isLv() || !cur.classList.contains('pg-t')) return false;
     var pg = paged(); if (!pg || !pg.view) return false;
     var grid = cur.parentNode, tiles = grid.children, n = tiles.length, pos = Array.prototype.indexOf.call(tiles, cur);
     var top0 = tiles[0].offsetTop, cols = 0; while (cols < n && tiles[cols].offsetTop === top0) cols++;
@@ -1146,6 +2067,7 @@ svg{width:1em;height:1em;flex:none}
   function turnPage(d) {
     var pg = paged(); if (!pg || !pg.view) return false;
     var pages = Math.ceil(pg.view.length / PAGE), np = pg.page + d;
+    if (np >= pages && d > 0 && pg.more && loadMore(pg, true)) return true; // Radio: fetch the next 500
     if (np < 0 || np >= pages) { toast(d > 0 ? 'This is the last page' : 'This is the first page'); return true; }
     pg.page = np; renderPaged(np * PAGE); return true;
   }
@@ -1156,20 +2078,24 @@ svg{width:1em;height:1em;flex:none}
   var HLS_NATIVE = (function () {
     try { var v = document.createElement('video'); return !!(v.canPlayType && /maybe|probably/.test(v.canPlayType('application/vnd.apple.mpegurl'))); } catch (e) { return false; }
   })();
-  var START_LIMIT = 25000; // ms before a channel that never starts counts as failed
+  var START_LIMIT = 25000, RADIO_LIMIT = 15000; // ms before a channel / radio station that never starts counts as failed
+  function startLimit() { var c = curCh(); return c && c.r ? RADIO_LIMIT : START_LIMIT; }
   var player = { open: false, list: [], idx: -1, token: 0, hls: null, timer: null, stall: null, barT: null, skipT: null, recovered: false, failed: false, autoSkips: 0 };
   function pv() { return document.getElementById('pv'); }
   function curCh() { return player.list[player.idx]; }
-  function playerHTML() {
-    return '<div class="player">' +
+  function playerHTML(R) {
+    var w = R ? 'station' : 'channel';
+    return '<div class="player' + (R ? ' is-radio' : '') + '">' +
       '<video id="pv" playsinline></video>' +
-      '<div class="pl-load" id="plLoad"><div class="spin" aria-hidden="true"></div><strong id="plLoadName"></strong><span>Loading…</span></div>' +
+      (R ? '<div class="pl-radio" id="plRadio"><span class="tile-ico lt pl-r-logo" id="plRLogo"></span><strong id="plRName"></strong><span class="pl-r-sub" id="plRSub"></span><span class="pl-r-tags" id="plRTags"></span>' +
+        '<span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span class="pl-r-keys">▲ ▼ or CH ± change station · OK pause · Red save · Back list</span></div>' : '') +
+      '<div class="pl-load" id="plLoad"><div class="spin" aria-hidden="true"></div><strong id="plLoadName"></strong><span>' + (R ? 'Tuning in…' : 'Loading…') + '</span></div>' +
       '<div class="pl-paused" id="plPaused" hidden>' + icon('play') + 'Paused — press OK to continue</div>' +
       '<div class="pl-bar" id="plBar"><span class="pl-num" id="plNum"></span><span class="pl-txt"><strong id="plName"></strong><small id="plGrp"></small></span>' +
         '<button class="pl-save" id="plSave" data-act="pl-save-ch" tabindex="-1"></button>' +
-        '<span class="pl-keys">▲ ▼ or CH ± change channel · OK pause · Red save · Back list</span></div>' +
+        '<span class="pl-keys">▲ ▼ or CH ± change ' + w + ' · OK pause · Red save · Back list</span></div>' +
       '<div class="pl-err" id="plErr" hidden><div class="dialog" role="alert"><h2 id="plErrTitle"></h2><p id="plErrMsg"></p><p class="pl-why" id="plErrWhy"></p>' +
-        '<div class="actions"><button class="btn primary f" data-act="pl-next" data-fid="pl:next">Next channel' + icon('next').replace('<svg', '<svg class="after"') + '</button>' +
+        '<div class="actions"><button class="btn primary f" data-act="pl-next" data-fid="pl:next">Next ' + w + icon('next').replace('<svg', '<svg class="after"') + '</button>' +
         '<button class="btn f" data-act="pl-retry" data-fid="pl:retry">Try again</button>' +
         '<button class="btn f" data-act="pl-save-ch" data-fid="pl:save" id="plSave2"></button></div>' +
         '<p class="pl-skip" id="plSkip"></p></div></div>' +
@@ -1177,14 +2103,30 @@ svg{width:1em;height:1em;flex:none}
   }
   function showEl(id, on) { var e = document.getElementById(id); if (e) e.hidden = !on; }
   function saveLabels() {
-    var c = curCh(), on = c && isMine(c.u), t = on ? '★ Saved' : '☆ Save';
-    var a = $('#plSave'), b = $('#plSave2'); if (a) a.textContent = t; if (b) b.textContent = on ? '★ In My channels' : '☆ Save to My channels';
+    var c = curCh(), on = c && isMine(c.u), t = on ? '★ Saved' : '☆ Save', where = c && c.r ? 'My stations' : 'My channels';
+    var a = $('#plSave'), b = $('#plSave2'); if (a) a.textContent = t; if (b) b.textContent = on ? '★ In ' + where : '☆ Save to ' + where;
+  }
+  // The station card shown while radio plays (there is no picture): logo or letter, name, country and format.
+  function radioCard(c) {
+    var card = document.getElementById('plRadio'); if (!card) return;
+    card.style.setProperty('--h', hueOf(c.g || c.n));
+    document.getElementById('plRName').textContent = c.n;
+    document.getElementById('plRSub').textContent = [c.g, radioFormat(c)].filter(Boolean).join(' · ');
+    document.getElementById('plRTags').textContent = c.t || '';
+    var logo = document.getElementById('plRLogo');
+    logo.innerHTML = '<b>' + esc(letterOf(c.n)) + '</b>';
+    if (c.l) {
+      var img = document.createElement('img'); img.alt = ''; img.setAttribute('referrerpolicy', 'no-referrer');
+      img.onload = function () { if (imgurGone(c.l, img)) { if (img.parentNode) img.parentNode.removeChild(img); return; } img.className = 'ok'; };
+      img.onerror = function () { if (img.parentNode) img.parentNode.removeChild(img); };
+      img.src = c.l; logo.appendChild(img);
+    }
   }
   function infoBar() {
     var c = curCh(); if (!c) return;
     document.getElementById('plNum').textContent = (player.idx + 1) + '/' + player.list.length;
     document.getElementById('plName').textContent = c.n;
-    document.getElementById('plGrp').textContent = [c.g, c.q, c.geo ? 'Geo-blocked' : '', c.n247 ? 'Not 24/7' : ''].filter(Boolean).join(' · ');
+    document.getElementById('plGrp').textContent = (c.r ? [c.g, radioFormat(c)] : [c.g, c.q, c.geo ? 'Geo-blocked' : '', c.n247 ? 'Not 24/7' : '']).filter(Boolean).join(' · ');
     saveLabels();
     var b = document.getElementById('plBar'); b.classList.add('on');
     clearTimeout(player.barT); player.barT = setTimeout(function () { b.classList.remove('on'); }, 3000);
@@ -1192,12 +2134,12 @@ svg{width:1em;height:1em;flex:none}
   function openPlayer(list, idx, fromFid) {
     if (!list || !list[idx]) return;
     player.list = list; player.autoSkips = 0;
-    openLayer(playerHTML(), 'player-layer');
+    openLayer(playerHTML(!!list[idx].r), 'player-layer');
     var l = layers[layers.length - 1]; l.kind = 'player'; l.back = fromFid || l.back;
     l.onClose = stopPlayer;
     player.open = true;
     var v = pv();
-    v.addEventListener('playing', function () { if (player.failed) return; clearTimers(); player.autoSkips = 0; var c = curCh(); if (c) clearDead(c.u); showEl('plLoad', false); showEl('plPaused', false); });
+    v.addEventListener('playing', function () { if (player.failed) return; clearTimers(); player.autoSkips = 0; var c = curCh(); if (c) { clearDead(c.u); radioClick(c); } showEl('plLoad', false); showEl('plPaused', false); pausedLook(false); });
     v.addEventListener('pause', function () { if (!player.failed && v.readyState > 2) showEl('plPaused', true); });
     v.addEventListener('waiting', function () { if (player.failed) return; showEl('plLoad', true); armStall(); });
     v.addEventListener('error', function () { if (!player.hls && v.error) fail('media'); });
@@ -1205,8 +2147,8 @@ svg{width:1em;height:1em;flex:none}
     playChannel(idx);
   }
   function clearTimers() { clearTimeout(player.timer); clearTimeout(player.stall); player.timer = player.stall = null; }
-  function cancelSkip() { if (player.skipT) { clearInterval(player.skipT); player.skipT = null; var s = $('#plSkip'); if (s) s.textContent = 'Auto-skip stopped. Choose Next channel, Try again, or Back.'; } }
-  function armStall() { clearTimeout(player.stall); var t = player.token; player.stall = setTimeout(function () { if (t === player.token) fail('timeout'); }, START_LIMIT); }
+  function cancelSkip() { if (player.skipT) { clearInterval(player.skipT); player.skipT = null; var s = $('#plSkip'); if (s) s.textContent = 'Auto-skip stopped. Choose Next, Try again, or Back.'; } }
+  function armStall() { clearTimeout(player.stall); var t = player.token; player.stall = setTimeout(function () { if (t === player.token) fail('timeout'); }, startLimit()); }
   function teardown() {
     clearTimers();
     if (player.hls) { try { player.hls.destroy(); } catch (e) {} player.hls = null; }
@@ -1216,12 +2158,16 @@ svg{width:1em;height:1em;flex:none}
   function stopPlayer() {
     player.token++; teardown(); clearTimeout(player.barT); cancelSkip();
     player.open = false;
+    if (ipOn() && IP().L && IP().L.view === player.list && player.idx >= 0) {
+      IP().sel = player.idx; ipRedrawRows(); ipMeta(); setTimeout(pvSchedule, 0); // labels may have changed (Not working / saved)
+      return 'ip:list';
+    }
     // Back lands on the tile of the channel that was playing (turning the page if needed).
     var pg = paged();
     if (pg && pg.view === player.list && player.idx >= 0) {
       var want = Math.floor(player.idx / PAGE);
       if (want !== pg.page) { pg.page = want; var box = $('#lvPaged'); if (box) { box.innerHTML = pagedHTML(pg); afterLiveRender(); } }
-      else if (state.view === 'live') { var b2 = $('#lvPaged'); if (b2) { b2.innerHTML = pagedHTML(pg); afterLiveRender(); } } // refresh labels (Not working / saved)
+      else if (isLv()) { var b2 = $('#lvPaged'); if (b2) { b2.innerHTML = pagedHTML(pg); afterLiveRender(); } } // refresh labels (Not working / saved)
       return 'ch:' + player.idx;
     }
     return null;
@@ -1235,17 +2181,27 @@ svg{width:1em;height:1em;flex:none}
     player.idx = idx; player.recovered = false; player.failed = false;
     showEl('plErr', false); showEl('plPaused', false); showEl('plLoad', true);
     document.getElementById('plLoadName').textContent = c.n;
+    if (c.r) radioCard(c);
+    pausedLook(false);
     infoBar();
     var cur = currentF(); if (cur && cur.blur) cur.blur();
     if (!navigator.onLine) { fail('offline'); return; }
-    if (isMixed(c.u)) { fail('mixed'); return; } // blocked by the browser on an https page: no point trying
-    player.timer = setTimeout(function () { if (t === player.token) fail('timeout'); }, START_LIMIT);
+    var plainAudio = c.r && !c.h, src = c.u;
+    if (isMixed(c.u)) {
+      // Blocked by the browser on an https page. Radio is still tried: plain audio as it is (browsers may switch
+      // it to https themselves), HLS radio at its https:// address, which many radio servers also answer.
+      if (!c.r || mixedFailed[c.u]) { fail('mixed'); return; }
+      if (!plainAudio) src = 'https:' + c.u.slice(5);
+    }
+    player.timer = setTimeout(function () { if (t === player.token) fail('timeout'); }, startLimit());
     var v = pv();
+    // Radio: an ordinary audio stream (MP3, AAC, OGG) plays straight in the media element, no hls.js needed.
+    if (plainAudio) { v.src = src; tryPlay(v); return; }
     // In the installed app, channels that need a special user-agent / referrer go through hls.js, which can
     // try to send those headers. Browsers never allow it, so the browser version ignores them.
     var needHeaders = TIZEN && (c.ua || c.rf);
     if (HLS_NATIVE && !needHeaders && !window.SUPERTV_FORCE_HLSJS) {
-      v.src = c.u;
+      v.src = src;
       tryPlay(v);
       return;
     }
@@ -1270,7 +2226,7 @@ svg{width:1em;height:1em;flex:none}
         setTimeout(function () { if (t === player.token) fail(kind, code); }, 0);
       });
       hls.on(H.Events.MANIFEST_PARSED, function () { if (t === player.token) tryPlay(v); });
-      hls.loadSource(c.u);
+      hls.loadSource(src);
       hls.attachMedia(v);
     });
   }
@@ -1292,30 +2248,33 @@ svg{width:1em;height:1em;flex:none}
     if (!player.open || player.failed) return;
     player.failed = true; player.token++;
     teardown();
-    var c = curCh() || { n: '', u: '' };
+    var c = curCh() || { n: '', u: '' }, R = !!c.r, w = R ? 'station' : 'channel', ws = R ? 'stations' : 'channels';
+    if (isMixed(c.u) && kind !== 'offline') { kind = 'mixed'; mixedFailed[c.u] = 1; } // an http radio stream the https page could not play
     // The channel itself failed (not our connection, the browser's http rule, or a missing file): remember it for 7 days.
     if (['offline', 'mixed', 'nohls', 'unsupported'].indexOf(kind) < 0) markDead(c.u);
-    var title = 'This channel isn\'t available right now', why = '';
+    var title = 'This ' + w + ' isn\'t available right now', why = '';
     var msg = esc(c.n) + ' could not be played.';
     if (kind === 'offline') {
       title = 'You\'re offline';
-      msg = 'Live TV needs the internet, and the TV reports that it is offline.';
-      why = 'Check your router, or on the TV: Settings › General › Network › Network Status. The channel starts again by itself when the TV is back online.';
-    } else if (kind === 'mixed' || isMixed(c.u)) {
-      title = 'This channel plays in the installed app only';
+      msg = (R ? 'Radio' : 'Live TV') + ' needs the internet, and the TV reports that it is offline.';
+      why = 'Check your router, or on the TV: Settings › General › Network › Network Status. The ' + w + ' starts again by itself when the TV is back online.';
+    } else if (kind === 'mixed') {
+      title = 'This ' + w + ' plays in the installed app only';
       msg = esc(c.n) + ' is marked “App only”.';
-      why = 'It uses an http:// address. Browsers block http video inside a secure (https) page like this one, so it cannot play in the browser version. The installed SUPER TV app on the TV plays it normally.';
+      why = 'It uses an http:// address. Browsers block http ' + (R ? 'streams' : 'video') + ' inside a secure (https) page like this one, so it cannot play in the browser version. The installed SUPER TV app on the TV plays it normally.';
     } else if (kind === 'blocked') {
-      why = TIZEN ? 'The channel\'s server did not answer. It may be offline, or only available in some countries.'
-        : 'The channel\'s server did not answer, or it does not allow other websites to play its stream (a browser rule called CORS). If the stream is online, the installed SUPER TV app on the TV avoids this.';
+      why = TIZEN ? 'The ' + w + '\'s server did not answer. It may be offline, or only available in some countries.'
+        : 'The ' + w + '\'s server did not answer, or it does not allow other websites to play its stream (a browser rule called CORS). If the stream is online, the installed SUPER TV app on the TV avoids this.';
     } else if (kind === 'http') {
-      why = 'The channel\'s server refused the stream (error ' + esc(code) + '). It may have moved, ended, or be limited to some countries.';
+      why = 'The ' + w + '\'s server refused the stream (error ' + esc(code) + '). It may have moved, ended, or be limited to some countries.';
     } else if (kind === 'timeout') {
-      why = 'The stream did not start within ' + (START_LIMIT / 1000) + ' seconds. It may be offline or very slow right now.';
+      why = 'The stream did not start within ' + (startLimit() / 1000) + ' seconds. It may be offline or very slow right now.';
     } else if (kind === 'nohls') {
       why = 'The video player file (' + HLS_FILE + ') is missing. Upload it next to index.html.';
     } else if (kind === 'unsupported') {
       why = 'This browser cannot play HLS streams.';
+    } else if (R) {
+      why = 'The station\'s stream could not be played. It may be off air, have moved, or use a sound format this TV does not support' + (radioFormat(c) ? ' (' + esc(radioFormat(c)) + ')' : '') + '.';
     } else {
       why = 'The stream started, but this TV could not play its video. The channel may be off air, or use a format the TV does not support.';
     }
@@ -1330,21 +2289,22 @@ svg{width:1em;height:1em;flex:none}
     setFocus(document.querySelector('[data-fid="pl:next"]'), true);
     // Auto-skip after 10 seconds unless a key is pressed (not when offline: nothing would play).
     var sk = $('#plSkip');
-    if (kind === 'offline' || player.list.length < 2) { sk.textContent = 'Back returns to the channel list.'; return; }
-    if (player.autoSkips >= MAX_AUTO_SKIPS) { sk.textContent = MAX_AUTO_SKIPS + ' channels in a row did not play, so auto-skip has stopped. Choose Next channel or press Back.'; return; }
+    if (kind === 'offline' || player.list.length < 2) { sk.textContent = 'Back returns to the ' + w + ' list.'; return; }
+    if (player.autoSkips >= MAX_AUTO_SKIPS) { sk.textContent = MAX_AUTO_SKIPS + ' ' + ws + ' in a row did not play, so auto-skip has stopped. Choose Next ' + w + ' or press Back.'; return; }
     var left = AUTO_SKIP, tok = player.token;
-    sk.textContent = 'Next channel in ' + left + ' seconds — press any button to stay.';
+    sk.textContent = 'Next ' + w + ' in ' + left + ' seconds — press any button to stay.';
     player.skipT = setInterval(function () {
       if (tok !== player.token || !player.open) { cancelSkip(); return; }
       left--;
-      if (left > 0) { sk.textContent = 'Next channel in ' + left + ' second' + (left === 1 ? '' : 's') + ' — press any button to stay.'; return; }
+      if (left > 0) { sk.textContent = 'Next ' + w + ' in ' + left + ' second' + (left === 1 ? '' : 's') + ' — press any button to stay.'; return; }
       clearInterval(player.skipT); player.skipT = null;
       player.autoSkips++; playChannel(player.idx + 1);
     }, 1000);
   }
+  function pausedLook(on) { var r = document.getElementById('plRadio'); if (r) r.classList.toggle('paused', !!on); }
   function togglePause() {
     var v = pv(); if (!v || player.failed) return;
-    if (v.paused) { tryPlay(v); showEl('plPaused', false); } else { v.pause(); showEl('plPaused', true); }
+    if (v.paused) { tryPlay(v); showEl('plPaused', false); pausedLook(false); } else { v.pause(); showEl('plPaused', true); pausedLook(true); }
   }
   function saveCurrent() { var c = curCh(); if (!c) return; toggleMine(c); saveLabels(); }
   // Remote keys while the player is open. Returns true when the key was used.
@@ -1509,7 +2469,7 @@ svg{width:1em;height:1em;flex:none}
     if (!best) return;
     // From the category tabs, Down always lands at the start of the page content.
     if (dir === 'down' && cur.getAttribute('data-group') === 'tabs' && !layers.length) {
-      var first = $('#main .f'); if (first) { setFocus(first); return; }
+      var first = (ipOn() && $('#ipList')) || $('#main .f'); if (first) { setFocus(first); return; }
     }
     // Returning to a row restores the tile you last used there.
     var g = best.getAttribute('data-group');
@@ -1579,12 +2539,14 @@ svg{width:1em;height:1em;flex:none}
         '<dt>Yellow button</dt><dd>This help screen (H)</dd>' +
         '<dt>Blue button</dt><dd>Jump to Home</dd>' +
         '<dt>Play / Pause</dt><dd>Open the highlighted item, where the browser passes the key on</dd>' +
-        '<dt>In Live TV</dt><dd>Red saves a channel to My channels · CH + / − turns pages · Back goes to the previous screen</dd>' +
-        '<dt>Watching</dt><dd>▲ ▼ or CH + / − change channel · OK or Play/Pause pauses · Red saves · Back returns to the list</dd>' +
+        '<dt>Live TV and Radio list</dt><dd>◀ ▶ move between filters, list and info · ▲ ▼ one channel · CH + / − ten · number keys jump to that channel number · OK full screen · Red saves · Back: list → filters → Home · with a mouse: click to choose, double-click to play, the wheel scrolls</dd>' +
+        '<dt>In Live TV and Radio tiles</dt><dd>Red saves a channel to My channels (or a station to My stations) · CH + / − turns pages · Back goes to the previous screen</dd>' +
+        '<dt>Watching or listening</dt><dd>▲ ▼ or CH + / − change channel or station · OK or Play/Pause pauses · Red saves · Back returns to the list</dd>' +
       '</dl><p class="help" style="color:var(--muted);font-size:1.05rem">Every action also has an on-screen button, so colour and media keys are optional. If the TV shows a mouse pointer instead of the gold highlight, point and press OK; both work.</p></section>' +
       '<section><h3>What is real</h3><ul>' +
         '<li><span class="tag real">Real</span>Live TV channels are free public streams listed by the iptv-org project (iptv-org.github.io). Streams can stop, move, or work only in their own country: labels show “Geo-blocked”, “Not 24/7” and “Not working”.</li>' +
-        (TIZEN ? '' : '<li><span class="tag guide">App only</span>Channels with http:// addresses cannot play on this secure web page; the installed SUPER TV app plays them.</li>') +
+        '<li><span class="tag real">Real</span>Radio stations come from the Radio Browser directory (radio-browser.info), a free, community-run list of about 60,000 internet radio streams published by the stations themselves. Stations can stop or move: those that fail are marked “Not working”.</li>' +
+        (TIZEN ? '' : '<li><span class="tag guide">App only</span>Channels with http:// addresses cannot play on this secure web page; the installed SUPER TV app plays them. Radio stations with http:// addresses are tried anyway, and marked App only if the browser blocks them.</li>') +
         '<li><span class="tag real">Real</span>Website tiles open that real site' + (TIZEN ? ' in the TV\'s Internet app.' : ' in this browser.') + '</li>' +
         '<li><span class="tag real">Real</span>Clock and date come from your TV.</li>' +
         '<li><span class="tag real">Real</span>Online / Offline is what the browser reports. Browsers cannot read Wi-Fi signal strength.</li>' +
@@ -1599,7 +2561,7 @@ svg{width:1em;height:1em;flex:none}
         '<li><span class="tag no">No</span>Change volume, inputs, picture settings or firmware</li>' +
         (TIZEN ? '<li><span class="tag no">No</span>Install or remove TV apps</li>' : '<li><span class="tag no">No</span>Open, install or remove TV apps</li>') +
         '<li><span class="tag no">No</span>Show broadcast TV channels from the aerial, or bypass any subscription. Live TV only plays free, public streams.</li>' +
-        '<li><span class="tag no">No</span>Paid or premium channels. Channel names that suggest them are skipped: ' + PREMIUM_NAMES + '. A few free channels with these names are skipped too. Adult (NSFW) lists are never used.</li>' +
+        '<li><span class="tag no">No</span>Paid or premium channels. Channel names that suggest them are skipped: ' + PREMIUM_NAMES + '. A few free channels with these names are skipped too. Adult (NSFW) lists are never used, and radio stations with adult names or tags are skipped.</li>' +
       '</ul></section>' +
       '<section><h3>Quick tips for this TV</h3><ul>' +
         (TIZEN
@@ -1654,8 +2616,12 @@ svg{width:1em;height:1em;flex:none}
           '<button class="opt f" data-act="export" data-fid="s:export">Show backup code</button>' +
           '<button class="opt f" data-act="import" data-fid="s:import">Restore from code</button>' +
           '<button class="opt f" data-act="reset" data-fid="s:reset">Reset everything</button></div></div>' +
-        '<div class="set"><h3>Live TV</h3><span class="help">Channels that failed in the last 7 days are marked “Not working” and moved to the end of each list.</span><div class="seg">' +
-          opt('hideDead', false, 'Show channels that don\'t work', state.hideDead) + opt('hideDead', true, 'Hide channels that don\'t work', state.hideDead) + '</div>' +
+        '<div class="set"><h3>Live TV and Radio view</h3><span class="help">List: filters, a channel list and a preview side by side. Tiles: the earlier big tiles.</span><div class="seg">' +
+          opt('lvView', 'list', 'List', state.lvView) + opt('lvView', 'tiles', 'Tiles', state.lvView) + '</div>' +
+          '<span class="help">Preview plays the highlighted channel, muted, after 1.5 seconds' + (state.previewAuto ? ' — <strong>it was turned off because playback was slow</strong>' : '') + '.</span><div class="seg">' +
+          opt('preview', true, 'Preview on', state.preview) + opt('preview', false, 'Preview off', state.preview) + '</div></div>' +
+        '<div class="set"><h3>Live TV and Radio</h3><span class="help">Channels and stations that failed in the last 7 days are marked “Not working” and moved to the end of each list.</span><div class="seg">' +
+          opt('hideDead', false, 'Show ones that don\'t work', state.hideDead) + opt('hideDead', true, 'Hide ones that don\'t work', state.hideDead) + '</div>' +
           '<div class="seg"><button class="opt f" data-act="lv-refresh" data-fid="s:lvrefresh">Refresh lists</button>' +
           '<button class="opt f" data-act="lv-cleardead" data-fid="s:lvdead">Clear “Not working” marks (' + Object.keys(state.dead).filter(isDead).length + ')</button></div>' +
           '<span class="help">Lists are kept for 24 hours (' + CACHE.kind() + '). Refresh downloads them again.</span></div>' +
@@ -1770,8 +2736,9 @@ svg{width:1em;height:1em;flex:none}
     toast(i >= 0 ? 'Removed ' + it.name + ' from Favourites' : 'Added ' + it.name + ' to Favourites');
   }
   function setView(v, focusTab) {
-    if (v === 'live') { LIVE.screen = 'home'; LIVE.stack = []; }
+    pvStop();
     state.view = v; save();
+    if (isLv()) { lvPick(); LIVE.screen = 'home'; LIVE.stack = []; }
     var main = $('#main'); main.scrollTop = 0; main._tt = 0;
     render(focusTab ? 'tab:' + v : null);
   }
@@ -1796,7 +2763,7 @@ svg{width:1em;height:1em;flex:none}
     openLayer(helpHTML(), 'sheet'); layers[layers.length - 1].kind = 'help';
   }
   function exportCode() {
-    var data = { favs: state.favs, hidden: state.hidden, catHidden: state.catHidden, catOrder: state.catOrder, custom: state.custom, featured: state.featured, clock24: state.clock24, scale: state.scale, edge: state.edge, motion: state.motion, linkTarget: state.linkTarget, favsSample: state.favsSample, myCh: state.myCh, playlists: state.playlists, hideDead: state.hideDead };
+    var data = { favs: state.favs, hidden: state.hidden, catHidden: state.catHidden, catOrder: state.catOrder, custom: state.custom, featured: state.featured, clock24: state.clock24, scale: state.scale, edge: state.edge, motion: state.motion, linkTarget: state.linkTarget, favsSample: state.favsSample, myCh: state.myCh, playlists: state.playlists, hideDead: state.hideDead, myRadio: state.myRadio, lvView: state.lvView, preview: state.preview, hideApp: state.hideApp };
     return JSON.stringify(data);
   }
 
@@ -1813,14 +2780,23 @@ svg{width:1em;height:1em;flex:none}
     },
     view: function (arg) { setView(arg, true); },
     lv: function (id) {
-      var q = null; QUICK.forEach(function (x) { if (x.id === id) q = x; }); if (!q) return;
+      var q = null; (LIVE.radio ? RQUICK : QUICK).forEach(function (x) { if (x.id === id) q = x; }); if (!q) return;
       if (q.id === 'mine') openMine();
       else if (q.id === 'search') openSearch();
       else if (q.browse) openBrowse(q.browse);
+      else if (LIVE.radio) openRadioList(q.name, q.rq);
       else openListScreen(q.name, IPTV + q.url);
     },
     ch: function (arg, el) { var pg = paged(); if (pg && pg.view) openPlayer(pg.view, Number(arg), el.getAttribute('data-fid')); },
-    br: function (arg) { var b = LIVE.browse && LIVE.browse.view[Number(arg)]; if (b) openListScreen(b.name, IPTV + b.url); },
+    br: function (arg) {
+      var b = LIVE.browse && LIVE.browse.view[Number(arg)]; if (!b) return;
+      if (LIVE.radio) openRadioList(b.name, b.rq, b.count); else openListScreen(b.name, IPTV + b.url);
+    },
+    ipf: function (arg) { ipAction(arg); },
+    'ip-play': function () { ipPlay(); },
+    'ip-save': function () { ipSaveCur(); },
+    'ip-retry': function () { ipLoad(true); },
+    'lv-more': function () { var pg = paged(); if (pg && pg.loadingMore) { toast('Still loading…'); return; } loadMore(pg, false); },
     'lv-src': function (arg) { var src = mySources()[Number(arg)]; if (src) openListScreen(src.name, src.url); },
     'lv-retry': function () { if (LIVE.screen === 'list') { loadInto(LIVE.list); renderLive(null); } else if (LIVE.screen === 'browse') { loadBrowse(LIVE.browse); renderLive(null); } },
     pg: function (d) { var pg = paged(); turnPage(Number(d)); if (pg) { var b = $('[data-fid="' + (Number(d) > 0 ? 'pg:next' : 'pg:prev') + '"]'); if (b && !b.disabled) setFocus(b, true); } },
@@ -1843,8 +2819,9 @@ svg{width:1em;height:1em;flex:none}
     'pl-up': function (i) { movePl(Number(i), -1); },
     'pl-down': function (i) { movePl(Number(i), 1); },
     'lv-refresh': function () {
-      PARSED = {}; LIVE.meta = null; LIVE.counts = null; LIVE.full = null; if (LIVE.search) { LIVE.search.status = 'idle'; LIVE.search.view = []; }
-      CACHE.clear(function () { toast('Channel lists will be downloaded fresh'); });
+      PARSED = {}; LIVE_TV.meta = null; LIVE_TV.counts = null; LIVE_TV.full = null; if (LIVE_TV.search) { LIVE_TV.search.status = 'idle'; LIVE_TV.search.view = []; }
+      RLISTS = {};
+      CACHE.clear(function () { toast('Channel and station lists will be downloaded fresh'); });
     },
     'lv-cleardead': function () { state.dead = {}; save(); refreshAll(); toast('“Not working” marks cleared'); },
     fav: function (arg) { toggleFav(arg); refreshAll(); },
@@ -1861,8 +2838,10 @@ svg{width:1em;height:1em;flex:none}
     set: function (arg) {
       var kv = arg.split('='), k = kv[0], v = kv[1];
       if (k === 'scale' || k === 'edge') v = Number(v);
-      else if (k === 'clock24' || k === 'motion' || k === 'hideDead') v = v === 'true';
-      if (k === 'hideDead') { [LIVE.list, LIVE.browse && null, LIVE.search, LIVE.mine].forEach(function (pg) { if (pg && pg.items) refreshView(pg); }); }
+      else if (k === 'clock24' || k === 'motion' || k === 'hideDead' || k === 'preview' || k === 'hideApp') v = v === 'true';
+      if (k === 'preview') { state.previewAuto = false; PV.slow = 0; }
+      if (k === 'hideDead' || k === 'hideApp') { state[k] = v; ipRefilter(); }
+      if (k === 'hideDead') { [LIVE_TV.list, LIVE_TV.search, LIVE_TV.mine, LIVE_RADIO.list, LIVE_RADIO.search, LIVE_RADIO.mine].forEach(function (pg) { if (pg && pg.items) refreshView(pg); }); }
       state[k] = v; save(); applyPrefs(); tick(true);
       if (k === 'featured') toast(v === 'rotate' ? 'Featured area will rotate highlights' : 'Featured: ' + (byId(v) || {}).name);
       refreshAll();
@@ -1910,7 +2889,7 @@ svg{width:1em;height:1em;flex:none}
     field: function (_, el) {
       var inp = el.querySelector('input,textarea'); if (!inp) return;
       inp.removeAttribute('tabindex'); inp.focus();
-      if (inp.id === 'in-q') ensureFullIndex(function () { if (inp.value) runSearch(inp.value); });
+      if (inp.id === 'in-q' && !LIVE.radio) ensureFullIndex(function () { if (inp.value) runSearch(inp.value); });
       try { var n = inp.value.length; inp.setSelectionRange(n, n); } catch (e) {}
     },
     export: function () {
@@ -2001,7 +2980,8 @@ svg{width:1em;height:1em;flex:none}
       if (top.el.classList.contains('welcome')) { actions.start(); return true; }
       closeLayer(); return true;
     }
-    if (state.view === 'live' && LIVE.stack.length) { liveBack(); return true; }
+    if (ipOn() && ipBack()) return true;
+    if (isLv() && LIVE.stack.length) { liveBack(); return true; }
     if (state.view !== 'home') { setView('home', true); return true; }
     var heroBtn = $('[data-fid="hero:open"]');
     var cur = currentF();
@@ -2015,13 +2995,14 @@ svg{width:1em;height:1em;flex:none}
     var k = e.keyCode, t = e.target;
     var inInput = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA');
     if (inInput) {
-      if (k === K.ENTER && t.tagName === 'INPUT') { e.preventDefault(); leaveInput(t); if (t.id === 'in-q') { clearTimeout(searchT); runSearch(t.value); } return; }
+      if (k === K.ENTER && t.tagName === 'INPUT') { e.preventDefault(); leaveInput(t); if (t.id === 'in-q') { clearTimeout(searchT); runSearch(t.value); } if (t.id === 'in-ipq') { ipSearch(t.value, true); ipFocusList(); } return; }
       if (k === K.ESC || k === K.TIZEN_BACK) { e.preventDefault(); ignorePopUntil = Date.now() + 400; leaveInput(t); return; }
       if (k === K.UP || k === K.DOWN) { e.preventDefault(); leaveInput(t); move(k === K.UP ? 'up' : 'down'); return; }
       return; // let typing, left/right caret movement through
     }
     if (player.open && layers.length && layers[layers.length - 1].kind === 'player' && playerKey(k)) { e.preventDefault(); return; }
-    if (!layers.length && state.view === 'live' && (k === K.CH_UP || k === K.CH_DOWN || k === K.PGUP || k === K.PGDN)) { e.preventDefault(); turnPage(k === K.CH_UP || k === K.PGDN ? 1 : -1); return; }
+    if (!layers.length && ipOn() && ipKey(k)) { e.preventDefault(); return; }
+    if (!layers.length && isLv() && (k === K.CH_UP || k === K.CH_DOWN || k === K.PGUP || k === K.PGDN)) { e.preventDefault(); turnPage(k === K.CH_UP || k === K.PGDN ? 1 : -1); return; }
     var key = (e.key || '').toLowerCase();
     var handled = true;
     switch (k) {
@@ -2101,7 +3082,7 @@ svg{width:1em;height:1em;flex:none}
     }
   } catch (e) {}
   // Live TV player keys. One at a time, so a key this TV lacks cannot stop the others.
-  ['ChannelUp', 'ChannelDown', 'MediaPause', 'MediaStop'].forEach(function (name) {
+  ['ChannelUp', 'ChannelDown', 'MediaPause', 'MediaStop', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].forEach(function (name) {
     try { if (window.tizen && tizen.tvinputdevice && tizen.tvinputdevice.registerKey) tizen.tvinputdevice.registerKey(name); } catch (e) {}
   });
   // Coming back from the Internet app or another app: refresh the clock and network state.
@@ -2128,6 +3109,7 @@ svg{width:1em;height:1em;flex:none}
   }
   window.addEventListener('online', function () { updateNet(); var f = currentFid(); renderMain(); restoreFocus(f); toast('Back online'); });
   window.addEventListener('offline', function () { updateNet(); var f = currentFid(); renderMain(); restoreFocus(f); toast('Connection lost'); });
+  window.addEventListener('resize', function () { if (ipOn()) { IPR.rh = 0; ipDraw(false); ipFiltersNav(); } });
   window.addEventListener('pageshow', function () { tick(true); updateNet(); });
 
   /* ================= START ================= */
@@ -2140,7 +3122,7 @@ svg{width:1em;height:1em;flex:none}
   // Expose a tiny hook for automated tests.
   window.SUPERTV = { state: function () { return state; }, move: move, back: back, parseM3U: parseM3U, parseM3UAsync: parseM3UAsync, live: function () { return LIVE; },
     paged: function () { var p = paged(); return p ? { page: p.page, n: p.view ? p.view.length : 0, status: p.status } : null; },
-    cacheKind: function () { return CACHE.kind(); }, premium: PREMIUM, nsfw: NSFW,
+    radio: function () { return LIVE_RADIO; }, ip: function () { var S = IP(); return { sel: S.sel, top: S.top, n: S.L && S.L.view ? S.L.view.length : 0, status: S.L && S.L.status, mode: S.mode, sub: S.sub, q: S.q, active: ipActive(S), more: !!(S.L && S.L.more), rows: document.querySelectorAll('#ipIn .ip-row').length, f: S.f }; }, pv: function () { var v = document.getElementById('ipv'); return { playing: !!v && v.className === 'on' && !v.paused, src: PV.on, slow: PV.slow, msg: (document.getElementById('ipPvMsg') || {}).textContent }; }, radioServers: function () { return RB.slice(); }, cacheKind: function () { return CACHE.kind(); }, premium: PREMIUM, nsfw: NSFW,
     player: function () { return { open: player.open, idx: player.idx, n: player.list.length, failed: player.failed, kind: player.lastFail, hls: !!player.hls, native: HLS_NATIVE && !window.SUPERTV_FORCE_HLSJS, skipping: !!player.skipT, autoSkips: player.autoSkips }; } };
 })();
 </script>
