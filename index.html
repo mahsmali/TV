@@ -65,7 +65,12 @@ svg{width:1em;height:1em;flex:none}
 .icon-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;height:3.4rem;min-width:3.4rem;padding:0 1rem;border-radius:1.7rem;background:var(--panel-2);border:0;font-size:1.15rem;cursor:pointer}
 .icon-btn svg{font-size:1.5rem}
 
-.tabs{display:flex;gap:.6rem;padding:1.1rem .4rem 1rem;overflow-x:auto;scrollbar-width:none}
+.tabs{display:flex;padding:1.1rem .4rem 1rem;overflow-x:auto;scrollbar-width:none}
+.tabs>.tab+.tab{margin-left:.6rem}
+.tabs.tight>.tab{padding:.6rem .85rem;font-size:1.15rem}
+.tabs.tight>.tab+.tab{margin-left:.25rem}
+.tabs.tighter>.tab{padding:.55rem .6rem;font-size:1.05rem}
+.tabs.tighter>.tab svg{display:none}
 .tabs::-webkit-scrollbar,.sx::-webkit-scrollbar,.sy::-webkit-scrollbar{display:none}
 .tab{flex:none;display:inline-flex;align-items:center;gap:.55rem;padding:.6rem 1.25rem;border-radius:2rem;border:0;background:transparent;color:var(--muted);font-size:1.25rem;font-weight:500;cursor:pointer;white-space:nowrap}
 .tab svg{font-size:1.25rem}
@@ -353,6 +358,18 @@ svg{width:1em;height:1em;flex:none}
 .ip-tg.big i{margin:0 .4rem .4rem 0;font-size:.95rem}
 .ip-acts{flex:none;display:flex;flex-wrap:wrap;margin-top:.6rem}
 .ip-acts .btn{margin:0 .8rem .6rem 0;font-size:1.2rem;padding:.7rem 1.3rem}
+.sl-list{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.sl-row{position:relative;display:flex;align-items:center;height:4.2rem;padding:0 1rem 0 .6rem;box-sizing:border-box;border-bottom:1px solid rgba(42,55,70,.55);color:var(--text);text-decoration:none;cursor:pointer}
+.sl-row.sel{background:var(--panel-2);box-shadow:inset .3rem 0 0 var(--muted)}
+.sl-row.f:focus{background:var(--gold);color:var(--gold-ink);box-shadow:none}
+.sl-row:focus .ip-n,.sl-row:focus .ip-tg i,.sl-row:focus .star,.sl-row:focus .sl-ar{color:var(--gold-ink)}
+.sl-row:focus .ip-tg i.app{background:var(--gold-ink);color:var(--gold)}
+.sl-ar{font-family:var(--arabic);font-weight:700;color:var(--gold);margin-left:.7rem;font-size:1.2rem}
+.sl-art{position:relative;flex:none;width:100%;padding-top:50%;border-radius:.9rem;overflow:hidden;margin-bottom:1rem;background:linear-gradient(140deg,hsl(var(--h),68%,46%) 0%,hsl(calc(var(--h) + 35),62%,26%) 100%)}
+.sl-art .badge{position:absolute;left:1rem;top:1rem}
+.sl-glyph{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:6.5rem;color:rgba(255,255,255,.9);line-height:0}
+.sl-art-ar{position:absolute;right:1.3rem;bottom:.8rem;font-family:var(--arabic);font-weight:700;font-size:2.2rem;color:#FFE7B5}
+.sl-note{margin:.2rem 0 0;color:var(--muted);font-size:1.1rem}
 .ip-help{flex:none;margin:.2rem 0 0;color:var(--muted);font-size:1rem}
 .ip.radio .ip-meta .tile-ico.ip-big{width:7rem;height:7rem}
 .ip.radio .ip-meta .tile-ico.ip-big b{font-size:3.2rem}
@@ -485,7 +502,7 @@ svg{width:1em;height:1em;flex:none}
   </header>
   <nav class="tabs sx" id="tabs" aria-label="Categories"></nav>
   <main id="main" class="sy" tabindex="-1"></main>
-  <div class="hints" aria-hidden="true">
+  <div class="hints" id="hints" aria-hidden="true">
     <span><kbd>OK</kbd>Open</span>
     <span><span class="red"></span>Add / remove favourite</span>
     <span><kbd>Back</kbd>Close · Home</span>
@@ -744,7 +761,24 @@ svg{width:1em;height:1em;flex:none}
       (note ? '<span class="sec-note">' + note + '</span>' : '') + '</div>' + body + '</section>';
   }
 
+  // Squeeze the tabs a little when they would not fit, so every section (and Home) is always on screen.
+  function fitTabs() {
+    var tb = $('#tabs'); if (!tb) return;
+    tb.classList.remove('tight', 'tighter');
+    if (tb.scrollWidth > tb.clientWidth + 2) tb.classList.add('tight');
+    if (tb.scrollWidth > tb.clientWidth + 2) tb.classList.add('tighter');
+  }
+  window.addEventListener('resize', fitTabs);
+  function renderHints() {
+    var h = $('#hints'); if (!h) return;
+    var ok = 'Open', red = 'Add / remove favourite', bk = 'Close · Home';
+    if (ipOn()) { ok = 'Full screen'; red = LIVE.radio ? 'Save to My stations' : 'Save to My channels'; bk = 'Filters · Home'; }
+    else if (isLv()) { red = LIVE.radio ? 'Save to My stations' : 'Save to My channels'; bk = 'Back · Home'; }
+    else if (slOn()) { bk = 'Sections · Home'; }
+    h.innerHTML = '<span><kbd>OK</kbd>' + ok + '</span><span><span class="red"></span>' + red + '</span><span><kbd>Back</kbd>' + bk + '</span>';
+  }
   function renderTabs() {
+    setTimeout(fitTabs, 0);
     var tabs = [{ id: 'home', name: 'Home', icon: 'home' }].concat(visibleCats());
     $('#tabs').innerHTML = tabs.map(function (t) {
       return '<button class="tab f" data-act="view" data-arg="' + t.id + '" data-group="tabs" data-fid="tab:' + t.id + '"' + (state.view === t.id ? ' aria-current="page"' : '') + '>' + icon(t.icon) + esc(t.name) + '</button>';
@@ -766,12 +800,14 @@ svg{width:1em;height:1em;flex:none}
       var c = catById(state.view);
       if (!c || state.catHidden.indexOf(c.id) >= 0) { state.view = 'home'; return renderMain(); }
       lvPick();
-      html += isLv() ? liveHTML() : sectionHTML(c, itemsFor(c.id), true);
+      html += isLv() ? liveHTML() : slOn() ? slHTML(c) : sectionHTML(c, itemsFor(c.id), true);
     }
     main.innerHTML = html;
     main._tt = 0;
-    main.classList.toggle('ip-on', ipOn());
+    main.classList.toggle('ip-on', ipOn() || slOn());
+    renderHints();
     if (ipOn()) ipAfter();
+    else if (slOn()) slAfter();
     else if (isLv()) afterLiveRender();
   }
 
@@ -1598,15 +1634,16 @@ svg{width:1em;height:1em;flex:none}
     } else {
       var mine = S.radio ? state.myRadio : state.myCh;
       h += ipIt('mine', icon('star') + (S.radio ? 'My stations' : 'My channels'), String(mine.length), S.mode === 'mine');
+      if (!S.radio) h += ipIt('d:pl', 'My playlists ▸', String(mySources().length), S.mode === 'pl');
+      h += '<p class="ip-h">Find</p>';
       h += fieldHTML('ipq', icon('search') + 'Search', S.q, 'search', S.radio ? 'Station name' : 'Channel name', false).replace('class="field f"', 'class="field f ip-search" data-group="ip-f"');
       IP_DIMS.forEach(function (d) { h += ipIt('d:' + d, dimLabel(S, d) + ' ▸', S.f[d] ? esc(S.f[d].name) : 'Any', !!S.f[d] && S.mode === 'filter'); });
-      if (!S.radio) h += ipIt('d:pl', 'My playlists ▸', String(mySources().length), S.mode === 'pl');
-      h += '<p class="ip-h">Quick filters</p>';
+      h += '<p class="ip-h">Quick picks</p>';
       (S.radio ? IPQ_RADIO : IPQ_TV).forEach(function (q) {
         var on = S.mode === 'filter' && (q.dim ? fkey(S.f[q.dim]) === fkey(q) : !S.f.country && !S.f.language && !S.f.category);
         h += ipIt('q:' + q.id, esc(q.name), '', on);
       });
-      h += '<p class="ip-h">Show</p>';
+      h += '<p class="ip-h">Options</p>';
       h += ipIt('t:app', 'Hide “App only”', state.hideApp ? 'On' : 'Off', state.hideApp, 'ip-tog');
       h += ipIt('t:dead', 'Hide “Not working”', state.hideDead ? 'On' : 'Off', state.hideDead, 'ip-tog');
       if (S.f.country || S.f.language || S.f.category || S.q || S.mode !== 'filter') h += ipIt('clear', 'Clear filters', '', false);
@@ -1633,8 +1670,7 @@ svg{width:1em;height:1em;flex:none}
     return (S.radio ? '' : '<div class="ip-pv" id="ipPv"><video id="ipv" muted playsinline></video><span class="ip-pv-msg" id="ipPvMsg"></span></div>') +
       '<div class="ip-meta" id="ipMeta"></div>' +
       '<div class="ip-acts"><button class="btn primary f" data-act="ip-play" data-group="ip-acts" data-fid="ip:play">' + icon('play') + 'Full screen</button>' +
-      '<button class="btn f" data-act="ip-save" data-group="ip-acts" data-fid="ip:save" id="ipSave">☆ Save</button></div>' +
-      '<p class="ip-help">OK = full screen · Red = save to ' + (S.radio ? 'My stations' : 'My channels') + '</p>';
+      '<button class="btn f" data-act="ip-save" data-group="ip-acts" data-fid="ip:save" id="ipSave">☆ Save</button></div>';
   }
   // Options for Country / Language / Category (or Genre) / My playlists. Returns a list, 'loading', or an error text.
   function ipOptions(S, what) {
@@ -1702,6 +1738,8 @@ svg{width:1em;height:1em;flex:none}
       scrollC(fl, { top: targetY(fl) + (a === 'fdown' ? 1 : -1) * Math.round(fl.clientHeight * 0.8), behavior: behaviour() });
       ipFiltersNav(); return;
     }
+    if (slOn()) { slNav(a); return; }
+    if (!ipOn()) return;
     var S = IP(), L = S.L; if (!L || L.status !== 'ready' || !L.view.length) return;
     var n = L.view.length;
     var d = a === 'up' ? -1 : a === 'down' ? 1 : a === 'pgup' ? -10 : a === 'pgdn' ? 10 : a === 'top' ? -S.sel : n - 1 - S.sel;
@@ -1938,6 +1976,151 @@ svg{width:1em;height:1em;flex:none}
     if (document.activeElement !== l) setFocus(l, true);
     ipMoveSel(step, Date.now() - wheelT > 120); wheelT = Date.now();
   }, { passive: false });
+
+  /* ================= LIST VIEW for the website sections ================= */
+  // Favourites, Entertainment, YouTube, Education… in the same three columns as Live TV:
+  // sections on the left, that section's websites and TV apps in the middle, details on the right.
+  var SL = { last: {}, cur: null, pick: null, jump: '', jt: null };
+  function slOn() { return state.lvView === 'list' && state.view !== 'home' && !isLv() && !!catById(state.view); }
+  function slIt(fid, act, arg, label, extra, on) {
+    return '<button class="ip-it f' + (on ? ' on' : '') + '" data-act="' + act + '" data-arg="' + esc(arg) + '" data-group="sl-f" data-fid="sl-f:' + fid + '"' + (on ? ' aria-pressed="true"' : '') + '>' +
+      '<span class="ip-l">' + label + '</span>' + (extra ? '<span class="ip-x">' + extra + '</span>' : '') + '</button>';
+  }
+  function slHTML(c) {
+    var items = itemsFor(c.id);
+    var left = '<div class="ip-fl sy" id="ipFl"><p class="ip-h">Sections</p>';
+    visibleCats().forEach(function (x) {
+      left += slIt('c:' + x.id, 'slc', x.id, icon(x.icon) + esc(x.name), x.id === 'live' || x.id === 'radio' ? '▸' : String(itemsFor(x.id).length), x.id === c.id);
+    });
+    if (c.id !== 'fav') left += '<p class="ip-h">More</p>' + slIt('add', 'add-link', c.id, icon('plus') + 'Add a website', '', false);
+    left += '</div><div class="ip-fnav" id="ipFnav" hidden>' + navBtn('fup', 'up', '', 'Scroll sections up') + navBtn('fdown', 'down', '', 'Scroll sections down') + '</div>' +
+      '<div class="ip-active" id="ipAct"><small>Showing</small>' + esc(c.name) + '</div>';
+    var rows = items.map(function (it, i) { return slRow(it, i); }).join('');
+    if (!items.length) rows = '<p class="ip-note">' + (c.id === 'fav' ? 'No favourites yet. Highlight any website or app in another section and press the red button (or F on a keyboard) to add it here.' : 'Nothing here.') + '</p>';
+    var mid = '<div class="ip-head"><strong>' + esc(c.name) + (c.ar ? ' <span class="sl-ar" lang="ar" dir="rtl">' + esc(c.ar) + '</span>' : '') + '</strong><span id="ipPos"></span><span class="ip-jump" id="ipJump" hidden></span></div>' +
+      '<div class="sl-list sy" id="slList" role="list" aria-label="' + esc(c.name) + '">' + rows + '</div>' +
+      '<div class="ip-nav" role="toolbar" aria-label="Move through the list">' +
+        navBtn('up', 'up', '', 'One up') + navBtn('down', 'down', '', 'One down') + navBtn('pgup', 'up2', '', 'Up 10') + navBtn('pgdn', 'down2', '', 'Down 10') +
+        navBtn('top', 'top', 'Top', 'First one') + navBtn('end', 'end', 'End', 'Last one') + '</div>';
+    return '<section class="ip sl" id="sl" aria-label="' + esc(c.name) + '">' +
+      '<div class="ip-col ip-f" id="ipF">' + left + '</div>' +
+      '<div class="ip-col ip-mid" id="slMid">' + mid + '</div>' +
+      '<div class="ip-col ip-info" id="slInfo"></div></section>';
+  }
+  function slRow(it, i) {
+    var web = it.kind === 'web';
+    var attrs = web ? 'href="' + esc(it.url) + '" target="' + linkTarget() + '" rel="noopener"' : 'href="#" role="button"';
+    return '<a class="sl-row f" ' + attrs + ' data-act="open" data-arg="' + esc(it.id) + '" data-group="sl-list" data-fid="sl-list:' + esc(it.id) + '" data-i="' + i + '" style="--h:' + (+it.hue || 0) + '"' +
+      ' aria-label="' + esc(it.name + (web ? ', website' : ', TV app guide') + (isFav(it.id) ? ', favourite' : '')) + '">' +
+      '<span class="ip-n">' + (i + 1) + '</span><span class="ip-lg">' + icon(it.icon || 'link') + '</span>' +
+      '<span class="ip-nm">' + esc(it.name) + (it.ar ? '<span class="sl-ar" lang="ar" dir="rtl">' + esc(it.ar) + '</span>' : '') + '</span>' +
+      '<span class="ip-tg"><i class="' + (web ? 'q' : 'app') + '">' + (web ? 'Website' : 'TV app') + '</i>' + (isFav(it.id) ? '<b class="star">★</b>' : '') + '</span></a>';
+  }
+  function slInfoHTML(it) {
+    if (!it) return '<div class="ip-meta"><p class="ip-note">Choose a section on the left.</p></div>';
+    var web = it.kind === 'web', c = catById(it.cat), fav = isFav(it.id);
+    var rows = [['Type', web ? 'Website' : 'App installed on your TV'], ['Address', web ? host(it.url) : ''], ['About', it.sub || ''], ['Section', c ? c.name : '']];
+    var attrs = web ? 'href="' + esc(it.url) + '" target="' + linkTarget() + '" rel="noopener"' : 'href="#" role="button"';
+    return '<div class="sl-art" style="--h:' + (+it.hue || 0) + '"><span class="badge ' + (web ? 'web' : 'app') + '">' + (web ? 'Website' : 'TV app') + '</span>' +
+        '<span class="sl-glyph">' + icon(it.icon || 'link') + '</span>' + (it.ar ? '<span class="sl-art-ar" lang="ar" dir="rtl">' + esc(it.ar) + '</span>' : '') + '</div>' +
+      '<div class="ip-meta"><div class="ip-mh"><strong>' + esc(it.name) + '</strong></div><dl>' +
+        rows.filter(function (r) { return r[1]; }).map(function (r) { return '<dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd>'; }).join('') + '</dl>' +
+        (fav ? '<div class="ip-tg big"><i class="saved">★ In Favourites</i></div>' : '') +
+        (it.note ? '<p class="sl-note">' + esc(it.note) + '</p>' : !web ? '<p class="sl-note">' + (TIZEN ? 'OK starts the app if it is installed.' : 'OK shows how to open this app on your TV.') + '</p>' : '') + '</div>' +
+      '<div class="ip-acts"><a class="btn primary f" ' + attrs + ' data-act="open" data-arg="' + esc(it.id) + '" data-group="sl-acts" data-fid="sl-acts:open">' + icon('play') + 'Open</a>' +
+        '<button class="btn f" data-act="sl-fav" data-arg="' + esc(it.id) + '" data-group="sl-acts" data-fid="sl-acts:fav">' + (fav ? '★ In Favourites' : '☆ Favourite') + '</button></div>';
+  }
+  function slRows() { return Array.prototype.slice.call(document.querySelectorAll('#slList .sl-row')); }
+  function slRowOf(id) { var r = slRows(); for (var i = 0; i < r.length; i++) if (r[i].getAttribute('data-arg') === id) return r[i]; return null; }
+  // Shows one item's details on the right and marks its row.
+  function slShow(id) {
+    var rows = slRows(), row = null;
+    rows.forEach(function (r) { var on = r.getAttribute('data-arg') === id; r.classList.toggle('sel', on); if (on) row = r; });
+    SL.cur = row ? id : null; if (row) SL.last[state.view] = id;
+    var box = $('#slInfo'); if (box) box.innerHTML = slInfoHTML(row ? byId(id) : null);
+    var pos = $('#ipPos'); if (pos) pos.textContent = rows.length ? (row ? (+row.getAttribute('data-i') + 1) + ' of ' + rows.length : rows.length + (rows.length === 1 ? ' item' : ' items')) : '';
+  }
+  function slAfter() {
+    var rows = slRows(), id = SL.last[state.view];
+    if (!id || !slRowOf(id)) id = rows.length ? rows[0].getAttribute('data-arg') : null;
+    slShow(id); SL.pick = null;
+    ipFiltersNav();
+  }
+  function slFocusList() { var r = (SL.cur && slRowOf(SL.cur)) || slRows()[0]; if (r) setFocus(r, true); else slFocusLeft(); return true; }
+  function slFocusLeft() {
+    var m = memory['sl-f'], el = (m && $('[data-fid="' + cssEsc(m) + '"]')) || $('#ipF .ip-it.on') || $('#ipF .f');
+    if (el) setFocus(el); return true;
+  }
+  function slGo(i, pointer) {
+    var rows = slRows(); if (!rows.length) return;
+    i = Math.max(0, Math.min(rows.length - 1, i));
+    if (pointer) SL.pick = rows[i].getAttribute('data-arg');
+    setFocus(rows[i], !state.motion);
+  }
+  function slIndex() { var r = SL.cur && slRowOf(SL.cur); return r ? +r.getAttribute('data-i') : 0; }
+  function slMove(d, pointer) {
+    var n = slRows().length; if (!n) return;
+    var i = slIndex(), j = Math.max(0, Math.min(n - 1, i + d));
+    if (j === i && Math.abs(d) > 1) toast(d > 0 ? 'This is the last one' : 'This is the first one');
+    slGo(j, pointer);
+  }
+  function slDigit(dg) {
+    var n = slRows().length; if (!n) return;
+    SL.jump = (SL.jump + dg).replace(/^0+/, '').slice(0, 3);
+    var j = $('#ipJump'); if (j) { j.hidden = false; j.textContent = 'Go to ' + (SL.jump || '0') + '…'; }
+    clearTimeout(SL.jt);
+    SL.jt = setTimeout(function () {
+      var num = parseInt(SL.jump, 10); SL.jump = '';
+      var jj = $('#ipJump'); if (jj) jj.hidden = true;
+      if (!num || !slOn()) return;
+      if (num > slRows().length) toast('There are ' + slRows().length + ' in this list');
+      slGo(Math.min(num, slRows().length) - 1);
+    }, 1200);
+  }
+  // Remote keys for the website list. Returns true when used.
+  function slKey(k) {
+    var cur = currentF();
+    if ((k >= 48 && k <= 57) || (k >= 96 && k <= 105)) { slDigit(k >= 96 ? k - 96 : k - 48); return true; }
+    if (k === K.CH_UP || k === K.PGDN || k === K.CH_DOWN || k === K.PGUP) { slMove(k === K.CH_UP || k === K.PGDN ? 10 : -10); return true; }
+    if (!cur) return false;
+    var onRow = cur.classList.contains('sl-row'), inLeft = !!cur.closest('#ipF'), inInfo = !!cur.closest('#slInfo');
+    if (onRow) {
+      if (k === K.LEFT) return slFocusLeft();
+      if (k === K.RIGHT) { var o = $('[data-fid="sl-acts:open"]'); if (o) setFocus(o); return true; }
+      if (k === K.UP && +cur.getAttribute('data-i') === 0) { var t = $('[data-fid="tab:' + cssEsc(state.view) + '"]'); if (t) setFocus(t); return true; }
+      if (k === K.UP || k === K.DOWN) { slMove(k === K.UP ? -1 : 1); return true; }
+    }
+    if (inLeft && k === K.RIGHT) return slFocusList();
+    if (inInfo && k === K.LEFT && cur.getAttribute('data-fid') === 'sl-acts:open') return slFocusList();
+    if (inInfo && (k === K.UP || k === K.DOWN)) return true; // nothing above or below the buttons
+    return false;
+  }
+  function slBack() {
+    var cur = currentF();
+    if (cur && (cur.classList.contains('sl-row') || cur.closest('#slInfo'))) return slFocusLeft();
+    return false;
+  }
+  // The highlight follows the remote and the pointer; the details panel follows the highlight.
+  document.addEventListener('focusin', function (e) {
+    var r = e.target && e.target.classList && e.target.classList.contains('sl-row') ? e.target : null; if (!r) return;
+    var id = r.getAttribute('data-arg');
+    if (Date.now() - lastPointer > 200) SL.pick = id; // chosen with the remote, so OK opens it
+    if (id !== SL.cur) slShow(id);
+  });
+  // Mouse / the laptop remote's Mouse pad: the first click chooses a row, a second click (or double-click) opens it.
+  document.addEventListener('click', function (e) {
+    var r = e.target.closest && e.target.closest('.sl-row'); if (!r || layers.length || !e.detail) return;
+    var id = r.getAttribute('data-arg');
+    if (SL.pick === id) return;
+    e.preventDefault(); e.stopPropagation();
+    SL.pick = id; setFocus(r, true); if (SL.cur !== id) slShow(id);
+  }, true);
+  function slNav(a) {
+    var n = slRows().length; if (!n) return;
+    if (a === 'top') { if (slIndex() === 0) toast('This is the first one'); slGo(0, true); }
+    else if (a === 'end') { if (slIndex() === n - 1) toast('This is the last one'); slGo(n - 1, true); }
+    else slMove(a === 'up' ? -1 : a === 'down' ? 1 : a === 'pgup' ? -10 : 10, true);
+  }
 
   // ---- preview (Live TV): starts after the highlight rests 1.5 s, stops on any move ----
   var PV = { t: null, to: null, qt: null, hls: null, tok: 0, slow: 0, on: false };
@@ -2469,7 +2652,7 @@ svg{width:1em;height:1em;flex:none}
     if (!best) return;
     // From the category tabs, Down always lands at the start of the page content.
     if (dir === 'down' && cur.getAttribute('data-group') === 'tabs' && !layers.length) {
-      var first = (ipOn() && $('#ipList')) || $('#main .f'); if (first) { setFocus(first); return; }
+      var first = (ipOn() && $('#ipList')) || (slOn() && ((SL.cur && slRowOf(SL.cur)) || $('#slList .sl-row'))) || $('#main .f'); if (first) { setFocus(first); return; }
     }
     // Returning to a row restores the tile you last used there.
     var g = best.getAttribute('data-group');
@@ -2540,6 +2723,7 @@ svg{width:1em;height:1em;flex:none}
         '<dt>Blue button</dt><dd>Jump to Home</dd>' +
         '<dt>Play / Pause</dt><dd>Open the highlighted item, where the browser passes the key on</dd>' +
         '<dt>Live TV and Radio list</dt><dd>◀ ▶ move between filters, list and info · ▲ ▼ one channel · CH + / − ten · number keys jump to that channel number · OK full screen · Red saves · Back: list → filters → Home · with a mouse: click to choose, double-click to play, the wheel scrolls</dd>' +
+        '<dt>Website sections (list)</dt><dd>◀ ▶ move between sections, list and details · ▲ ▼ one item · CH + / − ten · number keys jump · OK opens · Red adds or removes a favourite · Back: list → sections → Home · with a mouse: click to choose, click again or double-click to open</dd>' +
         '<dt>In Live TV and Radio tiles</dt><dd>Red saves a channel to My channels (or a station to My stations) · CH + / − turns pages · Back goes to the previous screen</dd>' +
         '<dt>Watching or listening</dt><dd>▲ ▼ or CH + / − change channel or station · OK or Play/Pause pauses · Red saves · Back returns to the list</dd>' +
       '</dl><p class="help" style="color:var(--muted);font-size:1.05rem">Every action also has an on-screen button, so colour and media keys are optional. If the TV shows a mouse pointer instead of the gold highlight, point and press OK; both work.</p></section>' +
@@ -2616,7 +2800,7 @@ svg{width:1em;height:1em;flex:none}
           '<button class="opt f" data-act="export" data-fid="s:export">Show backup code</button>' +
           '<button class="opt f" data-act="import" data-fid="s:import">Restore from code</button>' +
           '<button class="opt f" data-act="reset" data-fid="s:reset">Reset everything</button></div></div>' +
-        '<div class="set"><h3>Live TV and Radio view</h3><span class="help">List: filters, a channel list and a preview side by side. Tiles: the earlier big tiles.</span><div class="seg">' +
+        '<div class="set"><h3>Section view</h3><span class="help">List: three columns side by side — filters or sections, a list, and details (with a preview in Live TV). Used for Live TV, Radio and every website section; Home keeps its tiles. Tiles: the earlier big tiles.</span><div class="seg">' +
           opt('lvView', 'list', 'List', state.lvView) + opt('lvView', 'tiles', 'Tiles', state.lvView) + '</div>' +
           '<span class="help">Preview plays the highlighted channel, muted, after 1.5 seconds' + (state.previewAuto ? ' — <strong>it was turned off because playback was slow</strong>' : '') + '.</span><div class="seg">' +
           opt('preview', true, 'Preview on', state.preview) + opt('preview', false, 'Preview off', state.preview) + '</div></div>' +
@@ -2793,6 +2977,12 @@ svg{width:1em;height:1em;flex:none}
       if (LIVE.radio) openRadioList(b.name, b.rq, b.count); else openListScreen(b.name, IPTV + b.url);
     },
     ipf: function (arg) { ipAction(arg); },
+    slc: function (id) {
+      if (id === state.view) { slFocusList(); return; }
+      setView(id, false);
+      if (ipOn()) ipFocusFilters(); else if (slOn()) restoreFocus('sl-f:c:' + id); else restoreFocus('tab:' + id);
+    },
+    'sl-fav': function (id) { toggleFav(id); render('sl-acts:fav'); },
     'ip-play': function () { ipPlay(); },
     'ip-save': function () { ipSaveCur(); },
     'ip-retry': function () { ipLoad(true); },
@@ -2981,6 +3171,7 @@ svg{width:1em;height:1em;flex:none}
       closeLayer(); return true;
     }
     if (ipOn() && ipBack()) return true;
+    if (slOn() && slBack()) return true;
     if (isLv() && LIVE.stack.length) { liveBack(); return true; }
     if (state.view !== 'home') { setView('home', true); return true; }
     var heroBtn = $('[data-fid="hero:open"]');
@@ -3002,6 +3193,7 @@ svg{width:1em;height:1em;flex:none}
     }
     if (player.open && layers.length && layers[layers.length - 1].kind === 'player' && playerKey(k)) { e.preventDefault(); return; }
     if (!layers.length && ipOn() && ipKey(k)) { e.preventDefault(); return; }
+    if (!layers.length && slOn() && slKey(k)) { e.preventDefault(); return; }
     if (!layers.length && isLv() && (k === K.CH_UP || k === K.CH_DOWN || k === K.PGUP || k === K.PGDN)) { e.preventDefault(); turnPage(k === K.CH_UP || k === K.PGDN ? 1 : -1); return; }
     var key = (e.key || '').toLowerCase();
     var handled = true;
@@ -3109,7 +3301,7 @@ svg{width:1em;height:1em;flex:none}
   }
   window.addEventListener('online', function () { updateNet(); var f = currentFid(); renderMain(); restoreFocus(f); toast('Back online'); });
   window.addEventListener('offline', function () { updateNet(); var f = currentFid(); renderMain(); restoreFocus(f); toast('Connection lost'); });
-  window.addEventListener('resize', function () { if (ipOn()) { IPR.rh = 0; ipDraw(false); ipFiltersNav(); } });
+  window.addEventListener('resize', function () { if (ipOn()) { IPR.rh = 0; ipDraw(false); ipFiltersNav(); } else if (slOn()) ipFiltersNav(); });
   window.addEventListener('pageshow', function () { tick(true); updateNet(); });
 
   /* ================= START ================= */
